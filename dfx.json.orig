@@ -1,0 +1,15 @@
+{
+  "canisters": {
+    "test": {
+      "candid": "candid/test.did",
+      "type": "rust",
+      "package": "test"
+    },
+    "assets": {
+      "build": "",
+      "candid": "candid/assets.did",
+      "type": "custom",
+      "wasm": "./assets.wasm.gz"
+    }
+  }
+}

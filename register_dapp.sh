@@ -1,0 +1,21 @@
+#!/bin/bash
+# run this script locally
+
+set -euo pipefail
+
+export NAME=${1:-test}
+
+. ./constants.sh normal
+
+export SNS_ROOT_ID="$(dfx canister id sns_root --network ${NETWORK})"
+dfx canister --network "${NETWORK}" update-settings --add-controller "${SNS_ROOT_ID}" "${NAME}"
+
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DFX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+
+export CID="$(dfx canister --network "${NETWORK}" id "${NAME}")"
+quill sns   \
+   --canister-ids-file ./sns_canister_ids.json  \
+   --pem-file "${PEM_FILE}"  \
+   make-proposal --proposal "(record { title=\"Register test dapp\"; url=\"https://example.com/\"; summary=\"This proposal registers test dapp with SNS\"; action=opt variant {RegisterDappCanisters = record {canister_ids=vec {principal\"$CID\"}}}})"   \
+   "${DEVELOPER_NEURON_ID}" > msg.json
+quill --insecure-local-dev-mode send --yes msg.json

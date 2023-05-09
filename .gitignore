@@ -1,0 +1,9 @@
+bin/*
+!bin/.gitkeep
+target
+*.wasm
+*.gz
+candid/*.did
+!candid/test.did
+ic/
+*.log.txt
