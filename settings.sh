@@ -16,13 +16,13 @@ export II_RELEASE="release-2023-04-28"
 # you can find NNS proposals upgrading system canisters here:
 # https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
 # NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: qoctq-giaaa-aaaaa-aaaea-cai"
-export NNS_DAPP_RELEASE="proposal-120468"
+export NNS_DAPP_RELEASE="proposal-122282"
 
 # only edit IC_COMMIT to a commit to master with disk image obtained via:
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="cac353c15ad1e8713607ebc3c56f9e2afd94650a"
+export IC_COMMIT="f0256969bfea4d721060776790ebc87337a82d29"
 
 # the asset canister version is specified by a DFX commit
 # you can take an arbitrary DFX commit to master:
