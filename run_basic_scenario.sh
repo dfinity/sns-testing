@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+. ./constants.sh normal
+
 ./deploy_test_canister.sh
 ./deploy_sns.sh sns-test.yml
 ./register_dapp.sh "$(dfx canister --network "${NETWORK}" id test)"
