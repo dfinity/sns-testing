@@ -82,13 +82,13 @@ controlled by your DFX principal for the following instructions to work without
 any additional steps required (otherwise, you'd need to _manually vote_ on SNS proposals
 created during these steps with your initial SNS developer neurons).
 
-0. Deploy your dapp onto the local replica instance as per usual. This step requires your dapp repo to have a deployment script that interacts with the replica via the 8080 port.
+0. Deploy your dapp onto the local replica instance as per usual. You can find your dapp repo under the path `/dapp` in the Docker container. This step requires your dapp repo to have a deployment script that interacts with the replica via the 8080 port.
 
-    If you don't yet have a solution to deploy your custom dapp, you can still proceed with these instructions by deploying the example dapp provided with this repo:
+   If you don't yet have a solution to deploy your custom dapp, you can still proceed with these instructions by deploying the example dapp provided with this repo:
 
-    ```bash
-    ./deploy_test_canister.sh
-    ```
+   ```bash
+   ./deploy_test_canister.sh
+   ```
 
    This will deploy a test canister (see Section
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
