@@ -97,21 +97,19 @@ created during these steps with your initial SNS developer neurons).
 1. Run the script `deploy_sns.sh <config-path>` to deploy an SNS passing
    the path to the SNS configuration file as an argument.
    A sample configuration is available in the file `sns-test.yml`.
-2. Run the script `register_dapp.sh <name>` to register canister `<name>`
-   (as defined in the `dfx.json` file) with the SNS deployed in the previous step.
+2. Run the script `register_dapp.sh <canister-id>` to register canister
+   with a provided canister ID with the SNS deployed in the previous step.
    After this step, the SNS is able to manage the canister.
-
-
 
 3. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
 
-    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
+   This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
-    If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
+   If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
 
-    ```bash
-    ./upgrade_test_canister.sh
-    ```
+   ```bash
+   ./upgrade_test_canister.sh
+   ```
 
    This will upgrade the test canister (see Section
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
@@ -267,7 +265,8 @@ the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) sectio
    `./prepare_assets.sh`. This grants the SNS governance canister the permission
    to manage access to the asset canister.
 3. You can then register the asset canister with the SNS by running the script
-   `./register_dapp.sh assets`.
+   `./register_dapp.sh <canister-id>`, where `<canister-id>` is the canister ID
+   of the asset canister.
 4. To test managing permissions in the asset canister via SNS proposals, you need to register
    the asset canister's functions to manage permissions with the SNS as generic functions. This is
    accomplished by running the script `./register_permission_assets.sh`.
