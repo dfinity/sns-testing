@@ -16,10 +16,12 @@ This section explains the simplest way to set up a local testing environment and
 
 After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
 
+0. Clone your dapp repo into the current directory and `cd` into it.
+
 1. Start a local replica instance:
     ```bash
     SNS_TESTING_INSTANCE=$(
-        docker run -p 8080:8080 -d martin2718/sns-testing:latest dfx start --clean
+        docker run -p 8080:8080 -v `pwd`:/dapp -d martin2718/sns-testing:latest dfx start --clean
     )
     while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
     do
@@ -80,13 +82,15 @@ controlled by your DFX principal for the following instructions to work without
 any additional steps required (otherwise, you'd need to _manually vote_ on SNS proposals
 created during these steps with your initial SNS developer neurons).
 
-0. Run the script `deploy_dapp.sh <name> [<wasm>] [<arg>]` to deploy your dapp canister
-   `<name>` (as defined in the `dfx.json` file; you can also manually add more canisters to the `dfx.json`
-   file) whose control you want to hand over to an SNS,
-   optionally passing a path to its WASM
-   and an initial argument (you can pass an empty string as the WASM path
-   to only specify the initial argument; `dfx build` is invoked in that case).
-   The script `deploy_test_canister.sh` deploys a test canister (see Section
+0. Deploy your dapp onto the local replica instance as per usual. This step requires your dapp repo to have a deployment script that interacts with the replica via the 8080 port.
+
+    If you don't yet have a solution to deploy your custom dapp, you can still proceed with these instructions by deploying the example dapp provided with this repo:
+
+    ```bash
+    ./deploy_test_canister.sh
+    ```
+
+   This will deploy a test canister (see Section
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
    for further details) which can be thought of as a placeholder
    for your dapp.
@@ -96,13 +100,24 @@ created during these steps with your initial SNS developer neurons).
 2. Run the script `register_dapp.sh <name>` to register canister `<name>`
    (as defined in the `dfx.json` file) with the SNS deployed in the previous step.
    After this step, the SNS is able to manage the canister.
-3. Make sure you can upgrade your dapp canister with your initial developer neuron
-   by running the script `upgrade_dapp.sh <name> [<wasm>] [<arg>]` optionally
-   passing a path to its WASM and an argument to its post-upgrade method
-   (you can pass an empty string as the WASM path to only specify the argument
-   to the post-upgrade method). You can run the script `upgrade_test_canister.sh <text>`
-   (instead of `upgrade_dapp.sh <name> [<wasm>] [<arg>]`) to
-   upgrade the test canister setting `<text>` as the greeting message.
+
+
+
+3. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
+
+    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
+
+    If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
+
+    ```bash
+    ./upgrade_test_canister.sh
+    ```
+
+   This will upgrade the test canister (see Section
+   [Test canister](https://github.com/dfinity/sns-testing#test-canister)
+   for further details) which can be thought of as a placeholder
+   for your dapp.
+
 4. Run the script `open_sns_sale.sh` to open the initial decentralization sale.
    You can adjust the sale parameters directly in the script.
 5. Run the script `participate_sns_sale.sh <num-participants>
@@ -117,15 +132,31 @@ created during these steps with your initial SNS developer neurons).
    of sale participants and the total amount of ICP raised).
 6. Once the sale is completed, run the script `finalize_sns_sale.sh` to
    distribute the SNS neurons to the sale participants.
-7. Make sure the SNS can upgrade your dapp canister after finishing the decentralization
-   sale finished by running the script `upgrade_dapp.sh <name> [<wasm>] [<arg>]`.
-   You can run the script `upgrade_test_canister.sh <text>`
-   (instead of `upgrade_dapp.sh <name> [<wasm>] [<arg>]`) to
-   upgrade the test canister setting `<text>` as the greeting message.
-8. After the decentralization sale, your developer neuron should not have
+
+7. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
+
+    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
+
+    If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
+
+    ```bash
+    ./upgrade_test_canister.sh
+    ```
+
+   This will upgrade the test canister (see Section
+   [Test canister](https://github.com/dfinity/sns-testing#test-canister)
+   for further details) which can be thought of as a placeholder
+   for your dapp.
+
+8. After the decentralization sale, your developer neuron might not have
    a majority of the voting power and thus the SNS proposal to upgrade your dapp canister must be voted
-   on. To this end, open the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and vote with the individual neurons or run the script
-   `vote_on_sns_proposal.sh <num-participants> <id> <vote>` to vote on
+   on. To this end, open the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and vote with the individual neurons or run the script:
+
+   ```bash
+   ./vote_on_sns_proposal.sh <num-participants> <id> <vote>
+   ```
+
+   to vote on
    SNS proposal with ID `<id>` with the SNS neurons of *all* the participants
    created by the script `participate_sns_sale.sh` above.
    Make sure to pass the same number of participants `<num-participants>` as in
@@ -189,7 +220,10 @@ and before `open_sns_sale.sh` according to
 the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) section.
 
 2. You can then register the test canister with the SNS by running the script
-   `./register_dapp.sh test`.
+   `./register_dapp.sh <canister-id>`.
+   
+   Here, `<canister-id>` is the principal of the canister that you want to decentralize.
+
 3. Upgrade the test canister by running the script `upgrade_test_canister.sh`.
    The upgrade also stores the SNS governance canister ID in the canister's
    memory to implement access control restrictions
