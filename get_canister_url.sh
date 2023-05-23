@@ -28,7 +28,7 @@ done
 
 if [[ -n "${CANISTER_ID}" ]]; then
     echo "Open the following link in a browser"
-    echo "http://${CANISTER_ID}.127.0.0.1:$(dfx info webserver-port)$URL_PATH"
+    echo "${PROTO}${CANISTER_ID}.${HOST}${URL_PATH}"
     exit 0
 else
   echo "Canister ${CANISTER_NAME} is an unknown canister name"

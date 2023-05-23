@@ -80,10 +80,9 @@ if [[ -z "${DFX_IC_COMMIT:-}" ]]; then
   export DFX_IC_COMMIT="${IC_COMMIT}"
 fi
 
-export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local")
-export DFX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local")
-export PROTO=$([[ "$TESTNET" == "local" ]] && echo "http://")
-export HOST=$([[ "$TESTNET" == "local" ]] && echo "localhost:8080")
+export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https://${TESTNET}")
+export DFX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
+export PROTO=$([[ "$TESTNET" == "local" ]] && echo "http://" || echo "https://")
 
 if [[ "${MODE}" == "install" ]]; then
     return 0
@@ -103,34 +102,54 @@ if [[ ! -f "${IC_ADMIN}" ]]; then
     exit 1
 fi
 
-# set IC endpoint
-export NETWORK_URL="http://127.0.0.1:$(dfx info replica-port)"
-export DFX_NETWORK="local"
-# obtain local subnet from local registry
-export REGISTRY_PATH=""
-REGISTRY=".dfx/network/local/state/replicated_state/ic_registry_local_store"
-if [[ -d "${REGISTRY}" ]]
-then
-  export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+if [[ "${TESTNET}" == "local" ]]; then
+  # set IC endpoint
+  export NETWORK_URL="${PROTO}localhost:$(${DFX} info replica-port)"
+  export HOST="localhost:$(${DFX} info webserver-port)"
+  # obtain local subnet from local registry
+  export REGISTRY_PATH=""
+  REGISTRY=".dfx/network/local/state/replicated_state/ic_registry_local_store"
+  if [[ -d "${REGISTRY}" ]]
+  then
+    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+  fi
+  REGISTRY="${HOME}/Library/Application Support/org.dfinity.dfx/network/local/state/replicated_state/ic_registry_local_store"
+  if [[ -d "${REGISTRY}" ]]
+  then
+    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+  fi
+  REGISTRY="${HOME}/.local/share/dfx/network/local/state/replicated_state/ic_registry_local_store"
+  if [[ -d "${REGISTRY}" ]]
+  then
+    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+  fi
+  if [[ -z "${REGISTRY_PATH}" ]]
+  then
+    echo "Local registry not found!"
+    exit 1
+  fi
+  export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
+  export SNS_SUB="${NNS_SUB}"
+  export APP_SUB="${NNS_SUB}"
+else
+    # set IC endpoint
+    export NETWORK_URL="${NETWORK}"
+    export HOST="${TESTNET}"
+
+    RETRIED=0
+    while ! ${IC_ADMIN} --nns-url "${NETWORK_URL}" get-subnet-list >/dev/null; do
+        RETRIED=$(($RETRIED + 1))
+        sleep 30
+        if [[ $RETRIED -gt 10 ]]; then
+            echo "Boundary Nodes not yet reachable after 300 seconds..."
+            exit 1
+        fi
+    done
+
+    export NNS_SUB="$(${IC_ADMIN} --nns-url "${NETWORK_URL}" get-subnet-list | jq -r '. | join("\n")' | awk 'NR == 1 {print}')"
+    export SNS_SUB="$(${IC_ADMIN} --nns-url "${NETWORK_URL}" get-subnet-list | jq -r '. | join("\n")' | awk 'NR == 2 {print}')"
+    export APP_SUB="$(${IC_ADMIN} --nns-url "${NETWORK_URL}" get-subnet-list | jq -r '. | join("\n")' | awk 'NR == 3 {print}')"
 fi
-REGISTRY="${HOME}/Library/Application Support/org.dfinity.dfx/network/local/state/replicated_state/ic_registry_local_store"
-if [[ -d "${REGISTRY}" ]]
-then
-  export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
-fi
-REGISTRY="${HOME}/.local/share/dfx/network/local/state/replicated_state/ic_registry_local_store"
-if [[ -d "${REGISTRY}" ]]
-then
-  export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
-fi
-if [[ -z "${REGISTRY_PATH}" ]]
-then
-  echo "Local registry not found!"
-  exit 1
-fi
-export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
-export SNS_SUB="${NNS_SUB}"
-export APP_SUB="${NNS_SUB}"
 
 export IC_URL="${NETWORK_URL}"
 
