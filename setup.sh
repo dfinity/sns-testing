@@ -86,22 +86,22 @@ fi
 
 ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm --argument '(opt record{
   args = vec {
-    record{ 0="API_HOST"; 1="'"${PROTO}${HOST}"'" };
+    record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
     record{ 0="DFX_NETWORK"; 1="testing" };
     record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":false}" };
     record{ 0="FETCH_ROOT_KEY"; 1="true" };
     record{ 0="GOVERNANCE_CANISTER_ID"; 1="rrkah-fqaaa-aaaaa-aaaaq-cai" };
-    record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTO}rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST}"'" };
-    record{ 0="HOST"; 1="'"${PROTO}${HOST}"'" };
-    record{ 0="IDENTITY_SERVICE_URL"; 1="'"${PROTO}$(${DFX} canister --network ${NETWORK} id internet_identity).${HOST}"'" };
+    record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTOCOL}://rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST_ENDPOINT}"'" };
+    record{ 0="HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
+    record{ 0="IDENTITY_SERVICE_URL"; 1="'"${PROTOCOL}://$(${DFX} canister --network ${NETWORK} id internet_identity).${HOST_ENDPOINT}"'" };
     record{ 0="LEDGER_CANISTER_ID"; 1="ryjl3-tyaaa-aaaaa-aaaba-cai" };
-    record{ 0="LEDGER_CANISTER_URL"; 1="'"${PROTO}ryjl3-tyaaa-aaaaa-aaaba-cai.${HOST}"'" };
+    record{ 0="LEDGER_CANISTER_URL"; 1="'"${PROTOCOL}://ryjl3-tyaaa-aaaaa-aaaba-cai.${HOST_ENDPOINT}"'" };
     record{ 0="OWN_CANISTER_ID"; 1="'"$(${DFX} canister --network ${NETWORK} id nns-dapp)"'" };
-    record{ 0="OWN_CANISTER_URL"; 1="'"${PROTO}$(${DFX} canister --network ${NETWORK} id nns-dapp).${HOST}"'" };
+    record{ 0="OWN_CANISTER_URL"; 1="'"${PROTOCOL}://$(${DFX} canister --network ${NETWORK} id nns-dapp).${HOST_ENDPOINT}"'" };
     record{ 0="ROBOTS"; 1="<meta name=\"robots\" content=\"noindex, nofollow\" />" };
-    record{ 0="SNS_AGGREGATOR_URL"; 1="'"${PROTO}$(${DFX} canister --network ${NETWORK} id sns_aggregator).${HOST}"'" };
-    record{ 0="STATIC_HOST"; 1="'"${PROTO}${HOST}"'" };
+    record{ 0="SNS_AGGREGATOR_URL"; 1="'"${PROTOCOL}://$(${DFX} canister --network ${NETWORK} id sns_aggregator).${HOST_ENDPOINT}"'" };
+    record{ 0="STATIC_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="WASM_CANISTER_ID"; 1="qaa6y-5yaaa-aaaaa-aaafa-cai" };
   };
 })'

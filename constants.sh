@@ -82,7 +82,7 @@ fi
 
 export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https://${TESTNET}")
 export DFX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
-export PROTO=$([[ "$TESTNET" == "local" ]] && echo "http://" || echo "https://")
+export PROTOCOL=$([[ "$TESTNET" == "local" ]] && echo "http://" || echo "https://")
 
 if [[ "${MODE}" == "install" ]]; then
     return 0
@@ -104,8 +104,8 @@ fi
 
 if [[ "${TESTNET}" == "local" ]]; then
   # set IC endpoint
-  export NETWORK_URL="${PROTO}localhost:$(${DFX} info replica-port)"
-  export HOST="localhost:$(${DFX} info webserver-port)"
+  export NETWORK_URL="${PROTOCOL}://localhost:$(${DFX} info replica-port)"
+  export HOST_ENDPOINT="localhost:$(${DFX} info webserver-port)"
   # obtain local subnet from local registry
   export REGISTRY_PATH=""
   REGISTRY=".dfx/network/local/state/replicated_state/ic_registry_local_store"
@@ -134,7 +134,7 @@ if [[ "${TESTNET}" == "local" ]]; then
 else
     # set IC endpoint
     export NETWORK_URL="${NETWORK}"
-    export HOST="${TESTNET}"
+    export HOST_ENDPOINT="${TESTNET}"
 
     RETRIED=0
     while ! ${IC_ADMIN} --nns-url "${NETWORK_URL}" get-subnet-list >/dev/null; do
