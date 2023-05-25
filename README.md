@@ -26,29 +26,29 @@ _[Skip to the next section](#docker) if you are using an x86-compatible system, 
 
 The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _directly_. This requires additional preparation:
 
-1. Make sure you have Homebrew installed.
+0. Make sure you have Homebrew installed.
    * Instructions: https://brew.sh/
-2. Install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
-   ```bash
-   brew install coreutils jq
-   ```
-3. Ensure the newly installed tools are added to your `PATH`:
+   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
+     ```bash
+     brew install coreutils jq
+     ```
+1. Ensure the newly installed tools are added to your `PATH`:
    ```bash
    echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
    ```
    Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
-4. Clone this repository: 
+2. Clone this repository: 
    ```
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
    ```
-5. Clone the dependency repositories and run the installation script:
+3. Clone the dependency repositories and run the installation script:
    ```bash
    git clone https://github.com/dfinity/internet-identity.git
    git clone https://github.com/dfinity/nns-dapp.git
    bash install.sh
    ```
-6. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
+4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
    DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
    mkdir -p "$(dirname "${DFX_NET_JSON}")"
@@ -73,7 +73,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
-7. Open another Bash console:
+5. Open another Bash console:
    ```bash
    bash
    ```
@@ -84,7 +84,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
 
 
-8. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
+6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
    ```bash
    bash-3.2$ ./run_basic_scenario.sh
    ```
@@ -95,7 +95,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
    > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
-9. Clean-up (after you are done testing):
+7. Clean-up (after you are done testing):
     ```bash
     bash-3.2$ ./cleanup.sh
     ```
