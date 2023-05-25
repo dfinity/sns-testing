@@ -35,25 +35,35 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 3. Ensure the newly installed tools are added to your `PATH`:
    ```bash
    echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
-   bash
    ```
    Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
 4. Clone this repository: 
    ```
-   git clone git@github.com:dfinity/sns-testing.git && cd sns-testing
+   git clone git@github.com:dfinity/sns-testing.git
+   cd sns-testing
    ```
-5. Clone the dependency repositories:
+5. Clone the dependency repositories and run the installation script:
    ```bash
    git clone https://github.com/dfinity/internet-identity.git
    git clone https://github.com/dfinity/nns-dapp.git
+   bash install.sh
    ```
 6. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
    DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
-   cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp"
-   cat <<< $(jq -r '.local.replica.subnet_type = "system"' "$DFX_NET_JSON") > "$DFX_NET_JSON"
+   mkdir -p "$(dirname "${DFX_NET_JSON}")"
+   cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
+   echo '{
+   "local": {
+      "bind": "0.0.0.0:8080",
+      "type": "ephemeral",
+      "replica": {
+         "subnet_type": "system"
+      }
+   }
+   }' > "${DFX_NET_JSON}"
    ./bin/dfx start --clean; \
-   mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON"
+   mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
    This should print the dashboard URL, e.g.:
@@ -63,16 +73,20 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
-7. Open another console and run the setup script via Bash:
+7. Open another Bash console:
    ```bash
-   bash setup_locally.sh
+   bash
+   ```
+   and run the setup script:
+   ```bash
+   bash-3.2$ ./setup_locally.sh
    ```
    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
 
 
 8. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
    ```bash
-   bash run_basic_scenario.sh
+   bash-3.2$ ./run_basic_scenario.sh
    ```
    If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
@@ -83,7 +97,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
 9. Clean-up (after you are done testing):
     ```bash
-    bash cleanup.sh
+    bash-3.2$ ./cleanup.sh
     ```
     It should now be possible to repeat the scenario starting from step 1.
 
