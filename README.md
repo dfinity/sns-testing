@@ -54,13 +54,13 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    mkdir -p "$(dirname "${DFX_NET_JSON}")"
    cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
    echo '{
-   "local": {
-      "bind": "0.0.0.0:8080",
-      "type": "ephemeral",
-      "replica": {
-         "subnet_type": "system"
+      "local": {
+         "bind": "0.0.0.0:8080",
+         "type": "ephemeral",
+         "replica": {
+            "subnet_type": "system"
+         }
       }
-   }
    }' > "${DFX_NET_JSON}"
    ./bin/dfx start --clean; \
    mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
