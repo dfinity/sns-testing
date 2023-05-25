@@ -82,7 +82,7 @@ fi
 
 export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https://${TESTNET}")
 export DFX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
-export PROTOCOL=$([[ "$TESTNET" == "local" ]] && echo "http://" || echo "https://")
+export PROTOCOL=$([[ "$TESTNET" == "local" ]] && echo "http" || echo "https")
 
 if [[ "${MODE}" == "install" ]]; then
     return 0
