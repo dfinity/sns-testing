@@ -153,7 +153,7 @@ The above run-book could be easily automated and integrated into your CI/CD pipe
 
 <a name="lifecycle"></a>
 
-_This section assumes that you have successfully deployed a local environment for testing SNS decentralization a validated your setup by creating an SNS instance for the example dapp (shipped with `sns-testing`)._
+_This section assumes that you have successfully deployed a local environment for testing SNS decentralization and validated your setup by creating an SNS instance for the example dapp (shipped with `sns-testing`)._
 
 We now explain how to test your own dapp's SNS decentralization.
 
