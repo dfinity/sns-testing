@@ -35,6 +35,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 3. Ensure the newly installed tools are added to your `PATH`:
    ```bash
    echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
+   bash
    ```
    Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
 4. Clone this repository: 
@@ -48,7 +49,11 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    ```
 6. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
-   ./sns-testing/bin/dfx start --clean
+   DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
+   cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp"
+   cat <<< $(jq -r '.local.replica.subnet_type = "system"' "$DFX_NET_JSON") > "$DFX_NET_JSON"
+   ./bin/dfx start --clean; \
+   mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON"
    ```
 
    This should print the dashboard URL, e.g.:
@@ -58,7 +63,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
-7. Run the setup script via Bash:
+7. Open another console and run the setup script via Bash:
    ```bash
    bash setup_locally.sh
    ```
