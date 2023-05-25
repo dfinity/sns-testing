@@ -1,33 +1,107 @@
 # Testing SNS in local testing environment
 
-Note. This repository currently does not accept external contributions in the form of pull requests. Please submit your suggestions and bug reports by [opening a ticket](https://github.com/dfinity/sns-testing/issues).
+> This repository currently does not accept external contributions in the form of pull requests. Please submit your suggestions and bug reports by [opening a ticket](https://github.com/dfinity/sns-testing/issues).
 
-## Purpose of this repository
 
-* To aid developers on the Internet Computer (IC) in testing handing over their dapp canisters' control to an SNS, including going through the SNS launch process — the instructions how to do so are in this README.
-* To have test cases for end-user backend tools such as dfx, sns-quill, etc.
-* To test upcoming UX improvements to the [NNS frontend dapp](https://nns.ic0.app/) before releasing them.
+## Purpose
 
-Note. This repository has not been tested with Apple M1 devices!
+The main purpose of `sns-testing` is to enable developers of Internet Computer (IC) dapps to test Service Nervous System (SNS) decentralization. However, this solution may also be applicable in other scenarios, e.g.:
 
-## Bootstrapping a testing environment
+* Testing tools such as `dfx`, `sns-quill`.
+* Testing UX-related aspects before releasing the [NNS frontend dapp](https://nns.ic0.app/).
 
-This section explains the simplest way to set up a local testing environment and run a basic scenario deploying a test canister to a local replica and handing over control of this canister to an SNS. This basic scenario will help you better understand all the steps involved in handing over control of your own canister to an SNS; please refer to [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) for more details.
+## How to use these instructions
+
+Assuming you are a developer who wants to test SNS-decentralization of their dapp, you need to establish your own dapp's deployment process before using this solution. Usually, a testing deployment is done in a shell script that interacts with a local replica via [DFX](https://internetcomputer.org/docs/current/references/cli-reference/dfx-parent).
+
+You might need to slightly adjust your deployment script to work with sns-testing. In particular, please avoid running `dfx start` or `dfx replica` inside your deployment script (`sns-testing` will take care of starting a replica instance for you).
+
+If you do not yet have a dapp that is ready for decentralization, you may still run `sns-testing` with the built-in example dapp.
+
+## Special instructions for Apple silicon users
+
+<a name="apple-silicon"></a>
+
+_[Skip to the next section](#docker) if you are using an x86-compatible system, e.g., Linux, Windows, or Intel-based Mac._
+
+The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _directly_. This requires additional preparation:
+
+1. Make sure you have Homebrew installed.
+   * Instructions: https://brew.sh/
+2. Install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
+   ```bash
+   brew install coreutils jq
+   ```
+3. Ensure the newly installed tools are added to your `PATH`:
+   ```bash
+   echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
+   ```
+   Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
+4. Clone this repository: 
+   ```
+   git clone git@github.com:dfinity/sns-testing.git && cd sns-testing
+   ```
+5. Clone the dependency repositories:
+   ```bash
+   git clone https://github.com/dfinity/internet-identity.git
+   git clone https://github.com/dfinity/nns-dapp.git
+   ```
+6. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
+   ```bash
+   ./sns-testing/bin/dfx start --clean
+   ```
+
+   This should print the dashboard URL, e.g.:
+
+    ```
+    Awaiting local replica ...
+    Dashboard: http://localhost:35727/_/dashboard
+    ```
+
+7. Run the setup script via Bash:
+   ```bash
+   bash setup_locally.sh
+   ```
+   After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
+
+
+8. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
+   ```bash
+   bash run_basic_scenario.sh
+   ```
+   If the basic scenario finished successfully, you should see the message
+    `Basic scenario has successfully finished.` on the last line of the output.
+
+   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new internet identity for testing.
+
+   > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
+
+9. Clean-up (after you are done testing):
+    ```bash
+    bash cleanup.sh
+    ```
+    It should now be possible to repeat the scenario starting from step 1.
+
+## Bootstrapping a testing environment via Docker
+
+<a name="docker"></a>
+
+_This section explains the simplest way to set up a local environment for testing SNS decentralization. However, this solution is based on Docker and is currently [not supported on Apple silicon systems](#apple-silicon). Please proceed if you are using Linux, Windows, or Intel-based Mac._
 
 After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
 
-0. Clone your dapp repo into the current directory and `cd` into it.
+1. If your dapp is ready for testing, clone it into the current directory and cd into it.
 
-1. Start a local replica instance:
+2. Start a local replica instance:
     ```bash
-    SNS_TESTING_INSTANCE=$(
-        docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
-    )
-    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
-    do
-        echo "Awaiting local replica ..."
-        sleep 3
-    done
+   SNS_TESTING_INSTANCE=$(
+       docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
+   )
+   while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
+   do
+       echo "Awaiting local replica ..."
+       sleep 3
+   done
     ```
     This should print the dashboard URL, e.g.:
 
@@ -36,47 +110,48 @@ After getting familiar with the basic scenario, you may replace the test caniste
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
-    Note that the dashboard is currently not accessible from the browser on your host machine!
-
-2. Run setup:
+3. Run setup:
     ```bash
     docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
     ```
     After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
     from the browser on your host machine.
 
-3. Run the basic scenario:
+4. Run the basic scenario:
     ```bash
     docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
     ```
     If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
 
-4. _Optionally,_ you may log into the Docker instance
-    by running the following command:
-    ```bash
-    docker exec -it $SNS_TESTING_INSTANCE bash
-    ```
-    and then interact with the testing environment, e.g., by manually going through the individual steps of the
-    [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) section.
+    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new internet identity for testing.
 
-    If you manually deploy a frontend dapp in this step, then you can also access it
-    from the browser on your host machine at `http://<canister-id>.localhost:8080/`
-    where `<canister-id>` is the frontend dapp's canister ID.
+5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
+   ```bash
+   docker exec $SNS_TESTING_INSTANCE bash
+   ```
+   Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
 
-5. Clean-up:
+   
+
+   > You are now ready to [test your own dapp's SNS decentralization](#lifecycle).
+
+6. Clean-up (after you are done testing):
     ```bash
     docker kill $SNS_TESTING_INSTANCE
     ```
     It should now be possible to repeat the scenario starting from step 1.
 
-The above runbook could be easily automated and integrated into a CI/CD pipeline.
+The above run-book could be easily automated and integrated into your CI/CD pipeline.
 
 ## SNS lifecycle
 
-This section documents the individual steps of the basic scenario from the previous section.
-In the proceeding sections you will find more details on how to register a test dapp and asset canister.
-The corresponding steps should be run between Steps 1 and 4.
+<a name="lifecycle"></a>
+
+_This section assumes that you have successfully deployed a local environment for testing SNS decentralization a validated your setup by creating an SNS instance for the example dapp (shipped with `sns-testing`)._
+
+We now explain how to test your own dapp's SNS decentralization.
+
 Your SNS configuration file should only specify a single initial SNS developer neuron
 controlled by your DFX principal for the following instructions to work without
 any additional steps required (otherwise, you'd need to _manually vote_ on SNS proposals
