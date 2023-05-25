@@ -77,7 +77,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
 
-   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new internet identity for testing.
+   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
 
    > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
@@ -115,6 +115,8 @@ After getting familiar with the basic scenario, you may replace the test caniste
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
+    Note that the dashboard is currently not accessible from the browser on your host system.
+
 3. Run setup:
     ```bash
     docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
@@ -129,7 +131,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
     If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
 
-    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new internet identity for testing.
+    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
 
 5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
    ```bash
