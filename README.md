@@ -133,7 +133,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 
 5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
    ```bash
-   docker exec $SNS_TESTING_INSTANCE bash
+   docker exec -it $SNS_TESTING_INSTANCE bash
    ```
    Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
 
