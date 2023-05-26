@@ -3,9 +3,9 @@
 
 set -euo pipefail
 
-export PROPOSAL="${1:-1}" && shift # consume the argument
-export VOTE="${2:-y}" && shift # consume the argument
-export VOTING_IDENTITY="${3:-dev-ident-1}" && shift # consume the argument
+export PROPOSAL="${1:-1}"
+export VOTE="${2:-y}"
+export VOTING_IDENTITY="${3:-dev-ident-1}"
 
 . ./constants.sh normal
 
