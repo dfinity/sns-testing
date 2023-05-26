@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
 # put your dfx identity here
 export DFX_IDENTITY="default"
 

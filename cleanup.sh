@@ -1,5 +1,6 @@
 #!/bin/bash
-# run this script locally to clean up this repository
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # for the sake of redeployment (e.g., within the same Docker instance)
 
 set -euo pipefail

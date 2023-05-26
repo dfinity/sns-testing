@@ -1,4 +1,6 @@
 #!/bin/bash
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # Works even when scripts invoked from outside of repository
 repo_root() {
     local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)

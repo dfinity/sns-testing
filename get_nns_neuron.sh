@@ -1,5 +1,6 @@
 #!/bin/bash
-# run this script locally
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 set -euo pipefail
 

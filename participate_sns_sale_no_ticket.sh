@@ -1,5 +1,6 @@
-#!/bin/env bash
-# run this script locally
+#!/bin/bash
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export NUM_PARTICIPANTS="${1:-3}"
 export ICP_PER_PARTICIPANT="${2:-200}"

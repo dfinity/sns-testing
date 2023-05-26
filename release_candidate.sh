@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
 set -euo pipefail
 
 export RC_SNS_WASM_GIT_HASH="9bb8f35cccd013b38657c67964c39d48fac6353f"

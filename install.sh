@@ -1,5 +1,6 @@
 #!/bin/bash
-# run this script locally to install dependencies
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh install
 
