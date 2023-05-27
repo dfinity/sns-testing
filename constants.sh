@@ -63,9 +63,9 @@ esac
 # If DFX is already installed we want to ensure our constants are set correctly
 if which dfx >/dev/null; then
     # We need these identities
-    dfx identity import --force --storage-mode=plaintext dev-ident-1 "$REPO_ROOT/test-identities/dev-ident-1.pem" 2> /dev/null
-    dfx identity import --force --storage-mode=plaintext dev-ident-2 "$REPO_ROOT/test-identities/dev-ident-2.pem" 2> /dev/null
-    dfx identity import --force --storage-mode=plaintext dev-ident-3 "$REPO_ROOT/test-identities/dev-ident-3.pem" 2> /dev/null
+    dfx identity import --storage-mode=plaintext dev-ident-1 "$REPO_ROOT/test-identities/dev-ident-1.pem" 2> /dev/null || true
+    dfx identity import --storage-mode=plaintext dev-ident-2 "$REPO_ROOT/test-identities/dev-ident-2.pem" 2> /dev/null || true
+    dfx identity import --storage-mode=plaintext dev-ident-3 "$REPO_ROOT/test-identities/dev-ident-3.pem" 2> /dev/null || true
 
     # Always change to the configured $DFX_IDENTITY if it's pinned in settings.sh.  Otherwise, fall back to dev-ident-1
     export DFX_IDENTITY=${DFX_IDENTITY:-dev-ident-1}

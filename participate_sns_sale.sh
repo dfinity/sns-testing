@@ -19,8 +19,8 @@ do
   dfx identity new --storage-mode=plaintext "${NEW_DFX_IDENTITY}" || true
   dfx identity use "${NEW_DFX_IDENTITY}"
   export ACCOUNT_ID="$(dfx ledger --network ${NETWORK} account-id)"
-  dfx identity import --force --storage-mode=plaintext icp-ident "$REPO_ROOT/test-identities/icp-ident.pem" 2> /dev/null
-  dfx identity use icp-ident
+  dfx identity import --force --storage-mode=plaintext icp-ident-RqOPnjj5ERjAEnwlvfKw "$REPO_ROOT/test-identities/icp-ident.pem" 2> /dev/null
+  dfx identity use icp-ident-RqOPnjj5ERjAEnwlvfKw
   dfx ledger transfer --network "${NETWORK}" --memo 0 --icp "$((2 * ${ICP_PER_PARTICIPANT}))" "${ACCOUNT_ID}" || exit 1;
   dfx identity use "${NEW_DFX_IDENTITY}"
   while [ "$(dfx ledger --network "${NETWORK}" balance)" == "0.00000000 ICP" ]
