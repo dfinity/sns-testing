@@ -79,14 +79,14 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    ```
    and run the setup script:
    ```bash
-   bash-3.2$ ./setup_locally.sh
+   ./setup_locally.sh
    ```
    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
 
 
 6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
    ```bash
-   bash-3.2$ ./run_basic_scenario.sh
+   ./run_basic_scenario.sh
    ```
    If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
@@ -97,7 +97,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
 7. Clean-up (after you are done testing):
     ```bash
-    bash-3.2$ ./cleanup.sh
+    ./cleanup.sh
     ```
     It should now be possible to repeat the scenario starting from step 1.
 
@@ -169,7 +169,7 @@ The above run-book could be easily automated and integrated into your CI/CD pipe
 
 <a name="lifecycle"></a>
 
-_This section assumes that you have successfully deployed a local environment for testing SNS decentralization and validated your setup by creating an SNS instance for the example dapp (shipped with `sns-testing`)._
+_This section assumes that you have successfully deployed a local environment for testing SNS decentralization and validated your setup by creating an SNS instance for the example dapp (shipped with `sns-testing`). Make sure you ran `./cleanup.sh`_
 
 We now explain how to test your own dapp's SNS decentralization.
 
@@ -190,11 +190,22 @@ created during these steps with your initial SNS developer neurons).
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
    for further details) which can be thought of as a placeholder
    for your dapp.
-1. Run the script `deploy_sns.sh <config-path>` to deploy an SNS passing
-   the path to the SNS configuration file as an argument.
-   A sample configuration is available in the file `sns-test.yml`.
-2. Run the script `register_dapp.sh <canister-id>` to register canister
-   with a provided canister ID with the SNS deployed in the previous step.
+1. Run the script
+   ```
+   ./deploy_sns.sh <config-path>
+   ```` 
+   to deploy an SNS passing the path to the SNS configuration file as an argument.
+   A sample configuration is available in the file `./sns-test.yml`.
+2. Run the script 
+   ```
+   ./register_dapp.sh <canister-id>
+   ``` 
+   to register canister with a provided canister ID with the SNS deployed in the previous step.
+   If you deployed the example dapp provided with this repo, you can run
+   ```
+   ./bin/dfx canister id test
+   ```
+   for the canister id.
    After this step, the SNS is able to manage the canister.
 
 3. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
@@ -212,20 +223,33 @@ created during these steps with your initial SNS developer neurons).
    for further details) which can be thought of as a placeholder
    for your dapp.
 
-4. Run the script `open_sns_sale.sh` to open the initial decentralization sale.
+4. Run the script 
+   ```
+   ./open_sns_sale.sh
+   ``` 
+   to open the initial decentralization sale.
    You can adjust the sale parameters directly in the script.
-5. Run the script `participate_sns_sale.sh <num-participants>
-   <icp-per-participant>` to participate in the sale providing the number of
+5. Run the script 
+   ```
+   ./participate_sns_sale.sh <num-participants> <icp-per-participant>
+   ``` 
+   to participate in the sale providing the number of
    participants and the number of ICP that each participant contributes as arguments.
    You can also participate in the sale using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/).
    You can use the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
-   or run the script `send_icp.sh <icp> <account>` to send
-   a certain amount of ICP to your ledger account so you are able
+   or run the script 
+   ```
+   ./send_icp.sh <icp> <account>
+   ``` 
+   to send a certain amount of ICP to your ledger account so you are able
    to participate in the sale. Make sure that the participation satisfies all the constraints
    imposed by the sale parameters from the previous step (e.g., the minimum number
    of sale participants and the total amount of ICP raised).
-6. Once the sale is completed, run the script `finalize_sns_sale.sh` to
-   distribute the SNS neurons to the sale participants.
+6. Once the sale is completed, run the script 
+   ```
+   ./finalize_sns_sale.sh
+   ``` 
+   to distribute the SNS neurons to the sale participants.
 
 7. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
@@ -234,13 +258,13 @@ created during these steps with your initial SNS developer neurons).
     If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
 
     ```bash
-    ./upgrade_test_canister.sh
+    ./upgrade_test_canister.sh <new_greeting>
     ```
 
    This will upgrade the test canister (see Section
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
-   for further details) which can be thought of as a placeholder
-   for your dapp.
+   for further details) to use a new greeting when calling the `greet` method it exposes. If you don't provide `<new_greeting>`, `"Hoi"` will be used by default. 
+   The test canister can be thought of as a placeholder for your dapp.
 
 8. After the decentralization sale, your developer neuron might not have
    a majority of the voting power and thus the SNS proposal to upgrade your dapp canister must be voted
