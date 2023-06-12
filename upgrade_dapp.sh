@@ -14,7 +14,7 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DFX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
 
 cd "${CURRENTDIR}"
 
@@ -28,7 +28,7 @@ fi
 if [[ -z "${WASM}" ]]
 then
   dfx build --network "${NETWORK}" "${NAME}"
-  export WASM=".dfx/${DFX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
+  export WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
 fi
 
 export CID="$(dfx canister --network "${NETWORK}" id "${NAME}")"

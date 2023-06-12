@@ -29,7 +29,7 @@ if [[ -f "$SETTINGS_FILE" ]]; then
 fi
 
 if [[ ! -z "${2:-}" ]]; then
-    DFX_IDENTITY="${2}"
+    DX_IDENT="${2}"
 fi
 
 if [[ -z "$TESTNET" ]]; then
@@ -70,13 +70,13 @@ if which dfx >/dev/null; then
     dfx identity import --storage-mode=plaintext dev-ident-2 "$REPO_ROOT/test-identities/dev-ident-2.pem" 2> /dev/null || true
     dfx identity import --storage-mode=plaintext dev-ident-3 "$REPO_ROOT/test-identities/dev-ident-3.pem" 2> /dev/null || true
 
-    # Always change to the configured $DFX_IDENTITY if it's pinned in settings.sh.  Otherwise, fall back to dev-ident-1
-    export DFX_IDENTITY=${DFX_IDENTITY:-dev-ident-1}
-    dfx identity use "$DFX_IDENTITY"
+    # Always change to the configured $DX_IDENT if it's pinned in settings.sh.  Otherwise, fall back to dev-ident-1
+    export DX_IDENT=${DX_IDENT:-dev-ident-1}
+    dfx identity use "$DX_IDENT"
 
-    export DFX_PRINCIPAL="$(dfx identity get-principal)"
-    export DFX_VERSION="$(dfx --version | sed "s/^dfx //")"
-    export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${DFX_IDENTITY}/identity.pem)"
+    export DX_PRINCIPAL="$(dfx identity get-principal)"
+    export DX_VERSION="$(dfx --version | sed "s/^dfx //")"
+    export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${DX_IDENT}/identity.pem)"
 fi
 
 export CANISTER_TEST="${CANISTER_TEST:-_test}"
@@ -86,7 +86,7 @@ if [[ -z "${DFX_IC_COMMIT:-}" ]]; then
 fi
 
 export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https://${TESTNET}")
-export DFX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
+export DX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
 export PROTOCOL=$([[ "$TESTNET" == "local" ]] && echo "http" || echo "https")
 
 if [[ "${MODE}" == "install" ]]; then

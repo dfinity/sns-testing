@@ -20,7 +20,7 @@ else
     echo "Using neuron csv ${NEURON_CSV}"
 fi
 
-ORIGINAL_DFX_IDENTITY="$(dfx identity whoami)"
+ORIGINAL_DX_IDENT="$(dfx identity whoami)"
 
 OUTPUT_FILE="${REPO_ROOT}/initial_neurons.csv"
 # clear the file
@@ -66,7 +66,7 @@ done
 echo "449479075714955186;b2ucp-4x6ou-zvxwi-niymn-pvllt-rdxqr-wi4zj-jat5l-ijt2s-vv4f5-4ae;0;31536000000000000;100;D;;false;0;10000000000;false" >> "${OUTPUT_FILE}"
 
 # Restore the original identity
-dfx identity use "${ORIGINAL_DFX_IDENTITY}" 2> /dev/null
+dfx identity use "${ORIGINAL_DX_IDENT}" 2> /dev/null
 
 echo "Generated initial neurons file at ${OUTPUT_FILE}."
 echo "DFX identities have been created for each neuron. View them with ./bin/dfx identity list. (Neuron 1 is ${IDENTITY_PREFIX}1, etc.)."

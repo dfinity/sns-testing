@@ -37,7 +37,7 @@ fi
 
 set -uo pipefail
 
-${DFX} nns import --network-mapping "${DFX_NETWORK}=mainnet"
+${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
 if [ "${CANISTER_TEST}" == "_test" ]
 then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
@@ -48,7 +48,7 @@ cd internet-identity || exit
 
 if [ "${TESTNET}" == "local" ]
 then
-  ${DFX} canister create internet_identity --no-wallet
+  ${DFX} canister create internet_identity --no-wallet --specified-id qhbym-qaaaa-aaaaa-aaafq-cai
 fi
 if [ ! -z "${II_RELEASE:-}" ]
 then
@@ -62,9 +62,19 @@ then
   ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
 fi
 
-${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
+if [ "${TESTNET}" == "local" ]
+then
+  ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id qsgjb-riaaa-aaaaa-aaaga-cai
+else
+  ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
+fi
 
-${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
+if [ "${TESTNET}" == "local" ]
+then
+  ${DFX} canister create sns_aggregator --network "${NETWORK}" --no-wallet --specified-id qvhpv-4qaaa-aaaaa-aaagq-cai
+else
+  ${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
+fi
 
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then

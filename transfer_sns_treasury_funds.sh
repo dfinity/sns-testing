@@ -5,11 +5,11 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 set -euo pipefail
 
 export AMOUNT_E8s="${1:-1000000000}" # 1 Token
-export TO_PRINCIPAL="${2:-$DFX_PRINCIPAL}"
+export TO_PRINCIPAL="${2:-$DX_PRINCIPAL}"
 
 . ./constants.sh normal
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DFX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
 
 quill sns  \
    --canister-ids-file ./sns_canister_ids.json  \

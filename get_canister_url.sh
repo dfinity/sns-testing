@@ -18,8 +18,8 @@ function get_canister_id() {
 }
 
 
-for DFX_DIR in $(find . -name "*.dfx");do
-      CANISTER_ID=$(get_canister_id "${DFX_DIR}")
+for DX_DIR in $(find . -name "*.dfx");do
+      CANISTER_ID=$(get_canister_id "${DX_DIR}")
       if [[ -n "${CANISTER_ID}" ]]; then
         break
       fi

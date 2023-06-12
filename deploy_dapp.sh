@@ -15,7 +15,7 @@ dfx --provisional-create-canister-effective-canister-id jrlun-jiaaa-aaaab-aaaaa-
 if [[ -z "${WASM}" ]]
 then
   dfx build --network "${NETWORK}" "${NAME}"
-  export WASM=".dfx/${DFX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
+  export WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
 fi
 
 dfx canister install "${NAME}" --network "${NETWORK}" --argument "${ARG}" --argument-type idl --wasm "${WASM}"

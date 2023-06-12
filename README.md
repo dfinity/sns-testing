@@ -32,6 +32,13 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
      ```bash
      brew install coreutils jq
      ```
+   Also make sure you have Rust installed including the `wasm32-unknown-unknown` target
+   that you can add into your active toolchain by running:
+
+   ```bash
+   rustup target add wasm32-unknown-unknown
+   ```
+
 1. Ensure the newly installed tools are added to your `PATH`:
    ```bash
    echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
@@ -50,9 +57,9 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
-   DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
-   mkdir -p "$(dirname "${DFX_NET_JSON}")"
-   cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
+   DX_NET_JSON="${HOME}/.config/dfx/networks.json"
+   mkdir -p "$(dirname "${DX_NET_JSON}")"
+   cp "$DX_NET_JSON" "${DX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
    echo '{
       "local": {
          "bind": "0.0.0.0:8080",
@@ -61,10 +68,12 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
             "subnet_type": "system"
          }
       }
-   }' > "${DFX_NET_JSON}"
+   }' > "${DX_NET_JSON}"
    ./bin/dfx start --clean; \
-   mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
+   mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
+
+   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
    This should print the dashboard URL, e.g.:
 
@@ -96,9 +105,15 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
 7. Clean-up (after you are done testing):
+
+    > Note that performing the clean-up will delete some files in the sns-testing repository and your DFX wallets
+    > for the local network (not affecting mainnet).
+    > Make sure to back up all files you move into the sns-testing repository.
+
     ```bash
     bash-3.2$ ./cleanup.sh
     ```
+
     It should now be possible to repeat the scenario starting from step 1.
 
 ## Bootstrapping a testing environment via Docker

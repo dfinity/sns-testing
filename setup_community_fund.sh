@@ -6,7 +6,7 @@ set -euo pipefail
 
 . ./constants.sh normal
 
-export CURRENT_DFX_IDENT=$(dfx identity whoami)
+export CURRENT_DX_IDENT=$(dfx identity whoami)
 
 for CF_NEURON_IDENTITY in "$HOME"/.config/dfx/identity/nns-cf-neuron*; do
   PEM_FILE="$(readlink -f "${CF_NEURON_IDENTITY}/identity.pem")"
@@ -21,4 +21,4 @@ for CF_NEURON_IDENTITY in "$HOME"/.config/dfx/identity/nns-cf-neuron*; do
 done
 
 # Switch back to the previous identity
-dfx identity use "$CURRENT_DFX_IDENT"
+dfx identity use "$CURRENT_DX_IDENT"
