@@ -5,7 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     apt -yq update && \
     apt -yqq install --no-install-recommends bc curl ca-certificates \
         build-essential pkg-config libssl-dev libunwind-dev llvm-dev liblmdb-dev locales clang cmake \
-        git jq vim
+        git jq emacs vim
 
 ENV HOME /home/sns
 ENV WDIR ${HOME}
