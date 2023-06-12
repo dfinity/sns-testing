@@ -205,7 +205,7 @@ created during these steps with your initial SNS developer neurons).
    ```
    ./bin/dfx canister id test
    ```
-   for the canister id.
+   to get the canister id.
    After this step, the SNS is able to manage the canister.
 
 3. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
