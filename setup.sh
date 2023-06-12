@@ -36,12 +36,17 @@ fi
 
 set -uo pipefail
 
-${DFX} nns import --network-mapping "${DFX_NETWORK}=mainnet"
+${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
+${DFX} sns import
 if [ "${CANISTER_TEST}" == "_test" ]
 then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
+curl -L "https://github.com/dfinity/nns-dapp/blob/${IC_COMMIT}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
+cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.json
+cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
+cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 
 ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
 if [ ! -z "${II_RELEASE:-}" ]
@@ -95,9 +100,6 @@ ${IC_ADMIN}  \
    --test-neuron-proposer  \
    --summary "This proposal sets the SNS subnet"  \
    --sns-subnet-ids-to-add "${SNS_SUB}"
-
-# Imports candid definitions
-${DFX} sns import
 
 # if $CANDIDATE exists, we'll use the versions specified in there
 # otherwise we'll just use IC_COMMIT
