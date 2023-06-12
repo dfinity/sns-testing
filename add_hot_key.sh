@@ -3,8 +3,8 @@
 
 set -euo pipefail
 
-export OWNER_IDENTITY="${1:-dev-ident-1}"  && shift # consume the argument
-export HOTKEY_IDENTITY="${1:-dev-ident-2}"  && shift # consume the argument
+export OWNER_IDENTITY="${1:-dev-ident-1}"
+export HOTKEY_IDENTITY="${2:-dev-ident-2}"
 
 . ./constants.sh normal
 

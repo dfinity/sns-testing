@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-export CONFIG="${1:-sns-test.yml}" && shift # consume the argument
+export CONFIG="${1:-sns-test.yml}"
 
 . ./constants.sh normal
 
