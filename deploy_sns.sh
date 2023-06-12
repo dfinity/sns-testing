@@ -11,7 +11,7 @@ export CURRENT_DX_IDENT="$(dfx identity whoami)"
 
 dfx identity use "${DX_IDENT}"
 
-. ./setup_wallet.sh
+. ./setup_wallet.sh "${DX_IDENT}"
 
 dfx ledger --network "${NETWORK}" fabricate-cycles --canister "${WALLET}" --t 2345
 
