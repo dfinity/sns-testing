@@ -1,20 +1,5 @@
 {
   "canisters": {
-    "nns-dapp": {
-      "type": "custom",
-      "candid": "",
-      "wasm": "nns-dapp.wasm"
-    },
-    "internet_identity": {
-      "type": "custom",
-      "candid": "",
-      "wasm": "internet_identity.wasm"
-    },
-    "sns_aggregator": {
-      "type": "custom",
-      "candid": "",
-      "wasm": "sns_aggregator.wasm"
-    },
     "test": {
       "candid": "candid/test.did",
       "type": "rust",
