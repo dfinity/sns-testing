@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export OWNER_IDENTITY="${1:-dev-ident-1}"
 export HOTKEY_IDENTITY="${2:-dev-ident-2}"

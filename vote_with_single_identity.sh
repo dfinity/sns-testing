@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export PROPOSAL="${1:-1}"
 export VOTE="${2:-y}"

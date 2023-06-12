@@ -1,12 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
 CURRENTDIR="$(pwd)"
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 REPODIR="$(pwd)"
-
-set -euo pipefail
 
 export NAME="${1:-test}"
 export WASM="${2:-}"

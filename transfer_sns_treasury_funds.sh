@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export AMOUNT_E8s="${1:-1000000000}" # 1 Token
 export TO_PRINCIPAL="${2:-$DX_PRINCIPAL}"

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export CID=${1:-jrlun-jiaaa-aaaab-aaaaa-cai}
 
