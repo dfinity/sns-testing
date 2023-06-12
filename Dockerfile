@@ -22,8 +22,6 @@ RUN curl --fail https://sh.rustup.rs -sSf \
     rustup default "${RUST_VERSION}-x86_64-unknown-linux-gnu" && \
     rustup target add wasm32-unknown-unknown
 
-RUN git clone https://github.com/dfinity/internet-identity.git
-RUN git clone https://github.com/dfinity/nns-dapp.git
 RUN git clone https://github.com/dfinity/ic.git
 
 ADD . ${WDIR}

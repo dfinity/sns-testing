@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run this script locally
 
 set -euo pipefail

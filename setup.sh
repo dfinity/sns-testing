@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run this script locally
 
 set -euo pipefail
@@ -43,53 +43,29 @@ then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
 
-cd internet-identity || exit
-
-if [ "${TESTNET}" == "local" ]
-then
-  ${DFX} canister create internet_identity --no-wallet
-fi
+${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
 if [ ! -z "${II_RELEASE:-}" ]
 then
-  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet_identity.wasm
-fi
-
-cd ../nns-dapp || exit
-
-if [ "${TESTNET}" != "local" ]
-then
-  ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
+  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet-identity/internet_identity.wasm
 fi
 
 ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
-
 ${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
-
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
-  mkdir out
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_local.wasm" -o out/nns-dapp.wasm
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o out/sns_aggregator.wasm
+  mkdir -p nns-dapp/out
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_local.wasm" -o nns-dapp/out/nns-dapp.wasm
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
-${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm out/sns_aggregator.wasm
-
-if [ "${TESTNET}" == "local" ]
-then
-  cd ../internet-identity || exit
-fi
-${DFX} canister install internet_identity --network "${NETWORK}" --wasm ../internet-identity/internet_identity.wasm
-if [ "${TESTNET}" == "local" ]
-then
-  cd ../nns-dapp || exit
-fi
-
-${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm --argument '(opt record{
+${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
+${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity.wasm
+${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-dapp.wasm --argument '(opt record{
   args = vec {
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
     record{ 0="DFX_NETWORK"; 1="testing" };
-    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":false}" };
+    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":true}" };
     record{ 0="FETCH_ROOT_KEY"; 1="true" };
     record{ 0="GOVERNANCE_CANISTER_ID"; 1="rrkah-fqaaa-aaaaa-aaaaq-cai" };
     record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTOCOL}://rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST_ENDPOINT}"'" };
@@ -105,8 +81,6 @@ ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm
     record{ 0="WASM_CANISTER_ID"; 1="qaa6y-5yaaa-aaaaa-aaafa-cai" };
   };
 })'
-
-cd .. || exit
 
 ${IC_ADMIN}  \
    --nns-url "${NETWORK_URL}" propose-to-set-authorized-subnetworks  \

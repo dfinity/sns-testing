@@ -6,7 +6,7 @@ You can customize some parameters of the test environment in the file `settings.
 Its default contents are:
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 
 # put your dfx identity here
 export DFX_IDENTITY="default"

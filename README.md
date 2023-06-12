@@ -42,10 +42,8 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
    ```
-3. Clone the dependency repositories and run the installation script:
+3. Run the installation script:
    ```bash
-   git clone https://github.com/dfinity/internet-identity.git
-   git clone https://github.com/dfinity/nns-dapp.git
    bash install.sh
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
@@ -62,7 +60,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
          }
       }
    }' > "${DFX_NET_JSON}"
-   ./bin/dfx start --clean; \
+   dfx start --clean; \
    mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 

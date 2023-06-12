@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Works even when scripts invoked from outside of repository
 repo_root() {
     local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
@@ -88,9 +88,9 @@ if [[ "${MODE}" == "install" ]]; then
     return 0
 fi
 
-DFX="${REPO_ROOT}/bin/dfx"
+DFX="$(which dfx)"
 export DFX
-IC_ADMIN="${REPO_ROOT}/bin/ic-admin"
+IC_ADMIN="$(which ic-admin)"
 export IC_ADMIN
 
 if [[ ! -f "${DFX}" ]]; then
@@ -128,7 +128,12 @@ if [[ "${TESTNET}" == "local" ]]; then
     echo "Local registry not found!"
     exit 1
   fi
-  export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
+  if [ "$(which ic-regedit)" ]
+  then
+    export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
+  else
+    export NNS_SUB="$(subnet-id http://localhost:$(dfx info replica-port))"
+  fi
   export SNS_SUB="${NNS_SUB}"
   export APP_SUB="${NNS_SUB}"
 else

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run this script locally
 
 set -euo pipefail
@@ -68,4 +68,4 @@ echo "449479075714955186;b2ucp-4x6ou-zvxwi-niymn-pvllt-rdxqr-wi4zj-jat5l-ijt2s-v
 dfx identity use "${ORIGINAL_DFX_IDENTITY}" 2> /dev/null
 
 echo "Generated initial neurons file at ${OUTPUT_FILE}."
-echo "DFX identities have been created for each neuron. View them with ./bin/dfx identity list. (Neuron 1 is ${IDENTITY_PREFIX}1, etc.)."
+echo "DFX identities have been created for each neuron. View them with dfx identity list. (Neuron 1 is ${IDENTITY_PREFIX}1, etc.)."

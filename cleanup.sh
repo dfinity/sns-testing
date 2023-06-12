@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run this script locally to clean up this repository
 # for the sake of redeployment (e.g., within the same Docker instance)
 

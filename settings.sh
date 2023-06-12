@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # put your dfx identity here
 export DFX_IDENTITY="default"

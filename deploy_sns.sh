@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run this script locally
 
 set -euo pipefail
@@ -30,7 +30,7 @@ then
 fi
 sed "s/aaaaa-aa/${DFX_PRINCIPAL}/" "$CONFIG" > "${CONFIG}.tmp"
 mv "${CONFIG}.tmp" "${CONFIG}"
-sns-cli deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DFX_NETWORK}/canister_ids.json"
+sns deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DFX_NETWORK}/canister_ids.json"
 
 # Switch back to the previous identity
 dfx identity use "$CURRENT_DFX_IDENT"
