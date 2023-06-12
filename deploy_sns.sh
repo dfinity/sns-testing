@@ -3,13 +3,13 @@
 
 set -euo pipefail
 
-export CONFIG="${1:-sns-test.yml}" && shift # consume the argument
+export CONFIG="${1:-sns-test.yml}"
 
 . ./constants.sh normal
 
-export CURRENT_DFX_IDENT="$(dfx identity whoami)"
+export CURRENT_DX_IDENT="$(dfx identity whoami)"
 
-dfx identity use "${DFX_IDENTITY}"
+dfx identity use "${DX_IDENT}"
 
 . ./setup_wallet.sh
 
@@ -28,9 +28,9 @@ then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
-sed "s/aaaaa-aa/${DFX_PRINCIPAL}/" "$CONFIG" > "${CONFIG}.tmp"
+sed "s/aaaaa-aa/${DX_PRINCIPAL}/" "$CONFIG" > "${CONFIG}.tmp"
 mv "${CONFIG}.tmp" "${CONFIG}"
-sns-cli deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DFX_NETWORK}/canister_ids.json"
+sns-cli deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DX_NETWORK}/canister_ids.json"
 
 # Switch back to the previous identity
-dfx identity use "$CURRENT_DFX_IDENT"
+dfx identity use "$CURRENT_DX_IDENT"

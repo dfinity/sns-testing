@@ -7,26 +7,26 @@ ICP_PER_PARTICIPANT_E8S=$(echo "100000000 * $ICP_PER_PARTICIPANT" | bc)
 
 . ./constants.sh normal
 
-# Reset to the constant's $DFX_IDENTITY before starting the sale
-dfx identity use "$DFX_IDENTITY"
-export CURRENT_DFX_IDENT=$(dfx identity whoami)
+# Reset to the constant's $DX_IDENT before starting the sale
+dfx identity use "$DX_IDENT"
+export CURRENT_DX_IDENT=$(dfx identity whoami)
 
 for (( c=0; c<${NUM_PARTICIPANTS}; c++ ))
 do
   export ID="$(printf "%03d" ${c})"
-  export NEW_DFX_IDENTITY="participant-${ID}"
-  dfx identity new --storage-mode=plaintext "${NEW_DFX_IDENTITY}" || true
-  dfx identity use "${NEW_DFX_IDENTITY}"
+  export NEW_DX_IDENT="participant-${ID}"
+  dfx identity new --storage-mode=plaintext "${NEW_DX_IDENT}" || true
+  dfx identity use "${NEW_DX_IDENT}"
   export ACCOUNT_ID="$(dfx ledger --network ${NETWORK} account-id)"
   dfx identity import --force --storage-mode=plaintext icp-ident-RqOPnjj5ERjAEnwlvfKw "$REPO_ROOT/test-identities/icp-ident.pem" 2> /dev/null
   dfx identity use icp-ident-RqOPnjj5ERjAEnwlvfKw
   dfx ledger transfer --network "${NETWORK}" --memo 0 --icp "$((2 * ${ICP_PER_PARTICIPANT}))" "${ACCOUNT_ID}" || exit 1;
-  dfx identity use "${NEW_DFX_IDENTITY}"
+  dfx identity use "${NEW_DX_IDENT}"
   while [ "$(dfx ledger --network "${NETWORK}" balance)" == "0.00000000 ICP" ]
   do
     sleep 1
   done
-  export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${NEW_DFX_IDENTITY}/identity.pem)"
+  export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${NEW_DX_IDENT}/identity.pem)"
 
   # Get the ticket
   quill sns new-sale-ticket --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
@@ -48,4 +48,4 @@ do
 
 done
 
-dfx identity use "${DFX_IDENTITY}"
+dfx identity use "${DX_IDENT}"

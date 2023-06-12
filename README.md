@@ -57,9 +57,9 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
-   DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
-   mkdir -p "$(dirname "${DFX_NET_JSON}")"
-   cp "$DFX_NET_JSON" "${DFX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
+   DX_NET_JSON="${HOME}/.config/dfx/networks.json"
+   mkdir -p "$(dirname "${DX_NET_JSON}")"
+   cp "$DX_NET_JSON" "${DX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
    echo '{
       "local": {
          "bind": "0.0.0.0:8080",
@@ -68,9 +68,9 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
             "subnet_type": "system"
          }
       }
-   }' > "${DFX_NET_JSON}"
+   }' > "${DX_NET_JSON}"
    ./bin/dfx start --clean; \
-   mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
+   mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
    You might have to hit ``Allow'' on the Mac popup which happens when you run `./bin/dfx` for the first time.
