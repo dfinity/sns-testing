@@ -3,13 +3,13 @@
 
 set -euo pipefail
 
-export CONFIG="${1:-sns-test.yml}" && shift # consume the argument
+export CONFIG="${1:-sns-test.yml}"
 
 . ./constants.sh normal
 
-export CURRENT_DFX_IDENT="$(dfx identity whoami)"
+export CURRENT_DX_IDENT="$(dfx identity whoami)"
 
-dfx identity use "${DFX_IDENTITY}"
+dfx identity use "${DX_IDENT}"
 
 . ./setup_wallet.sh
 
@@ -34,9 +34,9 @@ cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.jso
 cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 
-sed "s/aaaaa-aa/${DFX_PRINCIPAL}/" "$CONFIG" > "${CONFIG}.tmp"
+sed "s/aaaaa-aa/${DX_PRINCIPAL}/" "$CONFIG" > "${CONFIG}.tmp"
 mv "${CONFIG}.tmp" "${CONFIG}"
-sns deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DFX_NETWORK}/canister_ids.json"
+sns deploy --network "${NETWORK}" --init-config-file "${CONFIG}" --save-to ".dfx/${DX_NETWORK}/canister_ids.json"
 
 # Switch back to the previous identity
-dfx identity use "$CURRENT_DFX_IDENT"
+dfx identity use "$CURRENT_DX_IDENT"

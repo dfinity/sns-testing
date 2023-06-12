@@ -9,7 +9,7 @@ Its default contents are:
 #!/usr/bin/env bash
 
 # put your dfx identity here
-export DFX_IDENTITY="default"
+export DX_IDENT="default"
 
 # if you don't export CANISTER_TEST or set its value to "_test",
 # then the test flag is set for NNS and SNS governance canisters;
@@ -35,7 +35,7 @@ export IC_COMMIT="cac353c15ad1e8713607ebc3c56f9e2afd94650a"
 # the asset canister version is specified by a DFX commit
 # you can take an arbitrary DFX commit to master:
 # https://github.com/dfinity/sdk/commits/master
-export DFX_COMMIT="266c913f71344f6fa3320287965120e56288c86c"
+export DX_COMMIT="266c913f71344f6fa3320287965120e56288c86c"
 
 export TESTNET="local"
 ```

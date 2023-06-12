@@ -8,5 +8,5 @@ export ACCOUNT="${2}"
 
 . ./constants.sh normal
 
-dfx identity use "${DFX_IDENTITY}"
+dfx identity use "${DX_IDENT}"
 dfx ledger transfer --network "${NETWORK}" --memo 0 --icp "${ICP}" "${ACCOUNT}"

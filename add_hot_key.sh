@@ -3,12 +3,12 @@
 
 set -euo pipefail
 
-export OWNER_IDENTITY="${1:-dev-ident-1}"  && shift # consume the argument
-export HOTKEY_IDENTITY="${1:-dev-ident-2}"  && shift # consume the argument
+export OWNER_IDENTITY="${1:-dev-ident-1}"
+export HOTKEY_IDENTITY="${2:-dev-ident-2}"
 
 . ./constants.sh normal
 
-export CURRENT_DFX_IDENT=$(dfx identity whoami)
+export CURRENT_DX_IDENT=$(dfx identity whoami)
 
 dfx identity use "${OWNER_IDENTITY}"
 OWNER_PRINCIPAL=$(dfx identity get-principal)
@@ -31,4 +31,4 @@ quill sns \
 quill --insecure-local-dev-mode send --yes msg.json
 
 
-dfx identity use "${CURRENT_DFX_IDENT}"
+dfx identity use "${CURRENT_DX_IDENT}"

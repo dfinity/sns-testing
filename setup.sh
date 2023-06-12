@@ -48,14 +48,21 @@ cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.jso
 cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 
-${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
+${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet --specified-id qhbym-qaaaa-aaaaa-aaafq-cai
 if [ ! -z "${II_RELEASE:-}" ]
 then
   curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet-identity/internet_identity.wasm
 fi
 
-${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
-${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
+${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id qsgjb-riaaa-aaaaa-aaaga-cai
+
+if [ "${TESTNET}" == "local" ]
+then
+  ${DFX} canister create sns_aggregator --network "${NETWORK}" --no-wallet --specified-id qvhpv-4qaaa-aaaaa-aaagq-cai
+else
+  ${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
+fi
+
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
