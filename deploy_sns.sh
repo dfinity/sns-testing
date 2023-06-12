@@ -11,7 +11,7 @@ export CURRENT_DX_IDENT="$(dfx identity whoami)"
 
 dfx identity use "${DX_IDENT}"
 
-. ./setup_wallet.sh
+. ./setup_wallet.sh "${DX_IDENT}"
 
 dfx ledger --network "${NETWORK}" fabricate-cycles --canister "${WALLET}" --t 2345
 
@@ -22,7 +22,7 @@ ic-admin  \
    --proposal-title "Let me SNS!"  \
    --summary "This proposal whitelists developer's principal to deploy SNS"
 
-${DFX} nns import --network-mapping "${DFX_NETWORK}=mainnet"
+${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
 ${DFX} sns import
 if [ "${CANISTER_TEST}" == "_test" ]
 then
