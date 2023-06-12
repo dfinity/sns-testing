@@ -22,7 +22,7 @@ gzip -fd sns.gz
 mv sns sns-cli
 chmod +x sns-cli
 
-curl -L "https://github.com/dfinity/sdk/releases/download/0.13.1/dfx-0.13.1-x86_64-${OS}.tar.gz" -o dfx.tar.gz
+curl -L "https://github.com/dfinity/sdk/releases/download/0.14.1/dfx-0.14.1-x86_64-${OS}.tar.gz" -o dfx.tar.gz
 tar -xzf dfx.tar.gz
 rm dfx.tar.gz
 chmod +x dfx
