@@ -200,7 +200,7 @@ created during these steps with your initial SNS developer neurons).
    ```
    ./register_dapp.sh <canister-id>
    ``` 
-   to register canister with a provided canister ID with the SNS deployed in the previous step.
+   to register the canister with the provided canister ID with the SNS deployed in the previous step.
    If you deployed the example dapp provided with this repo, you can run
    ```
    ./bin/dfx canister id test
