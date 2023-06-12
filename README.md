@@ -73,7 +73,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
-   You might have to hit ``Allow'' on the Mac popup which happens when you run `./bin/dfx` for the first time.
+   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
    This should print the dashboard URL, e.g.:
 
