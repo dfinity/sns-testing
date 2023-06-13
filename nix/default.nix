@@ -14,19 +14,6 @@ let
           sources = import sourcesnix { sourcesFile = ./sources.json; pkgs = super; };
           rustPackages = self.rustPackages_1_66;
           subpath = import ./gitSource.nix;
-          quill = super.stdenv.mkDerivation {
-            name = "quill";
-            src = builtins.fetchurl {
-              url = "https://github.com/dfinity/quill/releases/download/v0.4.1/quill-linux-x86_64-musl";
-              sha256 = "sha256:0v8dvhm5nzcfh24a4pmfbk14ws7mkjkpp06d7nv64yw32hzfx344";
-            };
-            phases = [ "installPhase" ]; # Removes all phases except installPhase
-            installPhase = ''
-              mkdir -p $out/bin
-              cp $src $out/bin/quill
-              chmod +x $out/bin/quill
-            '';
-          };
         })
       ];
     };
