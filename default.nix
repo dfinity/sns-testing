@@ -17,6 +17,29 @@ let subnet = (naersk.buildPackage rec {
     buildInputs = with nixpkgs; [ openssl ];
 }); in
 
+let quill = stdenv.mkDerivation {
+    name = "quill";
+
+    src = if stdenv.isDarwin then
+        nixpkgs.fetchurl {
+            name = "quill";
+            url = "https://github.com/dfinity/quill/releases/download/v0.4.1/quill-macos-x86_64";
+            sha256 = "sha256-yKL7OjwMzF3J3vfvbB0gqapawUcC/BaF2qh4YZE3AhI=";
+        }
+    else
+        nixpkgs.fetchurl {
+            name = "quill";
+            url = "https://github.com/dfinity/quill/releases/download/v0.4.1/quill-linux-x86_64-musl";
+            sha256 = "sha256-hIzuPhSDe2K2Pc2Ae6ec9WhOwlyuXqKIgI59WyrcDW0=";
+        };
+
+    phases = [ "installPhase" ];
+
+    installPhase = ''
+        install -D $src $out/bin/quill
+    '';
+}; in
+
 let dfx-env = import (builtins.fetchTarball "https://github.com/ninegua/ic-nix/releases/latest/download/dfx-env.tar.gz") { version = "20230605"; }; in
 
 dfx-env.overrideAttrs (old: {

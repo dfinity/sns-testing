@@ -18,40 +18,24 @@ You might need to slightly adjust your deployment script to work with sns-testin
 
 If you do not yet have a dapp that is ready for decentralization, you may still run `sns-testing` with the built-in example dapp.
 
-## Special instructions for Apple silicon users
+## Bootstrapping a testing environment via Nix
 
-<a name="apple-silicon"></a>
+<a name="nix"></a>
 
-_[Skip to the next section](#docker) if you are using an x86-compatible system, e.g., Linux, Windows, or Intel-based Mac._
+_[Skip to the next section](#docker) if you are using an x86-compatible system, e.g., Linux, Windows, or Intel-based Mac, and do not want to use Nix._
 
-The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _directly_. This requires additional preparation:
+The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _using Nix_. This requires additional preparation:
 
-0. Make sure you have Homebrew installed.
-   * Instructions: https://brew.sh/
-   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
-     ```bash
-     brew install coreutils jq
-     ```
-   Also make sure you have Rust installed including the `wasm32-unknown-unknown` target
-   that you can add into your active toolchain by running:
-
-   ```bash
-   rustup target add wasm32-unknown-unknown
-   ```
-
-1. Ensure the newly installed tools are added to your `PATH`:
-   ```bash
-   echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
-   ```
-   Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
-2. Clone this repository: 
+0. Make sure you have Nix installed.
+   * Instructions: https://nixos.org/download.html#nix-install-macos
+1. Clone this repository:
    ```
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
    ```
-3. Run the installation script:
+2. Enter a nix-shell:
    ```bash
-   bash install.sh
+   nix-shell
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
    ```bash
@@ -67,11 +51,11 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
          }
       }
    }' > "${DX_NET_JSON}"
-   ./bin/dfx start --clean; \
+   dfx start --clean; \
    mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
-   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
+   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `dfx`.
 
    This should print the dashboard URL, e.g.:
 
@@ -80,20 +64,20 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
-5. Open another Bash console:
+5. Open another nix-shell:
    ```bash
-   bash
+   nix-shell
    ```
    and run the setup script:
    ```bash
-   bash-3.2$ ./setup_locally.sh
+   [nix-shell:~/sns-testing]$ ./setup_locally.sh
    ```
    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
 
 
 6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
    ```bash
-   bash-3.2$ ./run_basic_scenario.sh
+   [nix-shell:~/sns-testing]$ ./run_basic_scenario.sh
    ```
    If the basic scenario finished successfully, you should see the message
     `Basic scenario has successfully finished.` on the last line of the output.
@@ -109,7 +93,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     > Make sure to back up all files you move into the sns-testing repository.
 
     ```bash
-    bash-3.2$ ./cleanup.sh
+    [nix-shell:~/sns-testing]$ ./cleanup.sh
     ```
 
     It should now be possible to repeat the scenario starting from step 1.
