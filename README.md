@@ -209,20 +209,20 @@ created during these steps with your initial SNS developer neurons).
    for further details) which can be thought of as a placeholder
    for your dapp.
 
-4. Run the script `open_sns_sale.sh` to open the initial decentralization sale.
-   You can adjust the sale parameters directly in the script.
-5. Run the script `participate_sns_sale.sh <num-participants>
-   <icp-per-participant>` to participate in the sale providing the number of
+4. Run the script `open_sns_swap.sh` to open the initial decentralization swap.
+   You can adjust the swap parameters directly in the script.
+5. Run the script `participate_sns_swap.sh <num-participants>
+   <icp-per-participant>` to participate in the swap providing the number of
    participants and the number of ICP that each participant contributes as arguments.
-   You can also participate in the sale using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/).
+   You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/).
    You can use the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
    or run the script `send_icp.sh <icp> <account>` to send
    a certain amount of ICP to your ledger account so you are able
-   to participate in the sale. Make sure that the participation satisfies all the constraints
-   imposed by the sale parameters from the previous step (e.g., the minimum number
-   of sale participants and the total amount of ICP raised).
-6. Once the sale is completed, run the script `finalize_sns_sale.sh` to
-   distribute the SNS neurons to the sale participants.
+   to participate in the swap. Make sure that the participation satisfies all the constraints
+   imposed by the swap parameters from the previous step (e.g., the minimum number
+   of swap participants and the total amount of ICP raised).
+6. Once the swap is completed, run the script `finalize_sns_swap.sh` to
+   distribute the SNS neurons to the swap participants.
 
 7. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
@@ -239,7 +239,7 @@ created during these steps with your initial SNS developer neurons).
    for further details) which can be thought of as a placeholder
    for your dapp.
 
-8. After the decentralization sale, your developer neuron might not have
+8. After the decentralization swap, your developer neuron might not have
    a majority of the voting power and thus the SNS proposal to upgrade your dapp canister must be voted
    on. To this end, open the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and vote with the individual neurons or run the script:
 
@@ -249,9 +249,9 @@ created during these steps with your initial SNS developer neurons).
 
    to vote on
    SNS proposal with ID `<id>` with the SNS neurons of *all* the participants
-   created by the script `participate_sns_sale.sh` above.
+   created by the script `participate_sns_swap.sh` above.
    Make sure to pass the same number of participants `<num-participants>` as in
-   `participate_sns_sale.sh <num-participants> <icp-per-participant>` above,
+   `participate_sns_swap.sh <num-participants> <icp-per-participant>` above,
    the proposal ID, and the vote (`y` for yes and `n` for no). It is expected to get the error
    "Neuron not eligible to vote on proposal." for some neurons because
    each participant gets a basket of neurons with various dissolve delays
@@ -307,7 +307,7 @@ to call the `execute` function.
    `./deploy_test_canister.sh`.
 
 You should run the following steps after `deploy_sns.sh <config-path>`
-and before `open_sns_sale.sh` according to
+and before `open_sns_swap.sh` according to
 the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) section.
 
 2. You can then register the test canister with the SNS by running the script
@@ -351,7 +351,7 @@ We list additional constraints in between the steps below.
 1. You can deploy an asset canister by running the script `./deploy_assets.sh`.
 
 You should run the following steps after `deploy_sns.sh <config-path>`
-and before `open_sns_sale.sh` according to
+and before `open_sns_swap.sh` according to
 the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) section.
 
 2. To prepare the asset canister for handing it over to the SNS, run the script
@@ -382,12 +382,12 @@ dfx canister --network ${NETWORK} call assets list_permitted '(record {permissio
    of the asset, e.g., `/myasset.txt` and `<content>` is the ASCII-encoded
    content of the asset.
 
-Testing all possible SNS launch scenarios includes testing a failed sale (e.g., if not enough funds have been raised)
+Testing all possible SNS launch scenarios includes testing a failed swap (e.g., if not enough funds have been raised)
 where the control of the asset canister is given back to your principal.
 
-You should run the following step after `finalize_sns_sale.sh` for an unsuccessful sale.
+You should run the following step after `finalize_sns_swap.sh` for an unsuccessful swap.
 
-7. After a failed sale, you can run the script `take_ownership_assets.sh`
+7. After a failed swap, you can run the script `take_ownership_assets.sh`
    to reset the permissions of the asset canister back to only your principal
    having the `Commit` permission (in particular, with the SNS governance
    having no permission anymore).

@@ -22,7 +22,7 @@ export NNS_DAPP_RELEASE="proposal-122282"
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="f0256969bfea4d721060776790ebc87337a82d29"
+export IC_COMMIT="e4a9c0aa4ef24f7ee5bb9d27ce930551a7c5e24d"
 
 # the asset canister version is specified by a DFX commit
 # you can take an arbitrary DFX commit to master:

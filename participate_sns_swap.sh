@@ -7,7 +7,7 @@ ICP_PER_PARTICIPANT_E8S=$(echo "100000000 * $ICP_PER_PARTICIPANT" | bc)
 
 . ./constants.sh normal
 
-# Reset to the constant's $DX_IDENT before starting the sale
+# Reset to the constant's $DX_IDENT before starting the swap
 dfx identity use "$DX_IDENT"
 export CURRENT_DX_IDENT=$(dfx identity whoami)
 
