@@ -18,11 +18,73 @@ You might need to slightly adjust your deployment script to work with sns-testin
 
 If you do not yet have a dapp that is ready for decentralization, you may still run `sns-testing` with the built-in example dapp.
 
+## Bootstrapping a testing environment via Docker
+
+<a name="docker"></a>
+
+_This section explains the simplest way to set up a local environment for testing SNS decentralization. However, this solution is based on Docker and is currently [not supported on Apple silicon systems](#nix). Please proceed if you are using Linux, Windows, or Intel-based Mac._
+
+After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
+
+1. If your dapp is ready for testing, clone it into the current directory and cd into it.
+
+2. Start a local replica instance:
+    ```bash
+   SNS_TESTING_INSTANCE=$(
+       docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
+   )
+   while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
+   do
+       echo "Awaiting local replica ..."
+       sleep 3
+   done
+    ```
+    This should print the dashboard URL, e.g.:
+
+    ```
+    Awaiting local replica ...
+    Dashboard: http://localhost:35727/_/dashboard
+    ```
+
+    Note that the dashboard is currently not accessible from the browser on your host system.
+
+3. Run setup:
+    ```bash
+    docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
+    ```
+    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
+    from the browser on your host machine.
+
+4. Run the basic scenario:
+    ```bash
+    docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
+    ```
+    If the basic scenario finished successfully, you should see the message
+    `Basic scenario has successfully finished.` on the last line of the output.
+
+    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
+
+5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
+   ```bash
+   docker exec -it $SNS_TESTING_INSTANCE bash
+   ```
+   Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
+
+
+
+   > You are now ready to [test your own dapp's SNS decentralization](#lifecycle).
+
+6. Clean-up (after you are done testing):
+    ```bash
+    docker kill $SNS_TESTING_INSTANCE
+    ```
+    It should now be possible to repeat the scenario starting from step 1.
+
+The above run-book could be easily automated and integrated into your CI/CD pipeline.
+
 ## Bootstrapping a testing environment via Nix
 
 <a name="nix"></a>
-
-_[Skip to the next section](#docker) if you are using an x86-compatible system, e.g., Linux, Windows, or Intel-based Mac, and do not want to use Nix._
 
 The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _using Nix_. This requires additional preparation:
 
@@ -33,7 +95,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
    ```
-2. Enter a nix-shell:
+2. Enter a nix-shell (note that it can take much time, up to an hour, when entering the nix-shell for the time):
    ```bash
    nix-shell
    ```
@@ -97,70 +159,6 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     ```
 
     It should now be possible to repeat the scenario starting from step 1.
-
-## Bootstrapping a testing environment via Docker
-
-<a name="docker"></a>
-
-_This section explains the simplest way to set up a local environment for testing SNS decentralization. However, this solution is based on Docker and is currently [not supported on Apple silicon systems](#apple-silicon). Please proceed if you are using Linux, Windows, or Intel-based Mac._
-
-After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
-
-1. If your dapp is ready for testing, clone it into the current directory and cd into it.
-
-2. Start a local replica instance:
-    ```bash
-   SNS_TESTING_INSTANCE=$(
-       docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
-   )
-   while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
-   do
-       echo "Awaiting local replica ..."
-       sleep 3
-   done
-    ```
-    This should print the dashboard URL, e.g.:
-
-    ```
-    Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
-    ```
-
-    Note that the dashboard is currently not accessible from the browser on your host system.
-
-3. Run setup:
-    ```bash
-    docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
-    ```
-    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
-    from the browser on your host machine.
-
-4. Run the basic scenario:
-    ```bash
-    docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
-    ```
-    If the basic scenario finished successfully, you should see the message
-    `Basic scenario has successfully finished.` on the last line of the output.
-
-    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
-
-5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
-   ```bash
-   docker exec -it $SNS_TESTING_INSTANCE bash
-   ```
-   Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
-
-   
-
-   > You are now ready to [test your own dapp's SNS decentralization](#lifecycle).
-
-6. Clean-up (after you are done testing):
-    ```bash
-    docker kill $SNS_TESTING_INSTANCE
-    ```
-    It should now be possible to repeat the scenario starting from step 1.
-
-The above run-book could be easily automated and integrated into your CI/CD pipeline.
 
 ## SNS lifecycle
 
