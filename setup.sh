@@ -100,7 +100,7 @@ ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
     record{ 0="DFX_NETWORK"; 1="testing" };
-    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":false}" };
+    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":true}" };
     record{ 0="FETCH_ROOT_KEY"; 1="true" };
     record{ 0="GOVERNANCE_CANISTER_ID"; 1="rrkah-fqaaa-aaaaa-aaaaq-cai" };
     record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTOCOL}://rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST_ENDPOINT}"'" };
