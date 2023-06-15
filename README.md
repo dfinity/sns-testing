@@ -313,6 +313,7 @@ created during these steps with your initial SNS developer neurons).
 You can inspect the SNS state by running the following scripts:
 
 - `get_last_sns_proposal.sh`: displays the SNS proposal that was added most recently;
+- `get_sns_proposal.sh <proposal-id>`: displays the SNS proposal with given `<proposal-id>`;
 - `get_sns_canisters.sh`: shows the canister IDs of the SNS canisters and the registered dapp canisters;
 - `get_sns_neurons.sh`: displays all SNS neurons of your DFX identity;
 - `get_all_sns_neurons.sh`: displays all SNS neurons in the SNS governance canister;
