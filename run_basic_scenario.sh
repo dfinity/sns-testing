@@ -10,9 +10,9 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 ./deploy_sns.sh sns-test.yml
 ./register_dapp.sh "$(dfx canister --network "${NETWORK}" id test)"
 ./upgrade_test_canister.sh Hello
-./open_sns_sale.sh
-./participate_sns_sale.sh 3 200
-./finalize_sns_sale.sh
+./open_sns_swap.sh
+./participate_sns_swap.sh 3 10
+./finalize_sns_swap.sh
 ./upgrade_test_canister.sh Hoi
 ./vote_on_sns_proposal.sh 3 3 y
 
