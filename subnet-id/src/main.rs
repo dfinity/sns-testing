@@ -1,3 +1,10 @@
+/// This program prints the subnet ID of the NNS subnet
+/// of the IC specified by its HTTP endpoint that needs
+/// to be provided as a CLI argument.
+/// It works by extracting the root key
+/// from the `/api/v2/status` endpoint and turning the root key
+/// into a (self-authenticating) principal.
+
 use candid::Principal;
 use ic_agent::Agent;
 use std::env;
