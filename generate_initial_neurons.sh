@@ -43,7 +43,7 @@ readarray -t LINES < "${NEURON_CSV}"
 generate_identity_for_index () {
     local IDENTITY_INDEX=$1
     local IDENTITY_NAME="${IDENTITY_PREFIX}${IDENTITY_INDEX}"
-    dfx identity new --storage-mode=plaintext "${IDENTITY_NAME}"
+    dfx identity new --storage-mode=plaintext "${IDENTITY_NAME}" 2>/dev/null || true
     dfx identity use "${IDENTITY_NAME}" 2> /dev/null
     local PRINCIPAL="$(dfx identity get-principal)"
     echo "${PRINCIPAL}"
