@@ -17,8 +17,10 @@ rm -rf .dfx \
     nns-dapp/*.wasm \
     nns-dapp/*.wasm.gz \
     internet-identity/.dfx \
+    internet-identity/internet_identity.wasm \
     msg.json \
-    sns_canister_ids.json
+    sns_canister_ids.json \
+    upload_*.txt
 
 # Remove Wallets
 rm -rf ~/.local/share/dfx/network/${NETWORK}/wallets.json
