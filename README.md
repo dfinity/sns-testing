@@ -265,6 +265,8 @@ created during these steps with your initial SNS developer neurons).
    per participant (specified in the NNS proposal to open the swap).
 
    You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) to get a sufficient amount of ICP.
+   Note that it might take a few minutes until you see the SNS swap in the "Launchpad" of the NNS frontend dapp.
+   This is because the SNS aggregator canister takes some time to discover the new SNS and include it in the certified asset pulled by the NNS frontend dapp.
 
    Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
