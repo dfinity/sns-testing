@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# run this script locally
 
-set -uo pipefail
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh normal
 

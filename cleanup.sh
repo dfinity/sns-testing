@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# run this script locally to clean up this repository
-# for the sake of redeployment (e.g., within the same Docker instance)
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh install
 

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# run this script locally
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export AMOUNT_E8s="${1:-1000000000}" # 1 Token
 export TO_PRINCIPAL="${2:-$DX_PRINCIPAL}"
 
 . ./constants.sh normal
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | idl2json | jq -r ".neurons[0].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
 
 quill sns  \
    --canister-ids-file ./sns_canister_ids.json  \

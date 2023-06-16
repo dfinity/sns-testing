@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
 . ./constants.sh normal
 
 ./deploy_test_canister.sh

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# run this script locally to install dependencies
+
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh install
 
@@ -56,6 +59,8 @@ fi
 
 curl -L "https://github.com/dfinity/candid/releases/download/2022-11-17/didc-${DIDC}" -o didc
 chmod +x didc
+
+cargo install idl2json_cli
 
 # Add $REPO_ROOT/bin to path
 export PATH="$(readlink -f .):${PATH}"
