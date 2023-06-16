@@ -1,7 +1,8 @@
 #!/bin/bash
-# run this script locally
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export OWNER_IDENTITY="${1:-dev-ident-1}"
 export HOTKEY_IDENTITY="${2:-dev-ident-2}"
@@ -16,7 +17,7 @@ OWNER_PRINCIPAL=$(dfx identity get-principal)
 dfx identity use "${HOTKEY_IDENTITY}"
 HOTKEY_PRINCIPAL=$(dfx identity get-principal)
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${OWNER_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${OWNER_PRINCIPAL}\"; limit = 1})" | idl2json | jq -r ".neurons[0].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
 
 PEM_FILE="$(readlink -f "$HOME/.config/dfx/identity/${OWNER_IDENTITY}/identity.pem")"
 quill sns \

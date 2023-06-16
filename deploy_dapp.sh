@@ -1,7 +1,8 @@
 #!/bin/bash
-# run this script locally
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export NAME="${1:-test}"
 export WASM="${2:-}"

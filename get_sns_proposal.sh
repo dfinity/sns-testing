@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
 export ID="${1:-1}"
 
 . ./constants.sh normal
