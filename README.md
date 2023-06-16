@@ -202,7 +202,7 @@ created during these steps with your initial SNS developer neurons).
    to register the canister with the provided canister ID with the SNS deployed in the previous step.
    If you deployed the example dapp provided with this repo, you can run
    ```bash
-   ./bin/dfx canister id test  # from Bash
+   dfx canister id test  # from Bash
    ```
    to get the canister id.
    After this step, the SNS is able to manage the canister.
