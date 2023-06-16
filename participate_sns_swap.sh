@@ -15,7 +15,7 @@ for (( c=0; c<${NUM_PARTICIPANTS}; c++ ))
 do
   export ID="$(printf "%03d" ${c})"
   export NEW_DX_IDENT="participant-${ID}"
-  dfx identity new --storage-mode=plaintext "${NEW_DX_IDENT}" || true
+  dfx identity new --storage-mode=plaintext "${NEW_DX_IDENT}" 2>/dev/null || true
   dfx identity use "${NEW_DX_IDENT}"
   export ACCOUNT_ID="$(dfx ledger --network ${NETWORK} account-id)"
   dfx identity import --force --storage-mode=plaintext icp-ident-RqOPnjj5ERjAEnwlvfKw "$REPO_ROOT/test-identities/icp-ident.pem" 2> /dev/null
