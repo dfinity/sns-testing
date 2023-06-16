@@ -1,7 +1,8 @@
 #!/bin/bash
-# run this script locally
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export CID=${1:-jrlun-jiaaa-aaaab-aaaaa-cai}
 
@@ -10,7 +11,7 @@ export CID=${1:-jrlun-jiaaa-aaaab-aaaaa-cai}
 export SNS_ROOT_ID="$(dfx canister id sns_root --network ${NETWORK})"
 dfx canister --network "${NETWORK}" update-settings --add-controller "${SNS_ROOT_ID}" "${CID}"
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | grep "^ *id = blob" | sed "s/^ *id = \(.*\);$/'(\1)'/" | xargs didc encode | tail -c +21)"
+export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | idl2json | jq -r ".neurons[0].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
 
 quill sns   \
    --canister-ids-file ./sns_canister_ids.json  \

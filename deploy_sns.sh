@@ -1,7 +1,8 @@
 #!/bin/bash
-# run this script locally
 
 set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export CONFIG="${1:-sns-test.yml}"
 

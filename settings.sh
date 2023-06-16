@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
 # put your dfx identity here
 export DX_IDENT="default"
 
