@@ -158,6 +158,12 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
     It should now be possible to repeat the scenario starting from step 1.
 
+## Troubleshooting
+
+-  If the port 8080 is occupied, then `docker run -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
+   In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8080`
+   to determine the service listening on the port 8080 and then close the service.
+
 ## SNS lifecycle
 
 <a name="lifecycle"></a>
@@ -234,21 +240,31 @@ created during these steps with your initial SNS developer neurons).
    ``` 
    to participate in the swap providing the number of
    participants and the number of ICP that each participant contributes as arguments.
-   You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/).
-   You can use the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
-   or run the script 
-   ```bash
-   ./send_icp.sh <icp> <account>  # from Bash
-   ``` 
-   to send a certain amount of ICP to your ledger account so you are able
-   to participate in the swap. Make sure that the participation satisfies all the constraints
+   You can run the script `./participate_sns_swap.sh` multiple times as long as
+   the sum of provided `<icp-per-participant>` does not exceed the maximum amount of ICP
+   per participant (specified in the NNS proposal to open the swap).
+
+   You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) to get a sufficient amount of ICP.
+   Note that it might take a few minutes until you see the SNS swap in the "Launchpad" of the NNS frontend dapp.
+   This is because the SNS aggregator canister takes some time to discover the new SNS and include it in the certified asset pulled by the NNS frontend dapp.
+
+   Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
-   of swap participants and the total amount of ICP raised).
+   of swap participants and the total amount of ICP raised). For example,
+   to make the swap completed right after running the script `./participate_sns_swap.sh`,
+   you can set `<icp-per-participant>` as `<max-participant-icp-e8s> / 1e8`
+   and `<num-participants>` as `(<max-icp-e8s> / <max-participant-icp-e8s>) + 1`,
+   where `<max-participant-icp-e8s>` and `<max-icp-e8s>` are fixed in the NNS proposal
+   to open the swap.
 7. Once the swap is completed, run the script
    ```bash
    ./finalize_sns_swap.sh  # from Bash
    ``` 
    to distribute the SNS neurons to the swap participants.
+
+   If the swap is not completed, e.g., because the NNS proposal to open the swap failed
+   or the participation is insufficient (too few participants, minimum amount of ICP not reached),
+   then the finalization is expected to fail.
 
 8. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
