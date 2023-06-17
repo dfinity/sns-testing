@@ -133,12 +133,7 @@ if [[ "${TESTNET}" == "local" ]]; then
     echo "Local registry not found!"
     exit 1
   fi
-  if [ "$(which ic-regedit)" ]
-  then
-    export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
-  else
-    export NNS_SUB="$(subnet-id http://localhost:$(dfx info replica-port))"
-  fi
+  export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
   export SNS_SUB="${NNS_SUB}"
   export APP_SUB="${NNS_SUB}"
 else

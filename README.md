@@ -18,11 +18,112 @@ You might need to slightly adjust your deployment script to work with sns-testin
 
 If you do not yet have a dapp that is ready for decentralization, you may still run `sns-testing` with the built-in example dapp.
 
+## Special instructions for Apple silicon users
+
+<a name="apple-silicon"></a>
+
+_[Skip to the next section](#docker) if you are using an x86-compatible system, e.g., Linux, Windows, or Intel-based Mac._
+
+The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _directly_. This requires additional preparation:
+
+0. Make sure you have Homebrew installed.
+   * Instructions: https://brew.sh/
+   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
+     ```bash
+     brew install coreutils jq
+     ```
+
+   You also need rosetta that you can install by running:
+   ```bash
+   softwareupdate --install-rosetta
+   ```
+
+   Also make sure you have Rust installed including the `wasm32-unknown-unknown` target.
+   * Instructions: https://www.rust-lang.org/tools/install
+   * Add `wasm32-unknown-unknown` into your active toolchain by running:
+   ```bash
+   rustup target add wasm32-unknown-unknown
+   ```
+
+1. Ensure the newly installed tools are added to your `PATH`:
+   ```bash
+   echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
+   ```
+   Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
+2. Clone this repository: 
+   ```bash
+   git clone git@github.com:dfinity/sns-testing.git
+   cd sns-testing
+   ```
+3. Run the installation script:
+   ```bash
+   bash install.sh
+   ```
+4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
+   ```bash
+   DX_NET_JSON="${HOME}/.config/dfx/networks.json"
+   mkdir -p "$(dirname "${DX_NET_JSON}")"
+   cp "$DX_NET_JSON" "${DX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
+   echo '{
+      "local": {
+         "bind": "0.0.0.0:8080",
+         "type": "ephemeral",
+         "replica": {
+            "subnet_type": "system"
+         }
+      }
+   }' > "${DX_NET_JSON}"
+   ./bin/dfx start --clean; \
+   mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
+   ```
+
+   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
+
+   This should print the dashboard URL, e.g.:
+
+    ```
+    Dashboard: http://localhost:35727/_/dashboard
+    ```
+
+5. Open another Bash console:
+   ```bash
+   bash
+   ```
+   and run the setup script:
+   ```bash
+   ./setup_locally.sh  # from Bash
+   ```
+   After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
+
+
+6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
+   ```bash
+   ./run_basic_scenario.sh  # from Bash
+   ```
+   If the basic scenario finished successfully, you should see the message
+    `Basic scenario has successfully finished.` on the last line of the output.
+
+   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
+
+   > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
+
+7. Clean-up (after you are done testing):
+
+    > Note that performing the clean-up will delete some files in the sns-testing repository and your DFX wallets
+    > for the local network (not affecting mainnet).
+    > Make sure to back up all files you move into the sns-testing repository.
+
+    ```bash
+    ./cleanup.sh  # from Bash
+    ```
+
+    It should now be possible to repeat the scenario starting from step 4.
+
 ## Bootstrapping a testing environment via Docker
 
 <a name="docker"></a>
 
-_This section explains the simplest way to set up a local environment for testing SNS decentralization. However, this solution is based on Docker and is currently [not supported on Apple silicon systems](#nix). Please proceed if you are using Linux, Windows, or Intel-based Mac._
+_This section explains the simplest way to set up a local environment for testing SNS decentralization. However, this solution is based on Docker and is currently [not supported on Apple silicon systems](#apple-silicon). Please proceed if you are using Linux, Windows, or Intel-based Mac._
 
 After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
 
@@ -80,84 +181,6 @@ After getting familiar with the basic scenario, you may replace the test caniste
 
 The above run-book could be easily automated and integrated into your CI/CD pipeline.
 
-## Bootstrapping a testing environment via Nix
-
-<a name="nix"></a>
-
-The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _using Nix_. This requires additional preparation:
-
-0. Make sure you have Nix installed.
-   * Instructions: https://nixos.org/download.html#nix-install-macos
-1. Clone this repository:
-   ```
-   git clone git@github.com:dfinity/sns-testing.git
-   cd sns-testing
-   ```
-2. Enter a nix-shell (note that it can take much time, up to an hour, when entering the nix-shell for the time):
-   ```bash
-   nix-shell
-   ```
-4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
-   ```bash
-   DX_NET_JSON="${HOME}/.config/dfx/networks.json"
-   mkdir -p "$(dirname "${DX_NET_JSON}")"
-   cp "$DX_NET_JSON" "${DX_NET_JSON}.tmp" 2>/dev/null  # save original config if present
-   echo '{
-      "local": {
-         "bind": "0.0.0.0:8080",
-         "type": "ephemeral",
-         "replica": {
-            "subnet_type": "system"
-         }
-      }
-   }' > "${DX_NET_JSON}"
-   dfx start --clean; \
-   mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
-   ```
-
-   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `dfx`.
-
-   This should print the dashboard URL, e.g.:
-
-    ```
-    Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
-    ```
-
-5. Open another nix-shell:
-   ```bash
-   nix-shell
-   ```
-   and run the setup script:
-   ```bash
-   ./setup_locally.sh
-   ```
-   After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
-
-
-6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
-   ```bash
-   ./run_basic_scenario.sh
-   ```
-   If the basic scenario finished successfully, you should see the message
-    `Basic scenario has successfully finished.` on the last line of the output.
-
-   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
-
-   > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
-
-7. Clean-up (after you are done testing):
-
-    > Note that performing the clean-up will delete some files in the sns-testing repository and your DFX wallets
-    > for the local network (not affecting mainnet).
-    > Make sure to back up all files you move into the sns-testing repository.
-
-    ```bash
-    ./cleanup.sh
-    ```
-
-    It should now be possible to repeat the scenario starting from step 1.
-
 ## Troubleshooting
 
 -  If the port 8080 is occupied, then `docker run -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
@@ -208,7 +231,7 @@ created during these steps with your initial SNS developer neurons).
    to register the canister with the provided canister ID with the SNS deployed in the previous step.
    If you deployed the example dapp provided with this repo, you can run
    ```bash
-   dfx canister id test  # from Bash
+   ./bin/dfx canister id test  # from Bash
    ```
    to get the canister id.
    After this step, the SNS is able to manage the canister.
