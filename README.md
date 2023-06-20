@@ -233,7 +233,9 @@ created during these steps with your initial SNS developer neurons).
    to get the canister id.
    After this step, the SNS is able to manage the canister.
 
-4. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
+4. (Optionally) upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
+
+   The purpose of this step is to check that your dapp could be upgraded after the SNS is already created but before the swap begins, for example, to issue a hotfix.
 
    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
@@ -248,35 +250,42 @@ created during these steps with your initial SNS developer neurons).
    for further details) which can be thought of as a placeholder
    for your dapp.
 
-5. Run the script
+6. Run the script
    ```bash
    ./open_sns_swap.sh  # from Bash
    ``` 
    to open the initial decentralization swap.
    You can adjust the swap parameters directly in the script.
-6. Run the script
+
+   After this step, you should see a new SNS instance in the [Launchpad](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/).
+   Note that it might take a few minutes before the change is propagated to this website).
+   
+8. Run the script
    ```bash
    ./participate_sns_swap.sh <num-participants> <icp-per-participant>  # from Bash
    ``` 
-   to participate in the swap providing the number of
+   to participate in the swap, providing the number of
    participants and the number of ICP that each participant contributes as arguments.
+
    You can run the script `./participate_sns_swap.sh` multiple times as long as
    the sum of provided `<icp-per-participant>` does not exceed the maximum amount of ICP
    per participant (specified in the NNS proposal to open the swap).
 
    You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) to get a sufficient amount of ICP.
-   Note that it might take a few minutes until you see the SNS swap in the "Launchpad" of the NNS frontend dapp.
-   This is because the SNS aggregator canister takes some time to discover the new SNS and include it in the certified asset pulled by the NNS frontend dapp.
 
    Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
    of swap participants and the total amount of ICP raised). For example,
-   to make the swap completed right after running the script `./participate_sns_swap.sh`,
-   you can set `<icp-per-participant>` as `<max-participant-icp-e8s> / 1e8`
-   and `<num-participants>` as `(<max-icp-e8s> / <max-participant-icp-e8s>) + 1`,
-   where `<max-participant-icp-e8s>` and `<max-icp-e8s>` are fixed in the NNS proposal
-   to open the swap.
-7. Once the swap is completed, run the script
+   to contribute the Minimum Commitment to the swap right away, run: 
+
+   ```bash
+   ./participate_sns_sale.sh 4 12
+   ```
+
+   Note that this will work as described only for the default swap parameters specified in `./open_sns_swap.sh`;
+   if you decide to customize these parameters, please adjust `<num-participants>` and `<icp-per-participant>` to your testing scenario.
+
+10. Once the swap is completed, run the script
    ```bash
    ./finalize_sns_swap.sh  # from Bash
    ``` 
@@ -286,7 +295,7 @@ created during these steps with your initial SNS developer neurons).
    or the participation is insufficient (too few participants, minimum amount of ICP not reached),
    then the finalization is expected to fail.
 
-8. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
+11. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
     This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
@@ -301,7 +310,7 @@ created during these steps with your initial SNS developer neurons).
    for further details) to use a new greeting when calling the `greet` method it exposes. If you don't provide `<new_greeting>`, `"Hoi"` will be used by default. 
    The test canister can be thought of as a placeholder for your dapp.
 
-9. After the decentralization swap, your developer neuron might not have
+11. After the decentralization swap, your developer neuron might not have
    a majority of the voting power and thus the SNS proposal to upgrade your dapp canister must be voted
    on. To this end, open the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and vote with the individual neurons or run the script:
 
