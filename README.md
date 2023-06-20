@@ -258,7 +258,7 @@ created during these steps with your initial SNS developer neurons).
    You can adjust the swap parameters directly in the script.
 
    After this step, you should see a new SNS instance in the [Launchpad](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/).
-   Note that it might take a few minutes before the change is propagated to this website).
+   (Note that it might take a few minutes before the change is propagated to this website).
    
 6. Run the script
    ```bash
