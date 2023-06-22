@@ -276,10 +276,10 @@ created during these steps with your initial SNS developer neurons).
    Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
    of swap participants and the total amount of ICP raised). For example,
-   to contribute the Minimum Commitment to the swap right away, run: 
+   to contribute enough ICP to be able to finalize the swap right away, run:
 
    ```bash
-   ./participate_sns_sale.sh 5 100
+   ./participate_sns_swap.sh 3 10
    ```
    Note that this will work as described only for the default swap parameters specified in `./open_sns_swap.sh`;
    if you decide to customize these parameters, please adjust `<num-participants>` and `<icp-per-participant>` to your testing scenario.
