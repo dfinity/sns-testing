@@ -60,7 +60,18 @@ fi
 curl -L "https://github.com/dfinity/candid/releases/download/2022-11-17/didc-${DIDC}" -o didc
 chmod +x didc
 
-cargo install idl2json_cli
+if [[ "${OS}" == "linux" ]]
+then
+  curl -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-unknown-linux-musl.tar.gz" -o idl2json.tar.gz
+  tar -xzf idl2json.tar.gz
+  rm idl2json.tar.gz
+  chmod +x idl2json
+else
+  curl -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-apple-darwin.zip" -o idl2json.zip
+  unzip idl2json.zip
+  rm idl2json.zip
+  chmod +x idl2json
+fi
 
 # Add $REPO_ROOT/bin to path
 export PATH="$(readlink -f .):${PATH}"
