@@ -233,7 +233,9 @@ created during these steps with your initial SNS developer neurons).
    to get the canister id.
    After this step, the SNS is able to manage the canister.
 
-4. Upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
+4. (Optionally) upgrade your dapp by submitting an SNS proposal that can be voted on using the SNS developer neuron.
+
+   The purpose of this step is to check that your dapp could be upgraded after the SNS is already created but before the swap begins, for example, to issue a hotfix.
 
    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
@@ -254,28 +256,34 @@ created during these steps with your initial SNS developer neurons).
    ``` 
    to open the initial decentralization swap.
    You can adjust the swap parameters directly in the script.
+
+   After this step, you should see a new SNS instance in the [Launchpad](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/).
+   (Note that it might take a few minutes before the change is propagated to this website).
+   
 6. Run the script
    ```bash
    ./participate_sns_swap.sh <num-participants> <icp-per-participant>  # from Bash
    ``` 
-   to participate in the swap providing the number of
+   to participate in the swap, providing the number of
    participants and the number of ICP that each participant contributes as arguments.
+
    You can run the script `./participate_sns_swap.sh` multiple times as long as
    the sum of provided `<icp-per-participant>` does not exceed the maximum amount of ICP
    per participant (specified in the NNS proposal to open the swap).
 
    You can also participate in the swap using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) to get a sufficient amount of ICP.
-   Note that it might take a few minutes until you see the SNS swap in the "Launchpad" of the NNS frontend dapp.
-   This is because the SNS aggregator canister takes some time to discover the new SNS and include it in the certified asset pulled by the NNS frontend dapp.
 
    Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
    of swap participants and the total amount of ICP raised). For example,
-   to make the swap completed right after running the script `./participate_sns_swap.sh`,
-   you can set `<icp-per-participant>` as `<max-participant-icp-e8s> / 1e8`
-   and `<num-participants>` as `(<max-icp-e8s> / <max-participant-icp-e8s>) + 1`,
-   where `<max-participant-icp-e8s>` and `<max-icp-e8s>` are fixed in the NNS proposal
-   to open the swap.
+   to contribute enough ICP to be able to finalize the swap right away, run:
+
+   ```bash
+   ./participate_sns_swap.sh 3 10
+   ```
+   Note that this will work as described only for the default swap parameters specified in `./open_sns_swap.sh`;
+   if you decide to customize these parameters, please adjust `<num-participants>` and `<icp-per-participant>` to your testing scenario.
+
 7. Once the swap is completed, run the script
    ```bash
    ./finalize_sns_swap.sh  # from Bash
