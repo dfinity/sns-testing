@@ -32,9 +32,15 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
      ```bash
      brew install coreutils jq
      ```
-   Also make sure you have Rust installed including the `wasm32-unknown-unknown` target
-   that you can add into your active toolchain by running:
 
+   You also need rosetta that you can install by running:
+   ```bash
+   softwareupdate --install-rosetta
+   ```
+
+   Also make sure you have Rust installed including the `wasm32-unknown-unknown` target.
+   * Instructions: https://www.rust-lang.org/tools/install
+   * Add `wasm32-unknown-unknown` into your active toolchain by running:
    ```bash
    rustup target add wasm32-unknown-unknown
    ```
@@ -49,10 +55,8 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
    ```
-3. Clone the dependency repositories and run the installation script:
+3. Run the installation script:
    ```bash
-   git clone https://github.com/dfinity/internet-identity.git
-   git clone https://github.com/dfinity/nns-dapp.git
    bash install.sh
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
@@ -78,7 +82,6 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    This should print the dashboard URL, e.g.:
 
     ```
-    Awaiting local replica ...
     Dashboard: http://localhost:35727/_/dashboard
     ```
 
@@ -114,7 +117,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
     ./cleanup.sh  # from Bash
     ```
 
-    It should now be possible to repeat the scenario starting from step 1.
+    It should now be possible to repeat the scenario starting from step 4.
 
 ## Bootstrapping a testing environment via Docker
 

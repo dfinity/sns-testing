@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -22,8 +22,7 @@ chmod +x ic-regedit
 
 curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns.gz" -o sns.gz
 gzip -fd sns.gz
-mv sns sns-cli
-chmod +x sns-cli
+chmod +x sns
 
 curl -L "https://github.com/dfinity/sdk/releases/download/0.14.1/dfx-0.14.1-x86_64-${OS}.tar.gz" -o dfx.tar.gz
 tar -xzf dfx.tar.gz

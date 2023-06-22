@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -93,9 +93,9 @@ if [[ "${MODE}" == "install" ]]; then
     return 0
 fi
 
-DFX="${REPO_ROOT}/bin/dfx"
+DFX="$(which dfx)"
 export DFX
-IC_ADMIN="${REPO_ROOT}/bin/ic-admin"
+IC_ADMIN="$(which ic-admin)"
 export IC_ADMIN
 
 if [[ ! -f "${DFX}" ]]; then

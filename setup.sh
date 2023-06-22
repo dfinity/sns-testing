@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -38,36 +38,24 @@ fi
 set -uo pipefail
 
 ${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
+${DFX} sns import
 if [ "${CANISTER_TEST}" == "_test" ]
 then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
+curl -L "https://github.com/dfinity/nns-dapp/blob/${IC_COMMIT}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
+cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.json
+cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
+cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 
-cd internet-identity || exit
-
-if [ "${TESTNET}" == "local" ]
-then
-  ${DFX} canister create internet_identity --no-wallet --specified-id qhbym-qaaaa-aaaaa-aaafq-cai
-fi
+${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet --specified-id qhbym-qaaaa-aaaaa-aaafq-cai
 if [ ! -z "${II_RELEASE:-}" ]
 then
-  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet_identity.wasm
+  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet-identity/internet_identity.wasm
 fi
 
-cd ../nns-dapp || exit
-
-if [ "${TESTNET}" != "local" ]
-then
-  ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
-fi
-
-if [ "${TESTNET}" == "local" ]
-then
-  ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id qsgjb-riaaa-aaaaa-aaaga-cai
-else
-  ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
-fi
+${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id qsgjb-riaaa-aaaaa-aaaga-cai
 
 if [ "${TESTNET}" == "local" ]
 then
@@ -78,24 +66,14 @@ fi
 
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
-  mkdir out
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_local.wasm" -o out/nns-dapp.wasm
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o out/sns_aggregator.wasm
+  mkdir -p nns-dapp/out
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_local.wasm" -o nns-dapp/out/nns-dapp.wasm
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
-${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm out/sns_aggregator.wasm
-
-if [ "${TESTNET}" == "local" ]
-then
-  cd ../internet-identity || exit
-fi
-${DFX} canister install internet_identity --network "${NETWORK}" --wasm ../internet-identity/internet_identity.wasm
-if [ "${TESTNET}" == "local" ]
-then
-  cd ../nns-dapp || exit
-fi
-
-${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm --argument '(opt record{
+${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
+${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity.wasm
+${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-dapp.wasm --argument '(opt record{
   args = vec {
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
@@ -117,8 +95,6 @@ ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm out/nns-dapp.wasm
   };
 })'
 
-cd .. || exit
-
 ${IC_ADMIN}  \
    --nns-url "${NETWORK_URL}" propose-to-set-authorized-subnetworks  \
    --test-neuron-proposer  \
@@ -132,9 +108,6 @@ ${IC_ADMIN}  \
    --test-neuron-proposer  \
    --summary "This proposal sets the SNS subnet"  \
    --sns-subnet-ids-to-add "${SNS_SUB}"
-
-# Imports candid definitions
-${DFX} sns import
 
 # if $CANDIDATE exists, we'll use the versions specified in there
 # otherwise we'll just use IC_COMMIT
