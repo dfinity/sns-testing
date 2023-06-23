@@ -410,62 +410,6 @@ the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) sectio
    the SNS proposal (the counter gets incremented upon every call to
    the `execute` function).
 
-## Asset canister
-
-This section is relevant if your project contains an asset canister
-and describes how you can test handing over control of an asset canister
-to an SNS.
-
-Note that you can interleave the steps for the asset canister from this section
-and the steps for the test canister (and also your own canister)
-from the previous section within the
-[SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle).
-We list additional constraints in between the steps below.
-
-1. You can deploy an asset canister by running the script `./deploy_assets.sh`.
-
-You should run the following steps after `deploy_sns.sh <config-path>`
-and before `open_sns_swap.sh` according to
-the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) section.
-
-2. To prepare the asset canister for handing it over to the SNS, run the script
-   `./prepare_assets.sh`. This grants the SNS governance canister the permission
-   to manage access to the asset canister.
-3. You can then register the asset canister with the SNS by running the script
-   `./register_dapp.sh <canister-id>`, where `<canister-id>` is the canister ID
-   of the asset canister.
-4. To test managing permissions in the asset canister via SNS proposals, you need to register
-   the asset canister's functions to manage permissions with the SNS as generic functions. This is
-   accomplished by running the script `./register_permission_assets.sh`.
-5. Now you can add or revoke a permission to the asset canister via
-   SNS proposals. To this end, run the script
-   `./add_permission_assets.sh <dfx-identity> <permission>` or
-   `./revoke_permission_assets.sh <dfx-identity> <permission>`, respectively,
-   where `<dfx-identity>` is the name of an identity to manage permissions for
-   and `<permission>` is one of `Commit`, `Prepare`, and `ManagePermissions`.
-   You can check the actual permissions by running
-
-```bash
-dfx canister --network ${NETWORK} call assets list_permitted '(record {permission = variant {<permission>}})'
-```
-
-  or by running the script `./get_permission_assets.sh`.
-
-6. Make sure that you can still commit assets by running the script
-   `./commit_assets.sh <path> <content>`, where `<path>` is the HTTP path
-   of the asset, e.g., `/myasset.txt` and `<content>` is the ASCII-encoded
-   content of the asset.
-
-Testing all possible SNS launch scenarios includes testing a failed swap (e.g., if not enough funds have been raised)
-where the control of the asset canister is given back to your principal.
-
-You should run the following step after `finalize_sns_swap.sh` for an unsuccessful swap.
-
-7. After a failed swap, you can run the script `take_ownership_assets.sh`
-   to reset the permissions of the asset canister back to only your principal
-   having the `Commit` permission (in particular, with the SNS governance
-   having no permission anymore).
-
 ## Check out canister status
 
 You can inspect the status of a canister `<name>` (with a corresponding entry

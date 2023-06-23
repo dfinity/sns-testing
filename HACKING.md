@@ -32,11 +32,6 @@ export NNS_DAPP_RELEASE="proposal-120468"
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
 export IC_COMMIT="cac353c15ad1e8713607ebc3c56f9e2afd94650a"
 
-# the asset canister version is specified by a DFX commit
-# you can take an arbitrary DFX commit to master:
-# https://github.com/dfinity/sdk/commits/master
-export DX_COMMIT="266c913f71344f6fa3320287965120e56288c86c"
-
 export TESTNET="local"
 ```
 
