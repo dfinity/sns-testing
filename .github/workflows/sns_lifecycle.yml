@@ -2,7 +2,7 @@ name: "SNS lifecycle"
 
 on:
   push:
-     branches: [ master ]
+     branches: [ main ]
   pull_request:
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
         docker kill $SNS_TESTING_INSTANCE
 
   publish:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: sns_lifecycle
     runs-on: ubuntu-22.04
     steps:
