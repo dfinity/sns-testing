@@ -68,8 +68,10 @@ if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
   NNS_DAPP_WASM_PREFIX="https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/"
-  curl -L "${NNS_DAPP_WASM_PREFIX}/nns-dapp_local.wasm" -o nns-dapp/out/nns-dapp.wasm
-  if [ $? -ne 0 ]; then
+  FOUND_LOCAL_NNS_DAPP_WASM=$(curl --silent -I -L "${NNS_DAPP_WASM_PREFIX}/nns-dapp_local.wasm" | grep "^HTTP/2 200")
+  if [ ${FOUND_LOCAL_NNS_DAPP_WASM} ]; then
+    curl -L "${NNS_DAPP_WASM_PREFIX}/nns-dapp_local.wasm" -o nns-dapp/out/nns-dapp.wasm
+  else
     curl -L "${NNS_DAPP_WASM_PREFIX}/nns-dapp.wasm" -o nns-dapp/out/nns-dapp.wasm
   fi
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
