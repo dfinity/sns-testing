@@ -1,0 +1,41 @@
+name: "SNS lifecycle"
+
+on:
+  push:
+     branches: [ main ]
+  pull_request:
+
+jobs:
+  sns_lifecycle:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build docker image
+      run: |
+        docker build -t ghcr.io/dfinity/sns-testing .
+    - name: Start docker image
+      run: |
+        SNS_TESTING_INSTANCE=$(
+          docker run -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing dfx start --clean
+        )
+        while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
+        do
+          echo "Awaiting local replica ..."
+          sleep 3
+        done
+    - name: Set up docker image
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker exec $SNS_TESTING_INSTANCE bash setup_locally.sh
+    - name: Run basic scenario
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
+    - name: NNS frontend dapp smoke test
+      run: |
+        curl http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/ | gzip -d | grep "<title>Network Nervous System frontend dapp</title>"
+    - name: Stop docker container
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker kill $SNS_TESTING_INSTANCE
