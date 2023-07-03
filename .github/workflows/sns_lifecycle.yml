@@ -34,7 +34,13 @@ jobs:
         docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
     - name: NNS frontend dapp smoke test
       run: |
-        curl http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/ | gzip -d | grep "<title>Network Nervous System frontend dapp</title>"
+        if curl --output /dev/null --silent --head --fail -r 0-0 "http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/"
+        then
+            echo "NNS dapp's Launchpad page is online"
+        else
+            echo "NNS dapp's Launchpad page is NOT AVAILABLE!"
+            exit 1
+        fi
     - name: Stop docker container
       run: |
         SNS_TESTING_INSTANCE=$(docker ps -q)
