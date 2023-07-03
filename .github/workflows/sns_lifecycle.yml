@@ -5,6 +5,8 @@ on:
      branches: [ main ]
   pull_request:
 
+permissions: write-all
+
 jobs:
   sns_lifecycle:
     runs-on: ubuntu-22.04
