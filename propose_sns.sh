@@ -42,7 +42,8 @@ cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 # ./example_sns_init.yaml.
 sns propose \
     --network "${NETWORK}" \
-    --test-neuron-proposer
+    --test-neuron-proposer \
+    sns_init.yaml
 
 # Switch back to the previous identity
 dfx identity use "$CURRENT_DX_IDENT"

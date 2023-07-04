@@ -25,13 +25,13 @@ description: >
     Built on chainkey cryptography, secure and true,
     An app that transcends, all we once knew...
 
-Principals: [] # TODO: This field will be useful in the future.
+Principals: [] # TODO(NNS1-2293): This field will be useful in the future.
 
 logo: logo.png
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
 fallback_controller_principals:
-    - 5zxxw-63ouu-faaaa-aaaap-4ai
+    - aaaaa-aa  # propose_sns.sh replaces this (if left unchanged). Ditto elsewhere.
 
 dapp_canisters:
     - c2n4r-wni5m-dqaaa-aaaap-4ai
@@ -74,7 +74,7 @@ Distribution:
 
     Neurons:
 
-        - principal: 5zxxw-63ouu-faaaa-aaaap-4ai
+        - principal: aaaaa-aa  # propose_sns.sh replaces this (if left unchanged). Ditto elsewhere.
           stake: 1_000 tokens
           memo: 0 # This is shown for illustrative purposes, and is not necessary.
           dissolve_delay: 2 years
