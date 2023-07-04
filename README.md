@@ -279,7 +279,7 @@ created during these steps with your initial SNS developer neurons).
    Make sure that the participation satisfies all the constraints
    imposed by the swap parameters from the previous step (e.g., the minimum number
    of swap participants and the total amount of ICP raised). For example,
-   to contribute enough ICP to be able to finalize the swap right away, run:
+   to contribute enough ICP for the swap to complete right away, run:
 
    ```bash
    ./participate_sns_swap.sh 3 10
@@ -287,17 +287,7 @@ created during these steps with your initial SNS developer neurons).
    Note that this will work as described only for the default swap parameters specified in `./open_sns_swap.sh`;
    if you decide to customize these parameters, please adjust `<num-participants>` and `<icp-per-participant>` to your testing scenario.
 
-7. Once the swap is completed, run the script
-   ```bash
-   ./finalize_sns_swap.sh  # from Bash
-   ``` 
-   to distribute the SNS neurons to the swap participants.
-
-   If the swap is not completed, e.g., because the NNS proposal to open the swap failed
-   or the participation is insufficient (too few participants, minimum amount of ICP not reached),
-   then the finalization is expected to fail.
-
-8. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
+7. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
     This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
@@ -312,7 +302,7 @@ created during these steps with your initial SNS developer neurons).
    for further details) to use a new greeting when calling the `greet` method it exposes. If you don't provide `<new_greeting>`, `"Hoi"` will be used by default. 
    The test canister can be thought of as a placeholder for your dapp.
 
-9. After the decentralization swap, your developer neuron might not have
+8. After the decentralization swap, your developer neuron might not have
    a majority of the voting power and thus the SNS proposal to upgrade your dapp canister must be voted
    on. To this end, open the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) and vote with the individual neurons or run the script:
 
