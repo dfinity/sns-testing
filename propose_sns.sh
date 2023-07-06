@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #
-# This fails if the user does not follow the instructions at the top of
-# ./example_sns_init.yaml.
+# This takes an optional path to a configuration file; defaults to
+# sns_init.yaml, in the same directory as this script. This argument gets passed
+# to `sns propose`. Such a file can be constructed by following the directions
+# at the top of example_sns_init.yaml.
 #
 # This is mostly copied from deploy_sns.sh.
 #
@@ -16,7 +18,7 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-export CONFIGURATION_FILE_PATH="${1:-./sns_init.yml}"
+export SNS_CONFIGURATION_FILE_PATH="${1:-sns_init.yaml}"
 
 . ./constants.sh normal
 
@@ -45,7 +47,7 @@ cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 sns propose \
     --network "${NETWORK}" \
     --test-neuron-proposer \
-    "${CONFIGURATION_FILE_PATH}"
+    "${SNS_CONFIGURATION_FILE_PATH}"
 
 # Switch back to the previous identity
 dfx identity use "$CURRENT_DX_IDENT"
