@@ -5,7 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     apt -yq update && \
     apt -yqq install --no-install-recommends bc curl ca-certificates \
         build-essential pkg-config libssl-dev libunwind-dev llvm-dev liblmdb-dev locales clang cmake \
-        git jq emacs vim
+        git jq emacs vim wget
 
 ENV HOME /home/sns
 ENV WDIR ${HOME}
@@ -21,6 +21,13 @@ RUN curl --fail https://sh.rustup.rs -sSf \
         | sh -s -- -y --default-toolchain "${RUST_VERSION}-x86_64-unknown-linux-gnu" --no-modify-path && \
     rustup default "${RUST_VERSION}-x86_64-unknown-linux-gnu" && \
     rustup target add wasm32-unknown-unknown
+
+# Install yq. We use it to read YAML file(s).
+ARG YQ_VERSION=v4.34.1
+RUN wget \
+    https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_386 \
+    -O /usr/bin/yq \
+    && chmod +x /usr/bin/yq
 
 RUN git clone https://github.com/dfinity/ic.git
 
