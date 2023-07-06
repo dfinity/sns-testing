@@ -16,6 +16,8 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
+export CONFIGURATION_FILE_PATH="${1:-./sns_init.yml}"
+
 . ./constants.sh normal
 
 export CURRENT_DX_IDENT="$(dfx identity whoami)"
@@ -43,7 +45,7 @@ cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 sns propose \
     --network "${NETWORK}" \
     --test-neuron-proposer \
-    sns_init.yaml
+    "${CONFIGURATION_FILE_PATH}"
 
 # Switch back to the previous identity
 dfx identity use "$CURRENT_DX_IDENT"
