@@ -111,8 +111,8 @@ Swap:
     #     Do you understand the responsibilities and risks associated
     #     with participating in this token swap?
 
-    restricted_countries:
-        - AX  # Åland Islands.
+    # restricted_countries:
+    #     - AX  # Åland Islands.
 
     VestingSchedule:
         events: 104
