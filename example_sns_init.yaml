@@ -86,12 +86,17 @@ Distribution:
           vesting_period: 208 weeks
 
     InitialBalances:
-        governance: 5_000_000 tokens # aka "the treasury"
+        governance: 2_000_000 tokens # aka "the treasury"
         swap:         500_000 tokens # See also the Swap section below.
 
     # Optional, but highly recommended. This is a literal
     # checksum.
-    total: 5_501_999.9 tokens # 1_000 (first neuron) + 999.9 (second neuron) + 5 million (governance) + 500 thousand (swap)
+    #          1_000    (first neuron)
+    #            999.9  (second neuron)
+    #      2 million    (governance)
+    # + 500 thousand    (swap)
+    # --------------
+    total: 2_501_999.9 tokens
 
 Swap:
     minimum_participants: 57
