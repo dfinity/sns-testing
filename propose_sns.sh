@@ -29,6 +29,7 @@ dfx identity use "${DX_IDENT}"
 . ./setup_wallet.sh "${DX_IDENT}"
 
 dfx ledger --network "${NETWORK}" fabricate-cycles --canister "${WALLET}" --t 2345
+dfx canister --network "${NETWORK}" deposit-cycles 200000000000000 qaa6y-5yaaa-aaaaa-aaafa-cai
 
 ${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
 ${DFX} sns import
