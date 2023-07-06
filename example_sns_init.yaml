@@ -18,7 +18,7 @@ description: >
     In a realm of code, a beacon forth surges,
     a wondrous app on the Internet Computer emerges.
     Born of inspiration divine,
-    A marvel of technology briliantly shines.
+    This marvel of technology briliantly shines.
 
     With each line of code, a world takes flight,
     A symphony of bits, a chorus of bytes.
@@ -34,6 +34,7 @@ fallback_controller_principals:
     - aaaaa-aa  # propose_sns.sh replaces this (if left unchanged). Ditto elsewhere.
 
 dapp_canisters:
+    # You need to replace these values.
     - c2n4r-wni5m-dqaaa-aaaap-4ai
     - ucm27-3lxwy-faaaa-aaaap-4ai
 
