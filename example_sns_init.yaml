@@ -102,9 +102,9 @@ Swap:
     minimum_participant_icp:     5 tokens
     maximum_participant_icp: 1_000 tokens
 
-    confirmation_text: >
-        Do you understand the responsibilities and risks associated
-        with participating in this token swap?
+    # confirmation_text: >
+    #     Do you understand the responsibilities and risks associated
+    #     with participating in this token swap?
 
     restricted_countries:
         - AX  # Åland Islands.
