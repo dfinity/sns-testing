@@ -109,15 +109,8 @@ Swap:
     #     Do you understand the responsibilities and risks associated
     #     with participating in this token swap?
 
-    restricted_countries: []
-    # List ISO 3166 Alpha-2 country codes here. E.g.
-    #     - AQ  # Antarctica
-    #
-    # The above example is commented out, because the scripts in this
-    # repo do not work when a nonempty list is provided.
-    #
-    # " []" at the end of the previous (non-comment) line above needs
-    # to be deleted in order to add list items.
+    restricted_countries:
+        - AQ  # Antarctica
 
     VestingSchedule:
         events: 104
