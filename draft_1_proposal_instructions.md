@@ -36,6 +36,17 @@ greater detail.
 2. Craft your own SNS configuration file. We recommend that you use
    example_sns_init.yaml as a guide.
 
+   **TODO**: Write a script that does this for the example dapp. The
+     main things it needs to do are:
+
+   1. Replace aaaaa-aa with whatever `dfx identity get-principal`
+      prints.
+
+   2. Replace the dapp canister principal ID with whatever
+      deploy_test_canister.sh reports.
+
+   3. I don't think there's anything else, but I could be wrong...
+
 3. Give control of your dapp canisters to NNS:
 
    ```bash
@@ -104,7 +115,7 @@ greater detail.
    This is similar to step 5, but we use a different message argument so that
    there will be a visible change to the dapp.
 
-9. To make the upgrade proposal pass, tell the participants used by
+8. To make the upgrade proposal pass, tell the participants used by
    `participate_sns_swap.sh` to vote on the proposal, like so:
 
    ```bash
