@@ -29,6 +29,7 @@ greater detail.
 
    ```bash
    ./deploy_test_canister.sh
+   ```
 
    [example dapp]: https://github.com/dfinity/sns-testing#test-canister
 
