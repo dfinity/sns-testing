@@ -67,7 +67,7 @@ fi
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_local.wasm" -o nns-dapp/out/nns-dapp.wasm
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm" -o nns-dapp/out/nns-dapp.wasm
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
 fi
 

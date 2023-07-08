@@ -1,0 +1,76 @@
+name: "SNS lifecycle"
+
+on:
+  push:
+     branches: [ main ]
+  pull_request:
+
+permissions: write-all
+
+jobs:
+  sns_lifecycle:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build docker image
+      run: |
+        docker build -t ghcr.io/dfinity/sns-testing .
+    - name: Start docker image
+      run: |
+        SNS_TESTING_INSTANCE=$(
+          docker run -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing dfx start --clean
+        )
+        while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
+        do
+          echo "Awaiting local replica ..."
+          sleep 3
+        done
+    - name: Set up docker image
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker exec $SNS_TESTING_INSTANCE bash setup_locally.sh
+    - name: Run basic scenario
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
+    - name: NNS frontend dapp smoke test
+      run: |
+        if curl --output /dev/null --silent --head --fail -r 0-0 "http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/"
+        then
+            echo "NNS dapp's Launchpad page is online"
+        else
+            echo "NNS dapp's Launchpad page is NOT AVAILABLE!"
+            exit 1
+        fi
+    - name: Stop docker container
+      run: |
+        SNS_TESTING_INSTANCE=$(docker ps -q)
+        docker kill $SNS_TESTING_INSTANCE
+
+  publish:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: sns_lifecycle
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4.6.0
+      with:
+        images: ghcr.io/dfinity/sns-testing
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4.1.1
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
