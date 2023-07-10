@@ -36,7 +36,7 @@ jobs:
         docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
     - name: Internet Computer Replica Dashboard smoke test
       run: |
-        if curl --output /dev/null --silent --head --fail -r 0-0 "http://localhost:8000/_/dashboard"
+        if curl --output /dev/null --silent --fail -r 0-0 "http://localhost:8000/_/dashboard"
         then
             echo "Internet Computer Replica Dashboard is online"
         else
