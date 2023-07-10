@@ -133,7 +133,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 2. Start a local replica instance:
     ```bash
    SNS_TESTING_INSTANCE=$(
-       docker run -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
+       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
    )
    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
    do
@@ -182,9 +182,9 @@ The above run-book could be easily automated and integrated into your CI/CD pipe
 
 ## Troubleshooting
 
--  If the port 8080 is occupied, then `docker run -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
-   In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8080`
-   to determine the service listening on the port 8080 and then close the service.
+-  If the port 8000 or 8080 is occupied, then `docker run -p 8000:8000 -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
+   In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8000` or `lsof -i :8080`
+   to determine the service listening on the port 8000 or 8080 and then close the service.
 
 ## SNS lifecycle
 
