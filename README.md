@@ -69,7 +69,8 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
          "bind": "0.0.0.0:8080",
          "type": "ephemeral",
          "replica": {
-            "subnet_type": "system"
+            "subnet_type": "system",
+            "port": 8000
          }
       }
    }' > "${DX_NET_JSON}"
@@ -79,10 +80,10 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
    While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
-   This should print the dashboard URL, e.g.:
+   This should print the dashboard URL:
 
     ```
-    Dashboard: http://localhost:35727/_/dashboard
+    Dashboard: http://localhost:8000/_/dashboard
     ```
 
 5. Open another Bash console:
@@ -140,14 +141,12 @@ After getting familiar with the basic scenario, you may replace the test caniste
        sleep 3
    done
     ```
-    This should print the dashboard URL, e.g.:
+    This should print the dashboard URL:
 
     ```
     Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
+    Dashboard: http://localhost:8000/_/dashboard
     ```
-
-    Note that the dashboard is currently not accessible from the browser on your host system.
 
 3. Run setup:
     ```bash
