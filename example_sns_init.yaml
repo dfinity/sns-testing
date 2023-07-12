@@ -31,11 +31,11 @@ logo: logo.png
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
 fallback_controller_principals:
-    - aaaaa-aa  # propose_sns.sh replaces this (if left unchanged). Ditto elsewhere.
+    - YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
 
 dapp_canisters:
-    # If deploy_dapp.sh was used, the dapp canister should have this ID.
-    - jrlun-jiaaa-aaaab-aaaaa-cai
+    # You need to replace these values.
+    - YOUR_CANISTER_ID  # propose_sns.sh can fill this in automatically.
     # More canisters can be listed here.
 
 Token:
@@ -75,7 +75,7 @@ Distribution:
 
     Neurons:
 
-        - principal: aaaaa-aa  # propose_sns.sh replaces this (if left unchanged). Ditto elsewhere.
+        - principal: YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
           stake: 1_000 tokens
           memo: 0 # This is shown for illustrative purposes, and is not necessary.
           dissolve_delay: 2 years
