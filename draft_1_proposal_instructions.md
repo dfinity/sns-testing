@@ -1,5 +1,7 @@
 In the future, the contents of the "SNS lifecycle" section in ./README.md would
-be replaced with the content in this file (minus this preface, ofc).
+be replaced with the content in this file (minus this preface, ofc). Once README
+is migrated to 1-proposal, we'll also need to update the Apple silicon section
+to mention that yq is needed.
 
 _This section assumes that you have successfully completed the instructions in
 the [Bootstrapping a testing environment via Docker] section above._

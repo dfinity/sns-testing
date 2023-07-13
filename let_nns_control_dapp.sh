@@ -9,13 +9,14 @@
 # example_sns_init.yaml).
 #
 # The only thing in the configuration file that this script uses is the
-# dapp_canisters field.
-#
-# The principals listed there get passed to `sns prepare-canisters add-nns-root`.
+# dapp_canisters field. The principals listed there get passed to `sns
+# prepare-canisters add-nns-root`.
 #
 # TODO(NNS1-2293): This will stop working once that gets implemented and people
 # start using it, because this just uses yq to read the configuration file, and
-# yq does not do unaliasing, of course.
+# yq does not do unaliasing, of course. The solution is to implement
+# `sns let-nns-control-dapp` or something like that. Then, we no longer need yq
+# in Dockerfile.
 
 set -euo pipefail
 
