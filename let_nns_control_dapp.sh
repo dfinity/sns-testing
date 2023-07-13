@@ -3,10 +3,13 @@
 # This takes an optional path to a configuration file; defaults to
 # sns_init.yaml, in the same directory as this script. This file would be passed
 # to propose_sns.sh or `sns propose`. Such a file can be constructed by
-# following the directions at the top of example_sns_init.yaml.
+# following the directions at the top of example_sns_init.yaml. If no argument
+# is passed, and sns_init.yaml doesn't already exist, this assumes that the
+# example dapp is being used, and constructs sns_init.yaml automatically (from
+# example_sns_init.yaml).
 #
-# The only thing in the configuration file that gets used is the dapp_canisters
-# field.
+# The only thing in the configuration file that this script uses is the
+# dapp_canisters field.
 #
 # The principals listed there get passed to `sns prepare-canisters add-nns-root`.
 #
