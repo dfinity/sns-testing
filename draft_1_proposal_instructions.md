@@ -4,9 +4,9 @@ be replaced with the content in this file (minus this preface, ofc).
 _This section assumes that you have successfully completed the instructions in
 the [Bootstrapping a testing environment via Docker] section above._
 
-This section explains how to use the aforementioned testing environment to
-perform SNS decentralization of your own dapp running in the local `dfx` server
-test environment.
+This section explains how to perform SNS decentralization in the aforementioned
+testing environment (i.e. Docker container running a local canister execution
+environment where an NNS has been deployed).
 
 The commands mentioned here are to be run from within the Docker container.
 
@@ -21,9 +21,12 @@ greater detail.
    ./cleanup.sh
    ```
 
-1. Deploy your dapp onto the local `dfx` server the way you normally would. You
-   can find your dapp repo under the path `/dapp` in the Docker container. Note
-   that the `dfx` server is using port 8080.
+1. Deploy your dapp to the testing environment the way you would normally deploy
+   to a local canister execution environment. Note that the local canister
+   execution environment is using port 8080.
+
+   You can find your dapp repo under the path `/dapp` in the Docker
+   container.
 
    Alternatively, you can deploy the [example dapp] like so:
 
@@ -36,16 +39,8 @@ greater detail.
 2. Craft your own SNS configuration file. We recommend that you use
    example_sns_init.yaml as a guide.
 
-   **TODO**: Write a script that does this for the example dapp. The
-     main things it needs to do are:
-
-   1. Replace aaaaa-aa with whatever `dfx identity get-principal`
-      prints.
-
-   2. Replace the dapp canister principal ID with whatever
-      deploy_test_canister.sh reports.
-
-   3. I don't think there's anything else, but I could be wrong...
+   If you are using the example dapp, this will be done automatically by the
+   next step.
 
 3. Give control of your dapp canisters to NNS:
 
@@ -54,17 +49,17 @@ greater detail.
    ```
 
 4. Create an NNS proposal to create an SNS that will control your dapp
-   canisters:
+   canister(s):
 
    ```bash
    ./propose_sns.sh
    ````
 
    The proposal will pass right away, because it is made by a neuron that has an
-   overwhelming amount of voting power.
+   overwhelming amount of voting power (this is part of the testing environment).
 
    After a few minutes, you should see a new SNS instance in the [Launchpad]
-   section of the NNS Web app.
+   section of the NNS dapp.
 
    [Launchpad]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad
 
@@ -77,9 +72,9 @@ greater detail.
    ./upgrade_test_canister.sh "Swap is taking place."
    ```
 
-6. **TODO**: There is a 24-48 hour delay between proposal execution and the
-   start of the token swap. Whereas, for testing, we want the swap to start
-   right away.
+6. **TODO(NNS1-2392)**: There is a 24-48 hour delay between proposal execution
+   and the start of the token swap. Whereas, for testing, we want the swap to
+   start right away.
 
    Once the swap starts, you can have many principals participate like so:
 
@@ -87,14 +82,15 @@ greater detail.
    ./participate_sns_swap.sh <num-participants> <icp-per-participant>
    ```
 
-   You can run `./participate_sns_swap.sh` multiple times.
+   You can run `./participate_sns_swap.sh` multiple times (with different
+   arguments).
 
-   You can also participate in the swap using the [NNS Web App][nns-web-app]
-   running in your local `dfx` server. There, you can conjoure some ICP for
-   yourself using the "Get ICP" button, and use the ICP to participate in the
-   ongoing swap.
+   You can also participate in the swap using the [NNS Dapp][nns-dapp]
+   (another feature of the test environment). There, you can conjoure some ICP
+   for yourself using the "Get ICP" button (another feature of the test
+   environment), and use the ICP to participate in the ongoing swap.
 
-   [nns-web-app]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080
+   [nns-dapp]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080
 
    You can make the swap complete immediately by making the total participation
    amount equal to the target ICP amount.
@@ -104,7 +100,7 @@ greater detail.
    because now, the voting power is spread among many neurons.
 
    This step requires your dapp repo to have an upgrade procedure that interacts
-   with the local `dfx` server via the 8080 port.
+   with the local canister execution environment via the 8080 port.
 
    If using the example dapp, this step can be performed like so:
 

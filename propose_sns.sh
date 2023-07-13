@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-export SNS_CONFIGURATION_FILE_PATH="${1:-}"
+export SNS_CONFIGURATION_FILE_PATH="${1:-sns_init.yaml}"
 
 . ./constants.sh normal
 
@@ -52,23 +52,6 @@ curl -L "https://github.com/dfinity/nns-dapp/blob/${IC_COMMIT}/sns_aggregator/sn
 cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
-
-if [[ -z $SNS_CONFIGURATION_FILE_PATH ]]
-then
-    SNS_CONFIGURATION_FILE_PATH=sns_init.yaml
-
-    # Write sns_init.yaml, but only if it doesn't exist already (do not clobber).
-    if [[ ! -e "$SNS_CONFIGURATION_FILE_PATH" ]]
-    then
-        PRINCIPAL_ID="$(dfx identity get-principal)"
-        CANISTER_ID="$(dfx canister id test)"
-        cat example_sns_init.yaml \
-            | sed "s/YOUR_PRINCIPAL_ID/${PRINCIPAL_ID}/" \
-            | sed "s/YOUR_CANISTER_ID/${CANISTER_ID}/" \
-            | sed 's/  # propose_sns[.]sh .*//' \
-            > "$SNS_CONFIGURATION_FILE_PATH"
-    fi
-fi
 
 # This fails if the user does not follow the instructions at the top of
 # ./example_sns_init.yaml.
