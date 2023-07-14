@@ -25,7 +25,7 @@ greater detail.
    ```
 
 1. Deploy a dapp to the testing environment. You can use your own dapp (found in
-   /dapp), or the [example dapp].
+   `/dapp`), or the [example dapp].
 
    [example dapp]: /#test-canister
 
