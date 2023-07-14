@@ -13,7 +13,7 @@ environment where an NNS has been deployed).
 
 The commands mentioned here are to be run from within the Docker container.
 
-'run_basic_scenario.sh` also performs these steps. Therefore, reading that
+`run_basic_scenario.sh` also performs these steps. Therefore, reading that
 script may help you understand the steps described in this section. Similarly,
 reading the scripts mentioned here will help you understand the procedure in
 greater detail.
