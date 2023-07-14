@@ -78,8 +78,8 @@ greater detail.
 
 5. Optional: Upgrade youf dapp canister(s) via SNS proposal.
 
-   If you are going through these instructions using the example dapp rather
-   than your own dapp, this step can be done as follows:
+   If you are going through these instructions using the example dapp, this step
+   can be done as follows:
 
    ```bash
    ./upgrade_test_canister.sh "Swap is taking place."
