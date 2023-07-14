@@ -184,7 +184,7 @@ The above run-book could be easily automated and integrated into your CI/CD pipe
 
 -  If either of the ports 8000 or 8080 are occupied, then `docker run -p 8000:8000 -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
    In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8000` or `lsof -i :8080`
-   to determine the service listening on the port 8000 or 8080 and then close the service.
+   to determine the service listening on the port 8000 or 8080, correspondingly, and then close the service.
 
 ## SNS lifecycle
 
