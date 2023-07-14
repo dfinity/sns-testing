@@ -24,25 +24,26 @@ greater detail.
    ./cleanup.sh
    ```
 
-1. Deploy your dapp to the testing environment the way you would normally deploy
-   to a local canister execution environment. Note that the local canister
-   execution environment is using port 8080.
+1. Deploy a dapp to the testing environment. You can use your own dapp (found in
+   /dapp), or the [example dapp].
 
-   You can find your dapp repo under the path `/dapp` in the Docker
-   container.
+   [example dapp]: /#test-canister
 
-   Alternatively, you can deploy the [example dapp] like so:
+   If this is your first time performing this exercise, it will be easier to use
+   the example dapp. Once you have completed this exercise using the example
+   dapp, you can try this exercise again using your own dapp.
+
+   The example dapp can be deployed very easily like so:
 
    ```bash
    ./deploy_test_canister.sh
    ```
 
-   [example dapp]: /#test-canister
+   Once you are ready to deploy your own dapp, do so as you normally would to a
+   local canister execution environment using port 8080.
 
-2. Craft your own SNS configuration file. We recommend that you use
-   [example_sns_init.yaml] as a guide.
-
-   [example_sns_init.yaml]: /example_sns_init.yaml
+2. Craft an SNS configuration file. We recommend that you use
+   [/example_sns_init.yaml] as a guide.
 
    If you are using the example dapp, this will be done automatically by the
    next step.
@@ -52,6 +53,11 @@ greater detail.
    ```bash
    ./let_nns_control_dapp.sh
    ```
+
+   As mentioned in the previous step, this automatically creates an SNS
+   configuration file named sns_init.yaml unless such a file already exists
+   (e.g. you hand-crafted one yourself). The auto-generated file assumes that
+   you are using the example dapp.
 
 4. Create an NNS proposal to create an SNS that will control your dapp
    canister(s):
@@ -68,7 +74,7 @@ greater detail.
 
    [Launchpad]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad
 
-5. Optional: Upgrade your dapp via SNS proposal.
+5. Optional: Upgrade a dapp canister via SNS proposal.
 
    If you are going through these instructions using the example dapp rather
    than your own dapp, this step can be done as follows:
@@ -76,6 +82,12 @@ greater detail.
    ```bash
    ./upgrade_test_canister.sh "Swap is taking place."
    ```
+
+   This submits an SNS proposal to upgrade the test dapp. If you are using the
+   auto-generated sns_init.yaml file, the proposing neuron will have all of the
+   voting power in the SNS. Thus, the proposal will be adopted and executed
+   right away. Otherwise, you will have to vote with additional initial neurons
+   to pass the upgrade proposal.
 
 6. **[TODO(NNS1-2392)][NNS1-2392]**: There is a 24-48 hour delay between
    proposal execution and the start of the token swap. Whereas, for testing, we
