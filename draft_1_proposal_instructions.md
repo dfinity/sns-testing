@@ -39,8 +39,8 @@ greater detail.
    ./deploy_test_canister.sh
    ```
 
-   Once you are ready to deploy your own dapp, do so as you normally would to a
-   local canister execution environment using port 8080.
+   Once you are ready to deploy your own dapp, do so as you normally would,
+   noting that the local canister execution environment uses port 8080.
 
 2. Craft an SNS configuration file. We recommend that you use
    [example_sns_init.yaml] as a guide.
@@ -91,6 +91,13 @@ greater detail.
    right away. Otherwise, you will have to vote with additional initial neurons
    to pass the upgrade proposal.
 
+   If you are using your own dapp rather than the example dapp, look at how
+   `upgrade_test_canister.sh` works. In short, it ends up calling `quill sns
+   make-upgrade-canister-proposal`. That command takes a fair number of
+   arguments. Therefore, it is helpful to look at how the script(s) here invoke
+   that command as a guide to how you can invoke the command to propose an
+   upgrade to your own dapp.
+
 6. **[TODO(NNS1-2392)][NNS1-2392]**: There is a 24-48 hour delay between
    proposal execution and the start of the token swap. Whereas, for testing, we
    want the swap to start right away.
@@ -119,9 +126,6 @@ greater detail.
 7. Optional: Submit (another) proposal to upgrade one of your dapp
    canisters. Unlike before, the proposal will probably not pass right away,
    because now, the voting power is spread among many neurons.
-
-   This step requires your dapp repo to have an upgrade procedure that interacts
-   with the local canister execution environment via the 8080 port.
 
    If using the example dapp, this step can be performed like so:
 
