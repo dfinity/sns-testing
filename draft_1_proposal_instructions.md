@@ -57,7 +57,7 @@ greater detail.
    ```
 
    As mentioned in the previous step, this automatically creates an SNS
-   configuration file named sns_init.yaml unless such a file already exists
+   configuration file named `sns_init.yaml`, unless such a file already exists
    (e.g. you hand-crafted one yourself). The auto-generated file assumes that
    you are using the example dapp.
 
@@ -86,8 +86,8 @@ greater detail.
    ```
 
    This submits an SNS proposal to upgrade the test dapp. If you are using the
-   auto-generated sns_init.yaml file, the proposing neuron will have all of the
-   voting power in the SNS. Thus, the proposal will be adopted and executed
+   auto-generated `sns_init.yaml` file, the proposing neuron will have all of
+   the voting power in the SNS. Thus, the proposal will be adopted and executed
    right away. Otherwise, you will have to vote with additional initial neurons
    to pass the upgrade proposal.
 
