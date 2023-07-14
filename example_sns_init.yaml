@@ -1,0 +1,120 @@
+# You should make a copy of this file, name it sns_init.yaml, and edit it to
+# suit your needs.
+#
+# All principal IDs should almost certainly be changed.
+#
+# In this file, 1 year is nominally defined to be 365.25 days.
+#
+# This gets passed to `sns propose`. See propose_sns.sh.
+#
+# This follows the second configuration file format developed for the `sns`
+# CLI. The first format will be supported for a time, but this format will
+# eventually become the standard format.
+
+name: Rock Out
+description: >
+    A poem co-written with ChatGPT
+
+    In a realm of code, a beacon forth surges,
+    a wondrous app on the Internet Computer emerges.
+    Born of inspiration divine,
+    This marvel of technology brilliantly shines.
+
+    With each line of code, a world takes flight,
+    A symphony of bits, a chorus of bytes.
+    Built on chainkey cryptography, secure and true,
+    An app that transcends, all we once knew...
+
+Principals: [] # TODO(NNS1-2293): This field will be useful in the future.
+
+logo: logo.png
+url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
+
+fallback_controller_principals:
+    - YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
+
+dapp_canisters:
+    # You need to replace these values.
+    - YOUR_CANISTER_ID  # propose_sns.sh can fill this in automatically.
+    # More canisters can be listed here.
+
+Token:
+    name: Rock Out Token
+    symbol: ROT
+    transaction_fee: 10_000 e8s # You can leave this alone.
+
+# It is fine to leave these alone.
+Proposals:
+    rejection_fee: 1 token
+    initial_voting_period: 4d
+    maximum_wait_for_quiet_deadline_extension: 1 day
+
+# It is fine to leave these alone.
+Neurons:
+    minimum_creation_stake: 10 tokens
+
+# It is fine to leave these alone.
+Voting:
+    minimum_dissolve_delay: 26 weeks
+
+    MaximumVotingPowerBonuses:
+        DissolveDelay:
+            duration: 8 years
+            bonus: 100%
+
+        Age:
+            duration: 4 years
+            bonus: 25%
+
+    RewardRate:
+        initial: 10%
+        final: 2.25%
+        transition_duration: 12 years
+
+Distribution:
+
+    Neurons:
+
+        - principal: YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
+          stake: 1_000 tokens
+          memo: 0 # This is shown for illustrative purposes, and is not necessary.
+          dissolve_delay: 2 years
+          vesting_period: 4 years
+
+        # More neurons can be listed here. Usually, you would have
+        # separate neurons for each person on your team.
+
+    InitialBalances:
+        governance: 2_000_000 tokens # aka "the treasury"
+        swap:         500_000 tokens # See also the Swap section below.
+
+    # Optional, but highly recommended. This is a literal
+    # checksum.
+    #          1_000    (neuron)
+    #      2 million    (governance)
+    # + 500 thousand    (swap)
+    # --------------
+    total: 2_501_000 tokens
+
+Swap:
+    minimum_participants: 57
+
+    minimum_icp:    500_000 tokens
+    maximum_icp: 10_000_000 tokens
+
+    minimum_participant_icp:     5 tokens
+    maximum_participant_icp: 1_000 tokens
+
+    # confirmation_text: >
+    #     Do you understand the responsibilities and risks associated
+    #     with participating in this token swap?
+
+    restricted_countries:
+        - AQ  # Antarctica
+
+    VestingSchedule:
+        events: 104
+        interval: 7 d
+
+    start_time: 12:00 UTC # noon
+    duration: 7 days
