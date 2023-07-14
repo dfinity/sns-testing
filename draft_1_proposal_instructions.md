@@ -18,6 +18,11 @@ script may help you understand the steps described in this section. Similarly,
 reading the scripts mentioned here will help you understand the procedure in
 greater detail.
 
+**TODO**: The statement in the previous paragraph about what
+run_basic_scenario.sh is not true YET. Rather, it assumes that we have reached
+the goal state, i.e. everything, including run_basic_scenario.sh, has been
+migrated to 1-proposal.
+
 0. Restore files to a clean state like so:
 
    ```bash

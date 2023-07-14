@@ -39,7 +39,7 @@ dfx ledger \
 dfx canister \
     --network "${NETWORK}" \
     deposit-cycles 200000000000000 \
-    qaa6y-5yaaa-aaaaa-aaafa-cai
+    qaa6y-5yaaa-aaaaa-aaafa-cai # SNS-W canister
 
 ${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
 ${DFX} sns import
