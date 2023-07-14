@@ -146,3 +146,19 @@ greater detail.
 
       Most likely, this happens because some neurons already voted automatically
       via following. Whereas, this script is not aware of this.
+
+You have now seen SNS in action in a test environment. We recommend that you
+experiment with different configurations until you find one that like.
+
+Once you arrive at a configuration that pleases you, you can use it to [create
+an SNS on the Internet Computer][real-sns]. By performing this exercise, you
+have armed yourself with the appropriate knowledge and experience to be
+successful in your SNS journey.
+
+[real-sns]: https://internetcomputer.org/docs/current/developer-docs/integrations/sns/launching/launch-steps
+
+Therefore, carry forth with confidence, and do great things. We will watch your
+career with great interest.
+
+❤️,<br>
+All of us here at the DFINITY Foundation
