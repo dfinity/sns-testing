@@ -124,8 +124,8 @@ greater detail.
    If you would rather have the proposal rejected, you can replace `y` in the
    above command with `n`.
 
-   The script will probably emit some scary-looking messages. The following are
-   most likely benign:
+   The script will probably emit some messages that might seem worrying; however
+   following are most likely benign:
 
    1. ```
       Neuron not eligible to vote on proposal.
@@ -133,11 +133,12 @@ greater detail.
 
       Most likely, this is happening because some of the neurons that the swap
       generates have dissolve delays that are too small for them to vote.
-      Whereas, the script is not aware of this.
+      Whereas, the script tries to vote with all neurons, and does not consider
+      whether a neuron would be able to vote.
 
-   2. '''
+   2. ```
       Neuron already voted on proposal.
-      '''
+      ```
 
-      Most likely, this happens because some neurons vote automatically via
-      following. Whereas, this script is not aware of that.
+      Most likely, this happens because some neurons already voted automatically
+      via following. Whereas, this script is not aware of this.
