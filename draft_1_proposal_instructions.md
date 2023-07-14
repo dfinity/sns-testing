@@ -77,9 +77,11 @@ greater detail.
    ./upgrade_test_canister.sh "Swap is taking place."
    ```
 
-6. **TODO(NNS1-2392)**: There is a 24-48 hour delay between proposal execution
-   and the start of the token swap. Whereas, for testing, we want the swap to
-   start right away.
+6. **[TODO(NNS1-2392)][NNS1-2392]**: There is a 24-48 hour delay between
+   proposal execution and the start of the token swap. Whereas, for testing, we
+   want the swap to start right away.
+
+   [NNS1-2392]: https://go/jira/NNS1-2392
 
    Once the swap starts, you can have many principals participate like so:
 
