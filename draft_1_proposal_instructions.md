@@ -76,7 +76,7 @@ greater detail.
 
    [Launchpad]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad
 
-5. Optional: Upgrade a dapp canister via SNS proposal.
+5. Optional: Upgrade youf dapp canister(s) via SNS proposal.
 
    If you are going through these instructions using the example dapp rather
    than your own dapp, this step can be done as follows:
