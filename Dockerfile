@@ -22,6 +22,14 @@ RUN curl --fail https://sh.rustup.rs -sSf \
     rustup default "${RUST_VERSION}-x86_64-unknown-linux-gnu" && \
     rustup target add wasm32-unknown-unknown
 
+# Install yq. We use it to read YAML file(s).
+ARG YQ_VERSION=v4.34.1
+RUN curl \
+    --location \
+    https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_386 \
+    --output /usr/bin/yq \
+    && chmod +x /usr/bin/yq
+
 RUN git clone https://github.com/dfinity/ic.git
 
 ADD . ${WDIR}
