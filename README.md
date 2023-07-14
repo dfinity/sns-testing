@@ -69,7 +69,8 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
          "bind": "0.0.0.0:8080",
          "type": "ephemeral",
          "replica": {
-            "subnet_type": "system"
+            "subnet_type": "system",
+            "port": 8000
          }
       }
    }' > "${DX_NET_JSON}"
@@ -79,10 +80,10 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
    While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
-   This should print the dashboard URL, e.g.:
+   This should print the dashboard URL:
 
     ```
-    Dashboard: http://localhost:35727/_/dashboard
+    Dashboard: http://localhost:8000/_/dashboard
     ```
 
 5. Open another Bash console:
@@ -132,7 +133,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 2. Start a local replica instance:
     ```bash
    SNS_TESTING_INSTANCE=$(
-       docker run -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
+       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
    )
    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
    do
@@ -140,14 +141,12 @@ After getting familiar with the basic scenario, you may replace the test caniste
        sleep 3
    done
     ```
-    This should print the dashboard URL, e.g.:
+    This should print the dashboard URL:
 
     ```
     Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
+    Dashboard: http://localhost:8000/_/dashboard
     ```
-
-    Note that the dashboard is currently not accessible from the browser on your host system.
 
 3. Run setup:
     ```bash
@@ -183,9 +182,9 @@ The above run-book could be easily automated and integrated into your CI/CD pipe
 
 ## Troubleshooting
 
--  If the port 8080 is occupied, then `docker run -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
-   In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8080`
-   to determine the service listening on the port 8080 and then close the service.
+-  If either of the ports 8000 or 8080 are occupied, then `docker run -p 8000:8000 -p 8080:8080 ...` and `./bin/dfx start --clean` are expected to fail.
+   In that case, you should run `docker ps` (if you have Docker installed on your system) and `lsof -i :8000` or `lsof -i :8080`
+   to determine the service listening on the port 8000 or 8080, correspondingly, and then close the service.
 
 ## SNS lifecycle
 

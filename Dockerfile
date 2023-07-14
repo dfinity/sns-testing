@@ -43,7 +43,8 @@ RUN echo '{ \n\
     "bind": "0.0.0.0:8080", \n\
     "type": "ephemeral", \n\
     "replica": { \n\
-      "subnet_type": "system" \n\
+      "subnet_type": "system", \n\
+      "port": 8000 \n\
     } \n\
   } \n\
 }' > /home/sns/.config/dfx/networks.json

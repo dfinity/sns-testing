@@ -19,7 +19,7 @@ jobs:
     - name: Start docker image
       run: |
         SNS_TESTING_INSTANCE=$(
-          docker run -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing dfx start --clean
+          docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing dfx start --clean
         )
         while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
         do
@@ -34,6 +34,15 @@ jobs:
       run: |
         SNS_TESTING_INSTANCE=$(docker ps -q)
         docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
+    - name: Internet Computer Replica Dashboard smoke test
+      run: |
+        if curl --output /dev/null --silent --fail -r 0-0 "http://localhost:8000/_/dashboard"
+        then
+            echo "Internet Computer Replica Dashboard is online"
+        else
+            echo "Internet Computer Replica Dashboard is NOT AVAILABLE!"
+            exit 1
+        fi
     - name: NNS frontend dapp smoke test
       run: |
         if curl --output /dev/null --silent --head --fail -r 0-0 "http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad/"
