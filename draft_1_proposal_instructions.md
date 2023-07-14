@@ -37,7 +37,7 @@ greater detail.
    ./deploy_test_canister.sh
    ```
 
-   [example dapp]: https://github.com/dfinity/sns-testing#test-canister
+   [example dapp]: /#test-canister
 
 2. Craft your own SNS configuration file. We recommend that you use
    [example_sns_init.yaml] as a guide.
