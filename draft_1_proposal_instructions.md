@@ -40,7 +40,9 @@ greater detail.
    [example dapp]: https://github.com/dfinity/sns-testing#test-canister
 
 2. Craft your own SNS configuration file. We recommend that you use
-   example_sns_init.yaml as a guide.
+   [example_sns_init.yaml] as a guide.
+
+   [example_sns_init.yaml]: /example_sns_init.yaml
 
    If you are using the example dapp, this will be done automatically by the
    next step.
