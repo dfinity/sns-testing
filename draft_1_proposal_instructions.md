@@ -43,7 +43,9 @@ greater detail.
    local canister execution environment using port 8080.
 
 2. Craft an SNS configuration file. We recommend that you use
-   [/example_sns_init.yaml] as a guide.
+   [example_sns_init.yaml] as a guide.
+
+   [example_sns_init.yaml]: /example_sns_init.yaml
 
    If you are using the example dapp, this will be done automatically by the
    next step.
