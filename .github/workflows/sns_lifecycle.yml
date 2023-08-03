@@ -16,7 +16,7 @@ jobs:
     - name: Set GITHUB_SHA_SHORT env var
       run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
     - name: Set DOCKER_IMG env var
-      run: echo "DOCKER_IMG=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      run: echo "DOCKER_IMG=ghcr.io/dfinity/sns-testing:$GITHUB_SHA_SHORT" >> $GITHUB_ENV
     - name: Test
       run: |
         echo GITHUB_SHA_SHORT=$GITHUB_SHA_SHORT
