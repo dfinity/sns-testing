@@ -64,12 +64,13 @@ else
   ${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
 fi
 
-if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
-then
-  mkdir -p nns-dapp/out
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm" -o nns-dapp/out/nns-dapp.wasm
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
-fi
+# FIXME[nns-dapp]: Uncomment when a release proposal is made for https://github.com/dfinity/nns-dapp/releases/tag/untagged-37e65efdedb810819a1b
+# if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
+# then
+#   mkdir -p nns-dapp/out
+#   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm" -o nns-dapp/out/nns-dapp.wasm
+#   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm" -o nns-dapp/out/sns_aggregator.wasm
+# fi
 
 ${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
 ${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity.wasm

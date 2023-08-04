@@ -11,7 +11,6 @@ cp sns-test.yml.orig sns-test.yml
 
 rm -rf .dfx \
     *.wasm *.wasm.gz \
-    nns-dapp/out \
     nns-dapp/.dfx/* \
     nns-dapp/canister_ids.json \
     nns-dapp/*.wasm \
@@ -20,7 +19,9 @@ rm -rf .dfx \
     internet-identity/internet_identity.wasm \
     msg.json \
     sns_canister_ids.json \
-    upload_*.txt
+    upload_*.txt #\
+    # FIXME[nns-dapp]: Uncomment when a release proposal is made for https://github.com/dfinity/nns-dapp/releases/tag/untagged-37e65efdedb810819a1b 
+    # nns-dapp/out
 
 # Remove Wallets
 rm -rf ~/.local/share/dfx/network/${NETWORK}/wallets.json
