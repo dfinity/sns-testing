@@ -15,7 +15,7 @@ export DX_IDENT="default"
 
 # you can find available II releases here:
 # https://github.com/dfinity/internet-identity/tags
-export II_RELEASE="release-2023-04-28"
+export II_RELEASE="release-2023-07-28"
 
 # you can find NNS proposals upgrading system canisters here:
 # https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
