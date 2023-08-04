@@ -58,7 +58,7 @@ jobs:
         docker kill $SNS_TESTING_INSTANCE
 
   publish:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name != 'pull_request' }}
     needs: sns_lifecycle
     runs-on: ubuntu-22.04
     steps:
