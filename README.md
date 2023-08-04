@@ -78,7 +78,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
-   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
+   While running these instructions for the first time, you may need to hit the "Allow" button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
    This should print the dashboard URL:
 
@@ -133,7 +133,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 2. Start a local replica instance:
     ```bash
    SNS_TESTING_INSTANCE=$(
-       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
+       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:v1-legacy dfx start --clean
    )
    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
    do
