@@ -7,7 +7,7 @@
 
 The main purpose of `sns-testing` is to enable developers of Internet Computer (IC) dapps to test Service Nervous System (SNS) decentralization. However, this solution may also be applicable in other scenarios, e.g.:
 
-* Testing tools such as `dfx`, `sns-quill`.
+* Testing tools such as `dfx`, `quill`, `sns`.
 * Testing UX-related aspects before releasing the [NNS frontend dapp](https://nns.ic0.app/).
 
 ## How to use these instructions
@@ -28,9 +28,9 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
 0. Make sure you have Homebrew installed.
    * Instructions: https://brew.sh/
-   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
+   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`), `jq`, and `yq`:
      ```bash
-     brew install coreutils jq
+     brew install coreutils jq yq
      ```
 
    You also need rosetta that you can install by running:
@@ -78,7 +78,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    mv "${DX_NET_JSON}.tmp" "$DX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
-   While running these instructions for the first time, you may need to hit the ``Allow'' button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
+   While running these instructions for the first time, you may need to hit the "Allow" button to authorize the system to execute the binaries shipped with sns-testing, e.g., `./bin/dfx`.
 
    This should print the dashboard URL:
 

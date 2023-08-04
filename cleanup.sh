@@ -7,7 +7,7 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 . ./constants.sh install
 
 cp dfx.json.orig dfx.json
-cp sns-test.yml.orig sns-test.yml
+cp example_sns_init.yaml sns_init.yaml
 
 rm -rf .dfx \
     *.wasm *.wasm.gz \

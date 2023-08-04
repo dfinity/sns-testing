@@ -42,6 +42,7 @@ Token:
     name: Rock Out Token
     symbol: ROT
     transaction_fee: 10_000 e8s # You can leave this alone.
+    logo: logo.png
 
 # It is fine to leave these alone.
 Proposals:

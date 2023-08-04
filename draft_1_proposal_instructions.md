@@ -81,7 +81,7 @@ migrated to 1-proposal.
 
    [Launchpad]: http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/launchpad
 
-5. Optional: Upgrade youf dapp canister(s) via SNS proposal.
+5. Optional: Upgrade your dapp canister(s) via SNS proposal.
 
    If you are going through these instructions using the example dapp, this step
    can be done as follows:
