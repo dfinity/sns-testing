@@ -61,15 +61,20 @@ sns propose \
     "${SNS_CONFIGURATION_FILE_PATH}"
 
 # Save SNS canister IDs to sns_canister_ids.json
-dfx canister --network local \
-    call nns-sns-wasm list_deployed_snses '(record {})' \
-    | idl2json \
-    > sns-wasm-list_deployed_snses-response.json
-NUM_SNS_INSTANCES=$(jq '.instances | length' sns-wasm-list_deployed_snses-response.json)
-if [[ $NUM_SNS_INSTANCES -gt 1 ]]
+NUM_SNS_INSTANCES=0
+while [ ${NUM_SNS_INSTANCES} -lt 1 ]
+do
+    dfx canister --network local \
+        call nns-sns-wasm list_deployed_snses '(record {})' \
+        | idl2json \
+        > sns-wasm-list_deployed_snses-response.json
+    NUM_SNS_INSTANCES=$(jq '.instances | length' sns-wasm-list_deployed_snses-response.json)
+    sleep 3
+done
+if [[ ${NUM_SNS_INSTANCES} -gt 1 ]]
 then
     # TODO: pick the right SNS if case there are multiple ones present
-    echo "Error: sns-testing currently does not support multiple SNSes (found $NUM_SNS_INSTANCES)"
+    echo "Error: sns-testing currently does not support multiple SNSes (found ${NUM_SNS_INSTANCES})"
     exit 1
 fi
 
@@ -79,4 +84,4 @@ jq '.instances[-1] | .[] |= .[0]' \
         > sns_canister_ids.json
 
 # Switch back to the previous identity
-dfx identity use "$CURRENT_DX_IDENT"
+dfx identity use "${CURRENT_DX_IDENT}"
