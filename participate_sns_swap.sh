@@ -4,8 +4,8 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-export NUM_PARTICIPANTS="${1:-3}"
-export ICP_PER_PARTICIPANT="${2:-200}"
+export NUM_PARTICIPANTS="${1:-100}"
+export ICP_PER_PARTICIPANT="${2:-10000}"
 ICP_PER_PARTICIPANT_E8S=$(echo "100000000 * $ICP_PER_PARTICIPANT" | bc)
 
 . ./constants.sh normal

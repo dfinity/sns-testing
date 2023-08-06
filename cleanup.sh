@@ -7,16 +7,16 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 . ./constants.sh install
 
 cp dfx.json.orig dfx.json
-cp example_sns_init.yaml sns_init.yaml
 
 rm -rf .dfx \
+    sns_init.yaml \
     *.wasm *.wasm.gz \
     nns-dapp/.dfx/* \
     nns-dapp/canister_ids.json \
     nns-dapp/*.wasm \
     nns-dapp/*.wasm.gz \
     internet-identity/.dfx \
-    internet-identity/internet_identity.wasm \
+    internet-identity/internet_identity_dev.wasm \
     msg.json \
     sns_canister_ids.json \
     upload_*.txt \

@@ -64,7 +64,7 @@ sns propose \
 NUM_SNS_INSTANCES=0
 while [ ${NUM_SNS_INSTANCES} -lt 1 ]
 do
-    dfx canister --network local \
+    dfx canister --network "${NETWORK}" \
         call nns-sns-wasm list_deployed_snses '(record {})' \
         | idl2json \
         > sns-wasm-list_deployed_snses-response.json

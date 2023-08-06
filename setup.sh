@@ -52,7 +52,7 @@ cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
 ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet --specified-id qhbym-qaaaa-aaaaa-aaafq-cai
 if [ ! -z "${II_RELEASE:-}" ]
 then
-  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet-identity/internet_identity.wasm
+  curl -L "https://github.com/dfinity/internet-identity/releases/download/${II_RELEASE}/internet_identity_dev.wasm.gz" -o internet-identity/internet_identity_dev.wasm
 fi
 
 ${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id qsgjb-riaaa-aaaaa-aaaga-cai
@@ -73,7 +73,7 @@ fi
 # fi
 
 ${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
-${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity.wasm
+${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity_dev.wasm
 ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-dapp.wasm --argument '(opt record{
   args = vec {
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };

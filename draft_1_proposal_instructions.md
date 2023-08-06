@@ -103,13 +103,7 @@ migrated to 1-proposal.
    that command as a guide to how you can invoke the command to propose an
    upgrade to your own dapp.
 
-6. **[TODO(NNS1-2392)][NNS1-2392]**: There is a 24-48 hour delay between
-   proposal execution and the start of the token swap. Whereas, for testing, we
-   want the swap to start right away.
-
-   [NNS1-2392]: https://go/jira/NNS1-2392
-
-   Once the swap starts, you can have many principals participate like so:
+6. Once the swap starts, you can simulate multiple users' participation:
 
    ```bash
    ./participate_sns_swap.sh <num-participants> <icp-per-participant>
@@ -119,7 +113,7 @@ migrated to 1-proposal.
    arguments).
 
    You can also participate in the swap using the [NNS Dapp][nns-dapp]
-   (another feature of the test environment). There, you can conjoure some ICP
+   (another feature of the test environment). There, you can conjure some ICP
    for yourself using the "Get ICP" button (another feature of the test
    environment), and use the ICP to participate in the ongoing swap.
 
