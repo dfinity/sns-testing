@@ -40,9 +40,6 @@ else
   exit 1
 fi
 
-curl -L "https://github.com/dfinity/sns-quill/releases/download/v0.4.2-beta.1/sns-quill-${QUILL}-x86_64" -o sns-quill
-chmod +x sns-quill
-
 curl -L "https://github.com/dfinity/quill/releases/download/v0.4.2/quill-${QUILL}-x86_64" -o quill
 chmod +x quill
 
