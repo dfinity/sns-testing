@@ -52,11 +52,11 @@ Proposals:
 
 # It is fine to leave these alone.
 Neurons:
-    minimum_creation_stake: 10 tokens
+    minimum_creation_stake: 1 tokens
 
 # It is fine to leave these alone.
 Voting:
-    minimum_dissolve_delay: 26 weeks
+    minimum_dissolve_delay: 1 month
 
     MaximumVotingPowerBonuses:
         DissolveDelay:
@@ -100,11 +100,11 @@ Distribution:
 Swap:
     minimum_participants: 57
 
-    minimum_icp:    500_000 tokens
-    maximum_icp: 10_000_000 tokens
+    minimum_icp:   100_000 tokens
+    maximum_icp: 1_000_000 tokens
 
-    minimum_participant_icp:     5 tokens
-    maximum_participant_icp: 1_000 tokens
+    minimum_participant_icp:     10 tokens
+    maximum_participant_icp: 10_000 tokens
 
     # confirmation_text: >
     #     Do you understand the responsibilities and risks associated
@@ -113,9 +113,31 @@ Swap:
     restricted_countries:
         - AQ  # Antarctica
 
+    # Declare that each participant will get three SNS neurons in the following
+    # states:
+    # 1. Unlocked
+    # 2. Locked for 1 month
+    # 3. Locked for 2 months
     VestingSchedule:
-        events: 104
-        interval: 7 d
+        events: 3
+        interval: 1 month
 
-    start_time: 12:00 UTC # noon
+    # WARNING: Swap start_time works differently on mainnet and in testing.
+    #
+    # On mainnet:
+    # - Setting start_time to some value (e.g., 12:00 UTC) will allow the swap
+    #   participants to be prepare for the swap in advance, e.g.,
+    #   by obtaining ICPs that they would like to participate with.
+    # - If start_time is not specified, the actual start time of the swap will
+    #   be chosen at random. TODO: Explain how this works.
+    #
+    # In testing:
+    # - Setting start_time to some value works the same as explained above.
+    # - If start_time is not specified, the swap will begin immediately after
+    #   the CreateServiceNervousSystem proposal is executed. This facilitates
+    #   testing.
+    #
+    # start_time: 12:00 UTC # noon
+
     duration: 7 days
+    neurons_fund_investment_icp: 0 tokens
