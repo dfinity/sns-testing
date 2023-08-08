@@ -73,7 +73,7 @@ do
 done
 if [[ ${NUM_SNS_INSTANCES} -gt 1 ]]
 then
-    # TODO: pick the right SNS if case there are multiple ones present
+    # TODO: pick the right SNS in case there are multiple ones present
     echo "Error: sns-testing currently does not support multiple SNSes (found ${NUM_SNS_INSTANCES})"
     exit 1
 fi
