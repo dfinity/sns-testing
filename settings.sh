@@ -20,7 +20,7 @@ export II_RELEASE="release-2023-07-21"
 # you can find NNS proposals upgrading system canisters here:
 # https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
 # NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: qoctq-giaaa-aaaaa-aaaea-cai"
-export NNS_DAPP_RELEASE="proposal-123921"
+export NNS_DAPP_RELEASE="nightly-2023-08-08"
 
 # only edit IC_COMMIT to a commit to master with disk image obtained via:
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
