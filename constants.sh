@@ -65,18 +65,18 @@ esac
 
 # If DFX is already installed we want to ensure our constants are set correctly
 if which dfx >/dev/null; then
-    # We need these identities
-    dfx identity import --storage-mode=plaintext dev-ident-1 "$REPO_ROOT/test-identities/dev-ident-1.pem" 2> /dev/null || true
-    dfx identity import --storage-mode=plaintext dev-ident-2 "$REPO_ROOT/test-identities/dev-ident-2.pem" 2> /dev/null || true
-    dfx identity import --storage-mode=plaintext dev-ident-3 "$REPO_ROOT/test-identities/dev-ident-3.pem" 2> /dev/null || true
+  # We need these identities
+  dfx identity import --storage-mode=plaintext dev-ident-1 "$REPO_ROOT/test-identities/dev-ident-1.pem" 2> /dev/null || true
+  dfx identity import --storage-mode=plaintext dev-ident-2 "$REPO_ROOT/test-identities/dev-ident-2.pem" 2> /dev/null || true
+  dfx identity import --storage-mode=plaintext dev-ident-3 "$REPO_ROOT/test-identities/dev-ident-3.pem" 2> /dev/null || true
 
-    # Always change to the configured $DX_IDENT if it's pinned in settings.sh.  Otherwise, fall back to dev-ident-1
-    export DX_IDENT=${DX_IDENT:-dev-ident-1}
-    dfx identity use "$DX_IDENT"
+  # Always change to the configured $DX_IDENT if it's pinned in settings.sh.  Otherwise, fall back to dev-ident-1
+  export DX_IDENT=${DX_IDENT:-dev-ident-1}
+  dfx identity use "$DX_IDENT"
 
-    export DX_PRINCIPAL="$(dfx identity get-principal)"
-    export DX_VERSION="$(dfx --version | sed "s/^dfx //")"
-    export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${DX_IDENT}/identity.pem)"
+  export DX_PRINCIPAL="$(dfx identity get-principal)"
+  export DX_VERSION="$(dfx --version | sed "s/^dfx //")"
+  export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${DX_IDENT}/identity.pem)"
 fi
 
 export CANISTER_TEST="${CANISTER_TEST:-_test}"
