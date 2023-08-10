@@ -126,10 +126,13 @@ Swap:
     #
     # On mainnet:
     # - Setting start_time to some value (e.g., 12:00 UTC) will allow the swap
-    #   participants to be prepare for the swap in advance, e.g.,
+    #   participants to be prepared for the swap in advance, e.g.,
     #   by obtaining ICPs that they would like to participate with.
     # - If start_time is not specified, the actual start time of the swap will
-    #   be chosen at random. TODO: Explain how this works.
+    #   be chosen at random. Note that an algorithm will be applied to allow
+    #   at least 24 hours before the swap starts. For example, setting this
+    #   value to 23.59 UTC implies that the swap will actually start in 47:59
+    #   two days minus one minutes. 
     #
     # In testing:
     # - Setting start_time to some value works the same as explained above.

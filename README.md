@@ -256,7 +256,7 @@ created during these steps with your initial SNS developer neurons).
    This submits an SNS proposal to upgrade the test dapp. If you are using the
    auto-generated `sns_init.yaml` file, the proposing neuron will have all of
    the voting power in the SNS. Thus, the proposal will be adopted and executed
-   right away. Otherwise, you will have to vote with additional initial neurons
+   right away. Otherwise, you you might to vote with additional initial neurons
    to pass the upgrade proposal.
 
    If you are using your own dapp rather than the test dapp, look at how
@@ -325,6 +325,27 @@ created during these steps with your initial SNS developer neurons).
 
    * If you would rather test the proposal rejection scenario, simply replace
       `y` in the above command with `n`.
+
+   **Casting sufficient votes.** In either of the above cases, make sure that `<num-participants>` is sufficient
+   for the proposal to be decided by majority; i.e., we need _strictly more_ than
+   50%.
+   
+   For example, if you called `./participate_sns_swap.sh 100 <icp-per-participant>`, then
+   `./vote_on_sns_proposal.sh 51 <proposal-id> y` will cast enough yes-votes for
+   the proposal to be adopted, and `./vote_on_sns_proposal.sh 51 <proposal-id> n`
+   will cast enough no-votes for the proposal to be rejected, whereas, e.g.,
+   `./vote_on_sns_proposal.sh 50 <proposal-id> n` will still keep the proposal
+   open.
+
+   **Observing voting errors.** It is expected to get the error
+   "Neuron not eligible to vote on proposal." for some neurons because
+   each participant gets a basket of neurons with various dissolve delays
+   and only neurons with dissolve delay at least
+   `neuron_minimum_dissolve_delay_to_vote_seconds` (according to the SNS configuration
+   file from step 1.) are eligible to vote. It is also expected to get the error
+   "Neuron already voted on proposal." for some neurons because
+   they are followers of other neurons and our simple voting script
+   does not take this into account.
   
 Congratulations! You have now seen SNS in action in a test environment. We
 recommend that you experiment with different configurations until you find one

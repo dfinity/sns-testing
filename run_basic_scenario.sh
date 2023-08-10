@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -xeuo pipefail
+set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
@@ -36,8 +36,6 @@ jq -r '.swap_canister_id' -e sns_canister_ids.json
 
 # assert the new greeting text
 [ "$(./bin/dfx canister call test greet "M")" == '("Hello, M!")' ] && echo "OK" || exit 1
-
-./wait_for_last_nns_proposal.sh
 
 # Participate in SNS swap
 ./participate_sns_swap.sh

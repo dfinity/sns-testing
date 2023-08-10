@@ -20,9 +20,8 @@ rm -rf .dfx \
     msg.json \
     sns_canister_ids.json \
     upload_*.txt \
-    sns-wasm-list_deployed_snses-response.json #\
-    # FIXME[nns-dapp]: Uncomment when a release proposal is made for https://github.com/dfinity/nns-dapp/releases/tag/untagged-37e65efdedb810819a1b 
-    # nns-dapp/out
+    sns-wasm-list_deployed_snses-response.json \
+    nns-dapp/out
 
 # Remove Wallets
 rm -rf ~/.local/share/dfx/network/${NETWORK}/wallets.json

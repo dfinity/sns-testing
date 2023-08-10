@@ -74,7 +74,7 @@ done
 if [[ ${NUM_SNS_INSTANCES} -gt 1 ]]
 then
     # TODO: pick the right SNS in case there are multiple ones present
-    echo "Error: sns-testing currently does not support multiple SNSes (found ${NUM_SNS_INSTANCES})"
+    echo "Error: sns-testing currently does not support multiple SNSes (found ${NUM_SNS_INSTANCES}). It is recommended to start over by using `cleanup.sh`."
     exit 1
 fi
 
