@@ -10,8 +10,6 @@ export VOTE="${3:-y}"
 
 . ./constants.sh normal
 
-SNS_GOVERNANCE_CANISTER_ID=$(jq -r '.governance_canister_id' sns_canister_ids.json)
-
 for (( c=0; c<${NUM_PARTICIPANTS}; c++ ))
 do
   export ID="$(printf "%03d" ${c})"
@@ -24,7 +22,7 @@ do
   do
     export NEURON_ID="$(echo $JSON | jq -r ".[${i}].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
     quill sns --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" register-vote --proposal-id ${PROPOSAL} --vote ${VOTE} ${NEURON_ID} > msg.json
-    quill send --pem-file "${PEM_FILE}" --insecure-local-dev-mode --yes msg.json
+    quill send --insecure-local-dev-mode --yes msg.json
   done
 done
 

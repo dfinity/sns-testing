@@ -8,8 +8,6 @@ export CID="${1}"
 
 . ./constants.sh normal
 
-SNS_ROOT_CANISTER_ID=$(jq -r '.root_canister_id' sns_canister_ids.json)
-
 while [ "$(./bin/dfx canister \
         --network "${NETWORK}" \
         call ${SNS_ROOT_CANISTER_ID} \

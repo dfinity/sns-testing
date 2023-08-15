@@ -8,7 +8,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 if [ -f "./sns_canister_ids.json" ]
 then
-    SNS_GOVERNANCE_CANISTER_ID=$(jq -r '.governance_canister_id' sns_canister_ids.json)
     ./deploy_dapp.sh "test" "" "(opt record {sns_governance = opt principal\"${SNS_GOVERNANCE_CANISTER_ID}\"; greeting = null;})"
 else
     ./deploy_dapp.sh "test" "" "(opt record {sns_governance = null; greeting = null;})"

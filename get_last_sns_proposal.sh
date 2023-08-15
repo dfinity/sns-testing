@@ -6,8 +6,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh normal
 
-SNS_GOVERNANCE_CANISTER_ID=$(jq -r '.governance_canister_id' sns_canister_ids.json)
-
 dfx canister \
     --network "${NETWORK}" \
     call "${SNS_GOVERNANCE_CANISTER_ID}" \

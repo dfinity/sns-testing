@@ -122,6 +122,14 @@ Swap:
         events: 3
         interval: 1 month
 
+    # Absolute time within a day when the swap is supposed to start.
+    #
+    # An algorithm will be applied to allow at least 24 hours between the time
+    # of execution of the CreateServiceNervousSystem proposal and swap start.
+    # For example, if start_time is 23:30 UTC and the proposal is adopted and
+    # executed at 23:20 UTC, then the swap start will be at 23:30 UTC the next
+    # day (i.e., in 24 hours and 10 min from the proposal execution time).
+    #
     # WARNING: Swap start_time works differently on mainnet and in testing.
     #
     # On mainnet:
@@ -129,10 +137,7 @@ Swap:
     #   participants to be prepared for the swap in advance, e.g.,
     #   by obtaining ICPs that they would like to participate with.
     # - If start_time is not specified, the actual start time of the swap will
-    #   be chosen at random. Note that an algorithm will be applied to allow
-    #   at least 24 hours before the swap starts. For example, setting this
-    #   value to 23.59 UTC implies that the swap will actually start in 47:59
-    #   two days minus one minutes. 
+    #   be chosen at random (allowing at least 24 hours, as described above).
     #
     # In testing:
     # - Setting start_time to some value works the same as explained above.

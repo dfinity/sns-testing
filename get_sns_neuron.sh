@@ -8,4 +8,4 @@ ID="${1}"
 
 . ./constants.sh normal
 
-dfx canister --network "${NETWORK}" call sns_governance get_neuron "(record {neuron_id = opt record {id = blob \"${ID}\"};})"
+dfx canister --network "${NETWORK}" call "${SNS_GOVERNANCE_CANISTER_ID}" get_neuron "(record {neuron_id = opt record {id = blob \"${ID}\"};})"

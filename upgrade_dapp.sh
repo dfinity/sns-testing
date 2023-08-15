@@ -14,8 +14,6 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-SNS_GOVERNANCE_CANISTER_ID=$(jq -r '.governance_canister_id' sns_canister_ids.json)
-
 export DEVELOPER_NEURON_ID="$(dfx canister \
   --network "${NETWORK}" \
   call "${SNS_GOVERNANCE_CANISTER_ID}" \
@@ -50,6 +48,5 @@ quill sns  \
    "${ARGFLAG}" "${ARG}"  \
    "${DEVELOPER_NEURON_ID}" > msg.json
 quill send \
-  --pem-file "${PEM_FILE}" \
   --insecure-local-dev-mode \
   --yes msg.json | grep -v "new_canister_wasm"

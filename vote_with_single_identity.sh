@@ -15,7 +15,7 @@ export CURRENT_DX_IDENT=$(dfx identity whoami)
 dfx identity use "${VOTING_IDENTITY}"
 PEM_FILE="$(readlink -f "$HOME/.config/dfx/identity/${VOTING_IDENTITY}/identity.pem")"
 export DX_PRINCIPAL="$(dfx identity get-principal)"
-export JSON="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})" | idl2json | jq -r ".neurons")"
+export JSON="$(dfx canister --network "${NETWORK}" call "${SNS_GOVERNANCE_CANISTER_ID}" list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})" | idl2json | jq -r ".neurons")"
 
 for((i=0; i<"$(echo $JSON | jq length)"; i++))
 do

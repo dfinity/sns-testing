@@ -169,3 +169,11 @@ execute_nns_tools_func() {
 }
 
 export -f execute_nns_tools_func
+
+if [[ -f sns_canister_ids.json ]]; then
+  export SNS_GOVERNANCE_CANISTER_ID=$(jq -r '.governance_canister_id' sns_canister_ids.json)
+  export SNS_INDEX_CANISTER_ID=$(jq -r '.index_canister_id' sns_canister_ids.json)
+  export SNS_LEDGER_CANISTER_ID=$(jq -r '.ledger_canister_id' sns_canister_ids.json)
+  export SNS_ROOT_CANISTER_ID=$(jq -r '.root_canister_id' sns_canister_ids.json)
+  export SNS_SWAP_CANISTER_ID=$(jq -r '.root_canister_id' sns_canister_ids.json)
+fi

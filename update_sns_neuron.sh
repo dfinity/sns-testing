@@ -8,4 +8,4 @@ ARG="${1}"
 
 . ./constants.sh normal
 
-dfx canister --network "${NETWORK}" call sns_governance update_neuron "(${ARG})"
+dfx canister --network "${NETWORK}" call "${SNS_GOVERNANCE_CANISTER_ID}" update_neuron "(${ARG})"
