@@ -250,7 +250,7 @@ created during these steps with your initial SNS developer neurons).
    can be done as follows:
 
    ```bash
-   ./upgrade_test_canister.sh "Swap is taking place."
+   ./upgrade_test_canister.sh "Swap is taking place."  # from Bash
    ```
 
    This submits an SNS proposal to upgrade the test dapp. If you are using the
@@ -310,7 +310,7 @@ created during these steps with your initial SNS developer neurons).
    If using the test dapp, this step can be performed like so:
 
    ```bash
-   ./upgrade_test_canister.sh "First upgrade after the initial token swap."
+   ./upgrade_test_canister.sh "First upgrade after the initial token swap."  # from Bash
    ```
 
    This is similar to step 4, but we use a different message argument so that
@@ -320,7 +320,7 @@ created during these steps with your initial SNS developer neurons).
       `participate_sns_swap.sh` to vote on the proposal, like so:
 
       ```bash
-      ./vote_on_sns_proposal.sh <num-participants> <proposal-id> y
+      ./vote_on_sns_proposal.sh <num-participants> <proposal-id> y  # from Bash
       ```
 
    * If you would rather test the proposal rejection scenario, simply replace
