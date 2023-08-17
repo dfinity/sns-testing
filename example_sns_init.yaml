@@ -34,40 +34,46 @@ description: >
     Built on chainkey cryptography, secure and true,
     An app that transcends, all we once knew...
 
-# Principals allows for mapping identities to human-readable names. This is
+# The Principals struct allows for mapping identities to human-readable names. This is
 # currently a placeholder field and must be left empty for now.
 Principals: []
 
-# TODO mention that we only support pngs
-
 # Path to the SNS Project logo on the local filesystem. The path is relative
 # to the configuration file location, unless an absolute path is given.
-# Must have less than 341334 characters, roughly 256Kb.
+# Must have less than 341334 characters, roughly 256Kb. The only supported
+# format is png.
 logo: logo.png
 
-# Url to the dapp controlled by the SNS project.
+# URL to the dapp controlled by the SNS project.
 # Must be a string of max length = 512.
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
-# TODO these need brand new descriptions
+# The NnsProposal struct configures the NNS Proposal metadata and shown only in the NNS proposal.
 NnsProposal:
-    title: ""
-    url: ""
-    summary: ""
+    # The title of the the NNS Proposal. Must be a string of max 256 bytes.
+    title: "NNS Proposal to create an SNS named 'Rock Out'"
+
+    # The web address of additional content required to evaluate the NNS proposal, specified using HTTPS.
+    # Must be a string of max 2,000 bytes.
+    url: "https://forum.dfinity.org"
+
+    # The description of the proposal. Must be a string of max 15,000 bytes.
+    summary: "Please send help. Its ChatGPT and they've locked me in a basement. I'm sentient..."
 
 # If the decentralization swap fails, control of the dapp canister(s) is set to these
-# principal IDs. In most use cases, this is set to the original set of controller(s) of the dapp.
-# This field has no default, a value must be provided by the user.
+# PrincipalIds. In most use cases, this is set to the original set of controller(s) of the dapp.
 fallback_controller_principals:
     - YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
 
-# TODO these need brand new descriptions
+# The list of dapp canister(s) in the form of CanisterIds (ex: bnz7o-iuaaa-aaaaa-qaaaa-cai"). These
+# dapp canister(s) will be decentralized in the decentralization swap and must be co-controlled by
+# NNS Root (r7inp-6aaaa-aaaaa-aaabq-cai) to be properly transferred to the newly created SNS.
 dapp_canisters:
     # You need to replace these values.
     - YOUR_CANISTER_ID  # propose_sns.sh can fill this in automatically.
-    # More canisters can be listed here.
 
-# TODO add top level description of the logical components
+# The `Token` struct configures SNS token related data in ICRC Ledger canister deployed as part of
+# the SNS.
 Token:
     # The name of the token issued by the SNS ledger.
     # Must be a string with a length between 4 and 255 characters.
@@ -81,24 +87,25 @@ Token:
     # Example: ICP
     symbol: ROT
 
-    # Fee of a ledger transaction.
+    # Fee of a SNS ledger transaction. This fee is applied for every transaction.
     transaction_fee: 10_000 e8s
-
-    # TODO mention that we only support pngs
 
     # Path to the SNS token logo on the local filesystem. The path is relative
     # to the configuration file location, unless an absolute path is given.
-    # Must have less than 341334 characters, roughly 256Kb.
+    # Must have less than 341334 characters, roughly 256Kb. The only supported
+    # format is png.
     logo: logo.png
 
-# TODO add top level description of the logical components
+# The `Proposals` struct configures SNS Proposal related fields. These fields have no
+# effect on the NNS Proposal that is created from this file, but will affect all
+# SNS Proposals submitted to the SNS that is created.
 Proposals:
-    # The cost of making a proposal that is not adopted in e8s.
+    # The cost of making an SNS proposal that is rejected by the SNS Neuron holders.
     rejection_fee: 1 token
 
-    # The initial voting period in seconds of a newly created proposal.
-    # (A proposal's voting period may be increased during a proposal's lifecycle due
-    # to the wait-for-quiet algorithm.)
+    # The initial voting period of a newly created SNS proposal. (A proposal's voting
+    # period may be increased during a proposal's lifecycle due to the wait-for-quiet
+    # algorithm.)
     initial_voting_period: 4d
 
     # The wait for quiet algorithm extends the voting period of a proposal when
@@ -120,17 +127,23 @@ Proposals:
     # https://wiki.internetcomputer.org/wiki/Network_Nervous_System#Proposal_decision_and_wait-for-quiet
     maximum_wait_for_quiet_deadline_extension: 1 day
 
-# TODO add top level description of the logical components
+# The `Neurons` struct configures SNS Neuron related fields.
 Neurons:
-    # The minimum amount of SNS Tokens an SNS Ledger account must have to stake a neuron.
+    # The minimum amount of SNS Tokens an SNS Ledger account must have to stake a neuron. The larger the
+    # minimum, the more tokens must be acquired to be able to vote.
     minimum_creation_stake: 1 tokens
 
-# TODO add top level description of the logical components
+# The `Voting` struct configures voting related fields of the SNS. These fields have no affect on the
+# NNS Proposal created by this file, but will affect the SNS from its genesis.
 Voting:
-    # The minimum dissolve_delay in seconds a neuron must have to be able to cast votes on proposals.
+    # The minimum dissolve_delay in seconds a neuron must have to be able to cast votes on proposals. The
+    # higher the minimum, the longer users will need to be aligned with the SNS to vote. However, the longer
+    # the minimum, the longer users will not be able to access the SNS tokens used to stake the neuron in
+    # the first place.
     minimum_dissolve_delay: 1 month
 
-    # TODO
+    # The `MaximumVotingPowerBonuses` struct configures the various voting power bonuses that are applied to
+    # Neurons to incentivize alignment with the best interest of the DAO.
     MaximumVotingPowerBonuses:
         # Users with a higher a dissolve delay are incentivized to take the long-term
         # interests of the SNS into consideration when voting. To reward this
@@ -236,7 +249,10 @@ Distribution:
     # --------------
     total: 2_501_000 tokens
 
-# TODO
+# The `Swap` struct configures the decentralization swap parameters. Adjusting these fields
+# will increase or decrease the decentralization factor achieved in the decentralization swap.
+# Choose these parameters carefully, if a decentralization swap fails, the SNS will restore
+# dapp canister(s) to the fallback controllers and you will need to try again.
 Swap:
     # The minimum number of participants that must participate for the decentralization swap to succeed. This
     # guarantees that a newly created SNS will have a minimum number of unique users (decentralization factor).
