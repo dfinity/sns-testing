@@ -10,17 +10,14 @@
 # This follows the second configuration file format developed for the `sns`
 # CLI. The first format will be supported for a time, but this format will
 # eventually become the standard format.
-
-# -------------------------------------------------------------------------
-
-# TODO also explain the units that can be used (weeks & w, days & d, token vs e8s)
+# ------------------------------------------------------------------------------
 
 # Name of the SNS project. This may differ from the name of the associated token.
 # Must be a string of max length = 255.
 name: Rock Out
 
 # Description of the SNS project.
-# Must be a string of max length = 2000.
+# Must be a string of max length = 2,000.
 description: >
     A poem co-written with ChatGPT
 
@@ -34,46 +31,53 @@ description: >
     Built on chainkey cryptography, secure and true,
     An app that transcends, all we once knew...
 
-# The Principals struct allows for mapping identities to human-readable names. This is
-# currently a placeholder field and must be left empty for now.
+# The structure allows for mapping identities to human-readable names.
+# This is currently a placeholder field and must be left empty for now.
 Principals: []
 
 # Path to the SNS Project logo on the local filesystem. The path is relative
 # to the configuration file location, unless an absolute path is given.
-# Must have less than 341334 characters, roughly 256Kb. The only supported
-# format is png.
+# Must have less than 341,334 characters, roughly 256 Kb. The only supported
+# format is PNG.
 logo: logo.png
 
 # URL to the dapp controlled by the SNS project.
 # Must be a string of max length = 512.
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
-# The NnsProposal struct configures the NNS Proposal metadata and shown only in the NNS proposal.
+# Configuration of the NNS proposal metadata and is shown only in
+# the NNS proposal.
 NnsProposal:
-    # The title of the the NNS Proposal. Must be a string of max 256 bytes.
+    # The title of the NNS proposal. Must be a string of max 256 bytes.
     title: "NNS Proposal to create an SNS named 'Rock Out'"
 
-    # The web address of additional content required to evaluate the NNS proposal, specified using HTTPS.
-    # Must be a string of max 2,000 bytes.
+    # The HTTPS address of additional content required to evaluate the NNS
+    # proposal. Must be a string of max 2,000 bytes.
     url: "https://forum.dfinity.org"
 
     # The description of the proposal. Must be a string of max 15,000 bytes.
     summary: "Please send help. Its ChatGPT and they've locked me in a basement. I'm sentient..."
 
-# If the decentralization swap fails, control of the dapp canister(s) is set to these
-# PrincipalIds. In most use cases, this is set to the original set of controller(s) of the dapp.
+# If the decentralization swap fails, control over the dapp canister(s) is set
+# to these principals. In most use cases, this is set to the original set of
+# controller(s) of the dapp.
 fallback_controller_principals:
-    - YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
+    # You need to replace this for your own SNS decentralization swap.
+    # For testing, propose_sns.sh will fill this in automatically.
+    - YOUR_PRINCIPAL_ID
 
-# The list of dapp canister(s) in the form of CanisterIds (ex: bnz7o-iuaaa-aaaaa-qaaaa-cai"). These
-# dapp canister(s) will be decentralized in the decentralization swap and must be co-controlled by
-# NNS Root (r7inp-6aaaa-aaaaa-aaabq-cai) to be properly transferred to the newly created SNS.
+# The list of dapp canister(s) in the form of canister IDs, for example,
+# `bnz7o-iuaaa-aaaaa-qaaaa-cai`. These dapp canister(s) will be decentralized
+# if the decentralization swap succeeds, and must be co-controlled by NNS Root 
+# (`r7inp-6aaaa-aaaaa-aaabq-cai`) to be properly transferred to the newly
+# created SNS.
 dapp_canisters:
-    # You need to replace these values.
-    - YOUR_CANISTER_ID  # propose_sns.sh can fill this in automatically.
+    # You need to replace this for your own SNS decentralization swap.
+    # For testing, propose_sns.sh will fill this in automatically.
+    - YOUR_CANISTER_ID
 
-# The `Token` struct configures SNS token related data in ICRC Ledger canister deployed as part of
-# the SNS.
+# Configuration of SNS tokens in the ICRC Ledger canister deployed as part
+# of the SNS.
 Token:
     # The name of the token issued by the SNS ledger.
     # Must be a string with a length between 4 and 255 characters.
@@ -87,63 +91,66 @@ Token:
     # Example: ICP
     symbol: ROT
 
-    # Fee of a SNS ledger transaction. This fee is applied for every transaction.
+    # SNS ledger transactions will have this fee.
     transaction_fee: 10_000 e8s
 
-    # Path to the SNS token logo on the local filesystem. The path is relative
+    # Path to the SNS token logo on your local filesystem. The path is relative
     # to the configuration file location, unless an absolute path is given.
-    # Must have less than 341334 characters, roughly 256Kb. The only supported
-    # format is png.
+    # Must have less than 341,334 characters, roughly 256 Kb. The only supported
+    # format is PNG.
     logo: logo.png
 
-# The `Proposals` struct configures SNS Proposal related fields. These fields have no
-# effect on the NNS Proposal that is created from this file, but will affect all
-# SNS Proposals submitted to the SNS that is created.
+# Configures SNS proposal-related fields. These fields have no
+# effect on the NNS proposal that is created from this file, but will affect all
+# SNS proposals submitted to the newly created SNS.
 Proposals:
-    # The cost of making an SNS proposal that is rejected by the SNS Neuron holders.
+    # The cost of making an SNS proposal that is rejected by the SNS Neuron
+    # holders.
     rejection_fee: 1 token
 
-    # The initial voting period of a newly created SNS proposal. (A proposal's voting
-    # period may be increased during a proposal's lifecycle due to the wait-for-quiet
-    # algorithm.)
+    # The initial voting period of a newly-created SNS proposal. (A proposal's
+    # voting period may be increased during its lifecycle due to the
+    # wait-for-quiet algorithm (see details below).
     initial_voting_period: 4d
 
     # The wait for quiet algorithm extends the voting period of a proposal when
     # there is a flip in the majority vote during the proposal's voting period.
     #
     # Without this, there could be an incentive to vote right at the end of a
-    # proposal's voting period, in order to reduce the chance that people will see
-    # the result and vote against.
+    # proposal's voting period, in order to reduce the chance that people will
+    # see and have time to react to that.
     #
-    # If this value is set to 86400 seconds (1 day), a change in the majority vote
-    # during at the end of a proposal's original voting period the voting period
-    # being extended by an additional day. Another change at the end of the extended
+    # TODO: fix text below
+    # If this value is set to 1 day, then a change in the majority vote at the
+    # end of a proposal's original voting period results in being extended by an
+    # additional day. Another change at the end of the extended
     # period will cause the voting period to be extended by half a day, and so on.
     #
     # The total extension to the voting period will never be more than twice this
     # value.
     #
-    # For more information, see the wiki page on the wait-for-quiet algorithm:
+    # For more information, please refer to
     # https://wiki.internetcomputer.org/wiki/Network_Nervous_System#Proposal_decision_and_wait-for-quiet
     maximum_wait_for_quiet_deadline_extension: 1 day
 
-# The `Neurons` struct configures SNS Neuron related fields.
+# Configuration of SNS neuron-related fields.
 Neurons:
-    # The minimum amount of SNS Tokens an SNS Ledger account must have to stake a neuron. The larger the
-    # minimum, the more tokens must be acquired to be able to vote.
+    # The minimum amount of SNS tokens an SNS ledger account must have to stake
+    # a neuron. The larger the minimum, the more tokens must be acquired to be
+    # able to vote.
     minimum_creation_stake: 1 tokens
 
-# The `Voting` struct configures voting related fields of the SNS. These fields have no affect on the
-# NNS Proposal created by this file, but will affect the SNS from its genesis.
+# Configuration of voting-related fields of the SNS. These fields have no effect
+# on the NNS proposal created by this file, but will affect the SNS itself.
 Voting:
-    # The minimum dissolve_delay in seconds a neuron must have to be able to cast votes on proposals. The
-    # higher the minimum, the longer users will need to be aligned with the SNS to vote. However, the longer
-    # the minimum, the longer users will not be able to access the SNS tokens used to stake the neuron in
-    # the first place.
+    # The minimum dissolve delay a neuron must have to be able to cast votes on
+    # proposals. The higher the minimum, the longer users will need to be
+    # aligned with the SNS to vote. However, the longer the minimum, the longer
+    # users will not be able to access the SNS tokens used to stake the neuron.
     minimum_dissolve_delay: 1 month
 
-    # The `MaximumVotingPowerBonuses` struct configures the various voting power bonuses that are applied to
-    # Neurons to incentivize alignment with the best interest of the DAO.
+    # Configuration of the various voting power bonuses that are applied to
+    # neurons to incentivize alignment with the best interest of the DAO.
     MaximumVotingPowerBonuses:
         # Users with a higher a dissolve delay are incentivized to take the long-term
         # interests of the SNS into consideration when voting. To reward this
@@ -179,26 +186,32 @@ Voting:
             # `bonus` amount.
             bonus: 25%
 
-    # The voting reward rate controls how quickly the supply of the SNS token
-    # increases. For example, an initial of `2%` will cause the supply to increase
-    # by at most 2% each year. A higher voting reward rate incentivizes users to
-    # participate in governance, but also results in higher inflation.
+    # TODO[ATG]: The current description doesn't explain how much rewards will
+    # there be for a particular action given a particular `RewardRate`
+    # configuration. How exactly does inflation project to voting rewards?
     #
-    # An initial and a final reward rate can be set to have a higher reward rate at
-    # the launch of the SNS and a lower rate farther into the SNS’s lifetime. The
-    # reward rate falls quadratically from the `initial` rate to the `final` rate over
-    # the course of `transition_duration`.
+    # The voting reward rate controls how quickly the supply of the SNS token
+    # increases. For example, setting `initial` to 2% will cause the supply to
+    # increase by at most 2% per year. A higher voting reward rate incentivizes
+    # users to participate in governance, but also results in higher inflation.
+    #
+    # The initial and final reward rates can be set to have a higher reward rate
+    # at the launch of the SNS and a lower rate further into the SNS’s lifetime.
+    # The reward rate falls quadratically from the `initial` rate to the `final`
+    # rate over the course of `transition_duration`.
     #
     # Setting both `initial` and `final` to 0% will result in the system not
     # distributing voting rewards at all.
     RewardRate:
-        # The initial reward rate that SNS voting rewards will increase the SNS token supply per year. If this
-        # field is set to 0% in conjunction with `final`, no voting rewards will be available.
+        # The initial reward rate that SNS voting rewards will increase the SNS
+        # token supply per year.
         initial: 10%
 
-        # The final reward rate that SNS voting rewards will increase the SNS token supply per year. This rate is
-        # reached after `transition_duration` and remain at this level unless changed by SNS Proposal. If this
-        # field is set to 0% in conjunction with `initial`, no voting rewards will be available.
+        # The final reward rate that SNS voting rewards will increase the SNS
+        # token supply per year. This rate is reached after `transition_duration`
+        # and remains at this level unless changed by an SNS proposal.
+        #
+        # TODO[ATG]: is there a requirement that `final` <= `initial`?
         final: 2.25%
 
         # The voting reward rate falls quadratically from `initial` to `final` over the time period defined
@@ -207,39 +220,46 @@ Voting:
         # Values of 0 result in the reward rate always being `final`.
         transition_duration: 12 years
 
-# This structure sets the initial token distribution of the SNS. You can configure how SNS tokens
-# are distributed in three "buckets": tokens that are given to the original developers of
-# the dapp, treasury tokens that are owned by the SNS governance canister,
-# and swap tokens which are swapped in a decentralization swap.
+# Configuration of the initial token distribution of the SNS. You can configure
+# how SNS tokens are distributed in each of the three groups:
+# (1) tokens that are given to the original developers of the dapp,
+# (2) treasury tokens that are owned by the SNS governance canister, and
+# (3) tokens which are distributed to the decentralization swap participants.
 #
-# All developer tokens are distributed to the defined principals at genesis in a basket
-# of neurons called developer neurons.
+# TODO[ATG]: what is "The Swap's initial balance"?
 #
-# The initial token distribution must satisfy the following preconditions to be valid:
-#    - The sum of all developer tokens in E8s of a token must be less than u64::MAX
-#    - The Swap's initial balance must be greater than 0
-#    - The Swap's initial balance must be greater than or equal to the sum of all developer tokens
+# The initial token distribution must satisfy the following preconditions to be
+# valid:
+#    - The sum of all developer tokens in E8s must be less than `u64::MAX`.
+#    - The Swap's initial balance must be greater than 0.
+#    - The Swap's initial balance must be greater than or equal to the sum of
+#      all developer tokens.
 Distribution:
-    # The neurons distributed at genesis to the development team of the dapp being
-    # decentralized. A Neuron specifies the neuron's stake, controlling principal,
-    # a unique memo, a dissolve delay, and a vesting period. Even though these
-    # Neurons are distributed at genesis, they are locked in PreInitializationMode
-    # until the decentralization swap is completed.
+    # TODO[ATG]: how is unique memo practically used? Is the uniqueness actually 
+    # enforced?
+    #
+    # The neurons distributed at genesis to the development team of the dapp
+    # being decentralized. Each element in this list specifies one such neuron,
+    # including its stake, controlling principal, unique memo, dissolve
+    # delay, and a vesting period. Even though these neurons are distributed at
+    # genesis, they are locked in a (restricted) pre-initialization mode until
+    # the decentralization swap is completed.
     Neurons:
-        - principal: YOUR_PRINCIPAL_ID  # propose_sns.sh can fill this in automatically.
+        - principal: YOUR_PRINCIPAL_ID  # For testing, propose_sns.sh will fill this in automatically.
           stake: 1_000 tokens
           memo: 0
           dissolve_delay: 2 years
           vesting_period: 4 years
     # The initial SNS Token balances of the various canisters of the SNS.
     InitialBalances:
-        # The initial SNS Token balance of the Governance canister is known as the "treasury".
-        # This is initialized in a special subaccount as the main account of Governance is
-        # the minting account of the SNS Ledger.
+        # The initial SNS Token balance of the Governance canister is known as
+        # the treasury. This is initialized in a special sub-account, as the
+        # main account of Governance is the minting account of the SNS Ledger.
         governance: 2_000_000 tokens
 
-        # The initial SNS Token balance of the swap canister is what will be available for
-        # the decentralization swap. These tokens will be swapped for ICP.
+        # The initial SNS token balance of the Swap canister is what will be
+        # available for the decentralization swap. These tokens will be swapped
+        # for ICP.
         swap: 500_000 tokens
 
     # Checksum of the total number of tokens distributed in this section.
@@ -249,59 +269,66 @@ Distribution:
     # --------------
     total: 2_501_000 tokens
 
-# The `Swap` struct configures the decentralization swap parameters. Adjusting these fields
-# will increase or decrease the decentralization factor achieved in the decentralization swap.
-# Choose these parameters carefully, if a decentralization swap fails, the SNS will restore
-# dapp canister(s) to the fallback controllers and you will need to try again.
+# Configuration of the decentralization swap parameters. Adjusting these fields
+# will increase or decrease the decentralization factor achieved in the
+# decentralization swap. Choose these parameters carefully, if a
+# decentralization swap fails, the SNS will restore the dapp canister(s) to
+# the fallback controllers (defined in `fallback_controller_principals`) and you
+# will need to start over.
 Swap:
-    # The minimum number of participants that must participate for the decentralization swap to succeed. This
-    # guarantees that a newly created SNS will have a minimum number of unique users (decentralization factor).
-    # If a decentralization swap's maximum target is reached, or the deadline elapses and there have not
-    # been at least `minimum_participants`, the swap will fail.
+    # The minimum number of participants that must participate for the
+    # decentralization swap to succeed. This guarantees that a newly created SNS
+    # will have a minimum number of unique users (decentralization factor).
+    # If a decentralization swap's maximum target is reached, or the
+    # deadline elapses and there have not been at least `minimum_participants`,
+    # the swap will fail.
     minimum_participants: 57
 
     # The total number of ICP that is required for a decentralization swap to
-    # succeed. This number divided by the number of SNS tokens being
-    # offered gives the reserve price of the swap, i.e., the
-    # minimum number of ICP per SNS token. If this amount is not achieved, the
-    # swap will fail.
-    minimum_icp:   100_000 tokens
+    # succeed. This number divided by the number of SNS tokens being offered
+    # gives the reserve price of the swap, i.e., the minimum number of ICP per
+    # SNS token. If this amount is not achieved, the swap will fail.
+    minimum_icp: 100_000 tokens
 
-    # The maximum number of ICP that is "targeted" by this decentralization swap. If this
-    # amount is achieved with sufficient participation, the swap will
-    # succeed immediately, without waiting for the deadline.
-    # This means that an participant knows the minimum
-    # number of SNS tokens received per invested ICP. If this amount is achieved
-    # without reaching sufficient_participation, the swap will immediately fail without
-    # waiting for the due date.
+    # The maximum number of ICP that is targeted by this decentralization swap.
+    # If this amount is achieved with sufficient participation, the swap will
+    # succeed immediately, without waiting for the deadline. This means that
+    # a participant knows the minimum number of SNS tokens received per invested
+    # ICP. If this amount is achieved without reaching sufficient_participation,
+    # the swap will immediately fail without waiting for the due date.
     maximum_icp: 1_000_000 tokens
 
-    # The minimum amount of ICP that each participant must contribute to participate.
+    # The minimum amount of ICP that each participant must contribute
+    # to participate.
     minimum_participant_icp:     10 tokens
 
-    # The maximum amount of ICP that each participant must contribute to participate.
+    # The maximum amount of ICP that each participant must contribute
+    # to participate.
     maximum_participant_icp: 10_000 tokens
 
     # The optional text that swap participants must confirm before they may
     # participate in the swap. If set, must be within 1 to 1,000 characters.
     # confirmation_text: >
-    #     Do you understand the responsibilities and risks associated
-    #     with participating in this token swap?
+    #     I confirm my understanding of the responsibilities and risks
+    #     associated with participating in this token swap.
 
-    # An optional list of countries that should not participate in the decentralization swap.
+    # An optional list of countries that should not participate in the
+    # decentralization swap. By default, participants from all countries
+    # are allowed.
     restricted_countries:
         - AQ  # Antarctica
 
-    # This structure configures the vesting schedule of the basket of Neurons each
+    # Configuration of the vesting schedule of the basket of Neurons each
     # participant will receive from a successful decentralization swap.
     VestingSchedule:
-        # The number of events in the vesting schedule. This translates to how many
-        # neurons will be in the basket.
+        # The number of events in the vesting schedule. This translates to how
+        # many neurons will be in each participant's neuron basket.
         events: 3
 
-        # The interval at which the schedule will be increased per event. The first
-        # neuron in the basket will be unlocked with zero dissolve delay. Each other
-        # neuron in the schedule will have its dissolve delay increased by `interval`.
+        # The interval at which the schedule will be increased per event. The
+        # first neuron in the basket will be unlocked with zero dissolve delay.
+        # Each other neuron in the schedule will have its dissolve delay
+        # increased by `interval`.
         interval: 1 month
 
     # Absolute time of day when the decentralization swap is supposed to start.
@@ -315,7 +342,7 @@ Swap:
     # WARNING: Swap start_time works differently on mainnet and in testing.
     #
     # On mainnet:
-    # - Setting start_time to some value (e.g., 12:00 UTC) will allow the swap
+    # - Setting start_time to some value (e.g., 23:30 UTC) will allow the swap
     #   participants to be prepared for the swap in advance, e.g.,
     #   by obtaining ICPs that they would like to participate with.
     # - If start_time is not specified, the actual start time of the swap will
@@ -328,13 +355,13 @@ Swap:
     #   the CreateServiceNervousSystem proposal is executed. This facilitates
     #   testing in an accelerated manner.
     #
-    # start_time: 12:00 UTC # noon
+    # start_time: 23:30 UTC
 
     # The duration of the decentralization swap. When `start_time` is calculated
     # during CreateServiceNervousSystem proposal execution, this `duration` will
     # be added to that absolute time and set as the swap's deadline.
     duration: 7 days
 
-    # The amount of ICP that will be contributed to the decentralization swap
-    # by the Neurons' Fund if the CreateServiceNervousSystem proposal is adopted.
+    # The amount of ICP that will be contributed to the decentralization swap by
+    # the Neurons' Fund if the CreateServiceNervousSystem proposal is adopted.
     neurons_fund_investment_icp: 0 tokens
