@@ -12,8 +12,8 @@
 # eventually become the standard format.
 # ------------------------------------------------------------------------------
 
-# Name of the SNS project. This may differ from the name of the associated token.
-# Must be a string of max length = 255.
+# Name of the SNS project. This may differ from the name of the associated
+# token. Must be a string of max length = 255.
 name: Rock Out
 
 # Description of the SNS project.
@@ -56,7 +56,9 @@ NnsProposal:
     url: "https://forum.dfinity.org"
 
     # The description of the proposal. Must be a string of max 15,000 bytes.
-    summary: "Please send help. Its ChatGPT and they've locked me in a basement. I'm sentient..."
+    summary: >
+        Please send help. Its ChatGPT and they've
+        locked me in a basement. I'm sentient...
 
 # If the decentralization swap fails, control over the dapp canister(s) is set
 # to these principals. In most use cases, this is set to the original set of
@@ -152,38 +154,40 @@ Voting:
     # Configuration of the various voting power bonuses that are applied to
     # neurons to incentivize alignment with the best interest of the DAO.
     MaximumVotingPowerBonuses:
-        # Users with a higher a dissolve delay are incentivized to take the long-term
-        # interests of the SNS into consideration when voting. To reward this
-        # long-term commitment, this bonus can be set to a percentage greater than
-        # zero, which will result in neurons having their voting power increased
-        # in proportion to their dissolve delay.
+        # Users with a higher a dissolve delay are incentivized to take the
+        # long-term interests of the SNS into consideration when voting. To
+        # reward this long-term commitment, this bonus can be set to a
+        # percentage greater than zero, which will result in neurons having
+        # their voting power increased in proportion to their dissolve delay.
         #
-        # If this bonus should not be applied for neurons with higher dissolve delay,
-        # set the bonus to `0%` and those neurons will not receive higher voting power.
+        # If you do not want this bonus should to be applied for neurons with
+        # higher dissolve delay, set `bonus` to `0%` and those neurons will not
+        # receive higher voting power.
         DissolveDelay:
-            # This parameter sets the maximum dissolve delay a neuron can have. When reached,
-            # the maximum dissolve delay bonus will be applied.
+            # This parameter sets the maximum dissolve delay a neuron can have.
+            # When reached, the maximum dissolve delay bonus will be applied.
             duration: 8 years
-            # If a neuron's dissolve is `duration` or older, its voting power will be multiplied by this
-            # `bonus` amount.
+            # If a neuron's dissolve delay is `duration` or older, its voting
+            # power will be multiplied by this `bonus` amount.
             bonus: 100%
 
-        # Users with neurons staked in the non-dissolving state for a long period of time are
-        # incentivized to take the long-term interests of the SNS into consideration when
-        # voting. To reward this long-term commitment, this bonus can be set to a percentage
-        # greater than zero, which will result in neurons having their voting power increased
-        # in proportion to their age.
+        # Users with neurons staked in the non-dissolving state for a long
+        # period of time are incentivized to take the long-term interests of
+        # the SNS into consideration when voting. To reward this long-term
+        # commitment, this bonus can be set to a percentage (greater than zero),
+        # which will result in neurons having their voting power increased in
+        # proportion to their age.
         #
-        # If this bonus should not be applied for older neurons, set the bonus to `0%` and
-        # older neurons will not receive higher voting power.
+        # If this bonus should not be applied for older neurons, set the bonus
+        # to `0%` and older neurons will not receive higher voting power.
         Age:
-            # This parameter sets the duration of time the neuron must be staked in the non-dissolving
-            # state, in other words its `age`, to reach the maximum age bonus. Once this age is reached,
-            # the neuron will continue to age, but no more bonus will be applied.
+            # This parameter sets the duration of time the neuron must be staked
+            # in the non-dissolving state, in other words its `age`, to reach
+            # the maximum age bonus. Once this age is reached, the neuron will
+            # continue to age, but no more bonus will be applied.
             duration: 4 years
-
-            # If a neuron's age is `duration` or older, its voting power will be multiplied by this
-            # `bonus` amount.
+            # If a neuron's age is `duration` or older, its voting power will be
+            # multiplied by this `bonus` amount.
             bonus: 25%
 
     # TODO[ATG]: The current description doesn't explain how much rewards will
@@ -191,16 +195,17 @@ Voting:
     # configuration. How exactly does inflation project to voting rewards?
     #
     # The voting reward rate controls how quickly the supply of the SNS token
-    # increases. For example, setting `initial` to 2% will cause the supply to
-    # increase by at most 2% per year. A higher voting reward rate incentivizes
-    # users to participate in governance, but also results in higher inflation.
+    # increases. For example, setting `initial` to `2%` will cause the supply to
+    # increase by at most `2%` per year. A higher voting reward rate
+    # incentivizes users to participate in governance, but also results in
+    # higher inflation.
     #
     # The initial and final reward rates can be set to have a higher reward rate
     # at the launch of the SNS and a lower rate further into the SNS’s lifetime.
     # The reward rate falls quadratically from the `initial` rate to the `final`
     # rate over the course of `transition_duration`.
     #
-    # Setting both `initial` and `final` to 0% will result in the system not
+    # Setting both `initial` and `final` to `0%` will result in the system not
     # distributing voting rewards at all.
     RewardRate:
         # The initial reward rate that SNS voting rewards will increase the SNS
@@ -214,8 +219,8 @@ Voting:
         # TODO[ATG]: is there a requirement that `final` <= `initial`?
         final: 2.25%
 
-        # The voting reward rate falls quadratically from `initial` to `final` over the time period defined
-        # by `transition_duration`.
+        # The voting reward rate falls quadratically from `initial` to `final`
+        # over the time period defined by `transition_duration`.
         #
         # Values of 0 result in the reward rate always being `final`.
         transition_duration: 12 years
@@ -226,24 +231,19 @@ Voting:
 # (2) treasury tokens that are owned by the SNS governance canister, and
 # (3) tokens which are distributed to the decentralization swap participants.
 #
-# TODO[ATG]: what is "The Swap's initial balance"?
-#
 # The initial token distribution must satisfy the following preconditions to be
 # valid:
 #    - The sum of all developer tokens in E8s must be less than `u64::MAX`.
-#    - The Swap's initial balance must be greater than 0.
-#    - The Swap's initial balance must be greater than or equal to the sum of
-#      all developer tokens.
+#    - The Swap's initial balance (see group (3) above) must be greater than 0.
+#    - The Swap's initial balance (see group (3) above) must be greater than or
+#      equal to the sum of all developer tokens.
 Distribution:
-    # TODO[ATG]: how is unique memo practically used? Is the uniqueness actually 
-    # enforced?
-    #
     # The neurons distributed at genesis to the development team of the dapp
     # being decentralized. Each element in this list specifies one such neuron,
-    # including its stake, controlling principal, unique memo, dissolve
-    # delay, and a vesting period. Even though these neurons are distributed at
-    # genesis, they are locked in a (restricted) pre-initialization mode until
-    # the decentralization swap is completed.
+    # including its stake, controlling principal, unique memo identifying this
+    # neuron, dissolve delay, and a vesting period. Even though these neurons
+    # are distributed at genesis, they are locked in a (restricted)
+    # pre-initialization mode until the decentralization swap is completed.
     Neurons:
         - principal: YOUR_PRINCIPAL_ID  # For testing, propose_sns.sh will fill this in automatically.
           stake: 1_000 tokens
@@ -294,7 +294,7 @@ Swap:
     # If this amount is achieved with sufficient participation, the swap will
     # succeed immediately, without waiting for the deadline. This means that
     # a participant knows the minimum number of SNS tokens received per invested
-    # ICP. If this amount is achieved without reaching sufficient_participation,
+    # ICP. If this amount is achieved without reaching `minimum_participants`,
     # the swap will immediately fail without waiting for the due date.
     maximum_icp: 1_000_000 tokens
 
