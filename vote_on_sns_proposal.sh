@@ -21,8 +21,8 @@ do
     --network "${NETWORK}" \
     call "${SNS_GOVERNANCE_CANISTER_ID}" \
     --candid candid/sns_governance.did \
-    list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})"
-      | idl2json
+    list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})" \
+      | idl2json \
       | jq -r ".neurons")"
   for((i=0; i<"$(echo $JSON | jq length)"; i++))
   do
