@@ -31,7 +31,6 @@ description: >
     Built on chainkey cryptography, secure and true,
     An app that transcends, all we once knew...
 
-# The structure allows for mapping identities to human-readable names.
 # This is currently a placeholder field and must be left empty for now.
 Principals: []
 
@@ -45,8 +44,7 @@ logo: logo.png
 # Must be a string of max length = 512.
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
-# Configuration of the NNS proposal metadata and is shown only in
-# the NNS proposal.
+# Configuration of the NNS proposal metadata (shown only in the NNS proposal).
 NnsProposal:
     # The title of the NNS proposal. Must be a string of max 256 bytes.
     title: "NNS Proposal to create an SNS named 'Rock Out'"
@@ -110,7 +108,7 @@ Proposals:
     # holders.
     rejection_fee: 1 token
 
-    # The initial voting period of a newly-created SNS proposal. (A proposal's
+    # The initial voting period of a newly-created SNS proposal. A proposal's
     # voting period may be increased during its lifecycle due to the
     # wait-for-quiet algorithm (see details below).
     initial_voting_period: 4d
@@ -122,20 +120,21 @@ Proposals:
     # proposal's voting period, in order to reduce the chance that people will
     # see and have time to react to that.
     #
-    # TODO: fix text below
     # If this value is set to 1 day, then a change in the majority vote at the
-    # end of a proposal's original voting period results in being extended by an
-    # additional day. Another change at the end of the extended
-    # period will cause the voting period to be extended by half a day, and so on.
+    # end of a proposal's original voting period results in an extension of the
+    # voting period by an additional day. Another change at the end of the
+    # extended period will cause the voting period to be extended by another
+    # half-day, etc.
     #
-    # The total extension to the voting period will never be more than twice this
-    # value.
+    # The total extension to the voting period will never be more than twice
+    # this value.
     #
     # For more information, please refer to
     # https://wiki.internetcomputer.org/wiki/Network_Nervous_System#Proposal_decision_and_wait-for-quiet
     maximum_wait_for_quiet_deadline_extension: 1 day
 
-# Configuration of SNS neuron-related fields.
+# Configuration of SNS neuron-related fields. These fields have no effect on the
+# NNS proposal, but will affect the SNS itself.
 Neurons:
     # The minimum amount of SNS tokens an SNS ledger account must have to stake
     # a neuron. The larger the minimum, the more tokens must be acquired to be
@@ -147,28 +146,28 @@ Neurons:
 Voting:
     # The minimum dissolve delay a neuron must have to be able to cast votes on
     # proposals. The higher the minimum, the longer users will need to be
-    # aligned with the SNS to vote. However, the longer the minimum, the longer
+    # aligned with the SNS to vote. However, the higher the minimum, the longer
     # users will not be able to access the SNS tokens used to stake the neuron.
     minimum_dissolve_delay: 1 month
 
     # Configuration of the various voting power bonuses that are applied to
     # neurons to incentivize alignment with the best interest of the DAO.
     MaximumVotingPowerBonuses:
-        # Users with a higher a dissolve delay are incentivized to take the
+        # Users with a higher dissolve delay are incentivized to take the
         # long-term interests of the SNS into consideration when voting. To
         # reward this long-term commitment, this bonus can be set to a
         # percentage greater than zero, which will result in neurons having
         # their voting power increased in proportion to their dissolve delay.
         #
-        # If you do not want this bonus should to be applied for neurons with
-        # higher dissolve delay, set `bonus` to `0%` and those neurons will not
-        # receive higher voting power.
+        # If you do not want this bonus to be applied for neurons with higher
+        # dissolve delay, set `bonus` to `0%` and those neurons will not receive
+        # higher voting power.
         DissolveDelay:
             # This parameter sets the maximum dissolve delay a neuron can have.
             # When reached, the maximum dissolve delay bonus will be applied.
             duration: 8 years
-            # If a neuron's dissolve delay is `duration` or older, its voting
-            # power will be multiplied by this `bonus` amount.
+            # If a neuron's dissolve delay is `duration`, its voting power will
+            # be multiplied by this `bonus` amount.
             bonus: 100%
 
         # Users with neurons staked in the non-dissolving state for a long
@@ -191,6 +190,7 @@ Voting:
             bonus: 25%
 
     # TODO[ATG]: The current description doesn't explain how much rewards will
+    #
     # there be for a particular action given a particular `RewardRate`
     # configuration. How exactly does inflation project to voting rewards?
     #
@@ -250,10 +250,10 @@ Distribution:
           memo: 0
           dissolve_delay: 2 years
           vesting_period: 4 years
-    # The initial SNS Token balances of the various canisters of the SNS.
+    # The initial SNS token balances of the various canisters of the SNS.
     InitialBalances:
-        # The initial SNS Token balance of the Governance canister is known as
-        # the treasury. This is initialized in a special sub-account, as the
+        # The initial SNS token balance of the SNS Governance canister is known
+        # as the treasury. This is initialized in a special sub-account, as the
         # main account of Governance is the minting account of the SNS Ledger.
         governance: 2_000_000 tokens
 
@@ -284,7 +284,7 @@ Swap:
     # the swap will fail.
     minimum_participants: 57
 
-    # The total number of ICP that is required for a decentralization swap to
+    # The minimum number of ICP that is required for a decentralization swap to
     # succeed. This number divided by the number of SNS tokens being offered
     # gives the reserve price of the swap, i.e., the minimum number of ICP per
     # SNS token. If this amount is not achieved, the swap will fail.
@@ -318,8 +318,9 @@ Swap:
     restricted_countries:
         - AQ  # Antarctica
 
-    # Configuration of the vesting schedule of the basket of Neurons each
-    # participant will receive from a successful decentralization swap.
+    # Configuration of the vesting schedule of the neuron basket, i.e., the SNS
+    # neurons that a participants will receive from a successful
+    # decentralization swap.
     VestingSchedule:
         # The number of events in the vesting schedule. This translates to how
         # many neurons will be in each participant's neuron basket.
