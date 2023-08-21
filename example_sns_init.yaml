@@ -237,10 +237,11 @@ Voting:
 Distribution:
     # The initial neurons created when the SNS Governance canister is installed.
     # Each element in this list specifies one such neuron, including its stake,
-    # controlling principal, unique memo identifying this neuron, dissolve
-    # delay, and a vesting period. Even though these neurons are distributed at
-    # genesis, they are locked in a (restricted) pre-initialization mode until
-    # the decentralization swap is completed.
+    # controlling principal, memo identifying this neuron (every neuron that
+    # a user has must be identified by a unique memo), dissolve delay, and a
+    # vesting period. Even though these neurons are distributed at genesis,
+    # they are locked in a (restricted) pre-initialization mode until the
+    # decentralization swap is completed.
     Neurons:
         - principal: YOUR_PRINCIPAL_ID  # For testing, propose_sns.sh will fill this in automatically.
           stake: 1_000 tokens
