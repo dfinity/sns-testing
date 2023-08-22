@@ -35,76 +35,78 @@ description: >
 Principals: []
 
 # Path to the SNS Project logo on the local filesystem. The path is relative
-# to the configuration file location, unless an absolute path is given.
-# Must have less than 341,334 characters, roughly 256 Kb. The only supported
-# format is PNG.
+# to the configuration file's location, unless an absolute path is given.
+# Must have less than 341,334 bytes. The only supported format is PNG.
 logo: logo.png
 
 # URL to the dapp controlled by the SNS project.
-# Must be a string of max length = 512.
+# Must be a string from 10 to 512 bytes.
 url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
 
-# Configuration of the NNS proposal metadata (shown only in the NNS proposal).
+# Metadata for the NNS proposal required to create the SNS. This data will be
+# shown only in the NNS proposal.
 NnsProposal:
-    # The title of the NNS proposal. Must be a string of max 256 bytes.
+    # The title of the NNS proposal. Must be a string of 4 to 256 bytes.
     title: "NNS Proposal to create an SNS named 'Rock Out'"
 
     # The HTTPS address of additional content required to evaluate the NNS
-    # proposal. Must be a string of max 2,000 bytes.
+    # proposal.
     url: "https://forum.dfinity.org"
 
-    # The description of the proposal. Must be a string of max 15,000 bytes.
+    # The description of the proposal. Must be a string of 10 to 2,000 bytes.
     summary: >
-        Please send help. Its ChatGPT and they've
-        locked me in a basement. I'm sentient...
+        Proposal to create an SNS for the project XX.
+        The SNS will be initialized with the following neurons:
+        ...
 
-# If the decentralization swap fails, control over the dapp canister(s) is set
-# to these principals. In most use cases, this is set to the original set of
+# If the SNS launch attempt fails, control over the dapp canister(s) is given to
+# these principals. In most use cases, this is chosen to be the original set of
 # controller(s) of the dapp.
 fallback_controller_principals:
-    # You need to replace this for your own SNS decentralization swap.
+    # For the actual SNS launch, you should replace this with one or more
+    # principals of your intended fallback controllers.
+    #
     # For testing, propose_sns.sh will fill this in automatically.
     - YOUR_PRINCIPAL_ID
 
-# The list of dapp canister(s) in the form of canister IDs, for example,
-# `bnz7o-iuaaa-aaaaa-qaaaa-cai`. These dapp canister(s) will be decentralized
-# if the decentralization swap succeeds, and must be co-controlled by NNS Root 
-# (`r7inp-6aaaa-aaaaa-aaabq-cai`) to be properly transferred to the newly
-# created SNS.
+# The list of dapp canister(s) that will be decentralized if the
+# decentralization swap succeeds. These are defined in the form of canister IDs,
+# for example, `bnz7o-iuaaa-aaaaa-qaaaa-cai`.  For a successful SNS launch,
+# these dapp canister(s) must be co-controlled by the NNS Root canister
+# (`r7inp-6aaaa-aaaaa-aaabq-cai`) at latest at the time when the NNS proposal to
+# create an SNS is adopted (usually this is required even earlier, e.g., to
+# convince NNS neurons to vote in favor of your proposal).
 dapp_canisters:
-    # You need to replace this for your own SNS decentralization swap.
+    # For the actual SNS launch, you should replace this with one or more
+    # IDs of the canisters comprising your to-be-decentralized dapp.
+    #
     # For testing, propose_sns.sh will fill this in automatically.
     - YOUR_CANISTER_ID
 
-# Configuration of SNS tokens in the ICRC Ledger canister deployed as part
+# Configuration of SNS tokens in the SNS Ledger canister deployed as part
 # of the SNS.
 Token:
     # The name of the token issued by the SNS ledger.
-    # Must be a string with a length between 4 and 255 characters.
-    #
-    # Example: InternetComputerProtocol
+    # Must be a string of 4 to 255 bytes without leading or trailing spaces.
     name: Rock Out Token
 
     # The symbol of the token issued by the SNS Ledger.
-    # Must be a string with a length between 3 and 10 characters.
-    #
-    # Example: ICP
+    # Must be a string of 3 to 10 bytes without leading or trailing spaces.
     symbol: ROT
 
-    # SNS ledger transactions will have this fee.
+    # SNS ledger transaction fee.
     transaction_fee: 10_000 e8s
 
     # Path to the SNS token logo on your local filesystem. The path is relative
     # to the configuration file location, unless an absolute path is given.
-    # Must have less than 341,334 characters, roughly 256 Kb. The only supported
-    # format is PNG.
+    # Must have less than 341,334 bytes. The only supported format is PNG.
     logo: logo.png
 
-# Configures SNS proposal-related fields. These fields have no
-# effect on the NNS proposal that is created from this file, but will affect all
-# SNS proposals submitted to the newly created SNS.
+# Configures SNS proposal-related fields. These fields define the initial values
+# for some of the nervous system parameters related to SNS proposals. This will
+# not affect all SNS proposals submitted to the newly created SNS.
 Proposals:
-    # The cost of making an SNS proposal that is rejected by the SNS Neuron
+    # The cost of making an SNS proposal that is rejected by the SNS neuron
     # holders.
     rejection_fee: 1 token
 
@@ -241,9 +243,15 @@ Distribution:
     # a user has must be identified by a unique memo), dissolve delay, and a
     # vesting period. Even though these neurons are distributed at genesis,
     # they are locked in a (restricted) pre-initialization mode until the
-    # decentralization swap is completed.
+    # decentralization swap is completed. Note that `vesting_period` starts
+    # right after the SNS creation and thus includes the pre-initialization mode
+    # period.
     Neurons:
-        - principal: YOUR_PRINCIPAL_ID  # For testing, propose_sns.sh will fill this in automatically.
+        # For the actual SNS launch, you should replace this with one or more
+        # principals of your intended genesis neurons.
+        #
+        # For testing, propose_sns.sh will fill this in automatically.
+        - principal: YOUR_PRINCIPAL_ID
           stake: 1_000 tokens
           memo: 0
           dissolve_delay: 2 years
@@ -303,7 +311,8 @@ Swap:
     # The text that swap participants must confirm before they may participate
     # in the swap.
     #
-    # This field is optional. If set, must be within 1 to 1,000 characters.
+    # This field is optional. If set, must be within 1 to 1,000 characters and
+    # at most 8,000 bytes.
     # confirmation_text: >
     #     I confirm my understanding of the responsibilities and risks
     #     associated with participating in this token swap.
@@ -333,7 +342,10 @@ Swap:
         # increased by `interval` compared to the previous one. For example,
         # if `events` is set to `3` and `interval` is `1 month`, then each
         # participant's neuron basket will have three neurons (with equal stake)
-        # with dissolve delays zero, 1 month, and 2 months.
+        # with dissolve delays zero, 1 month, and 2 months. Note that the notion
+        # of `Distribution.neurons.vesting_period` applies only to developer
+        # neurons. While neuron basket neurons do not use `vesting_period`, they
+        # have a vesting schedule.
         interval: 1 month
 
     # Absolute time of day when the decentralization swap is supposed to start.
