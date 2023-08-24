@@ -11,6 +11,51 @@
 # CLI. The first format will be supported for a time, but this format will
 # eventually become the standard format.
 # ------------------------------------------------------------------------------
+# UNITS
+#
+# This SNS configuration file version allows specifying the various
+# fields with units that make configuration easier. For instance,
+# in the previous version, all fields relating to token values
+# had to be specified in e8s (fractions of 10E-8 of a governance token).
+# In this version, similar fields can be specified in whole tokens,
+# tokens with decimals, or e8s. Below is more information on the type
+# of units that can be used.
+#
+# For fields that represent token values (such as `transaction_fee`
+# or `rejection_fee`), devs can specify decimal strings ending in
+# "tokens" (plural), decimal strings ending in "token" (singular),
+# or integer strings (base 10) ending in "e8s". In the case of
+# "tokens" strings, the maximum number of digits after the (optional)
+# decimal point is 8. The "_" character may be sprinkled throughout.
+# Whitespace around number is insignificant. E.g. " 42 tokens" is
+# equivalent to "42tokens".
+#
+# For fields that represent duration values (such as `initial_voting_period`
+# or `minimum_dissolve_delay`), devs can specify durations as a concatenation
+# of time spans. Where each time span is an integer number and a suffix.
+# Supported suffixes:
+#  - seconds, second, sec, s
+#  - minutes, minute, min, m
+#  - hours, hour, hr, h
+#  - days, day, d
+#  - weeks, week, w
+#  - months, month, M -- defined as 30.44 days
+#  - years, year, y -- defined as 365.25 days
+#
+# For example, "1w 2d 3h" gets parsed as
+#
+# 1 week + 2 days + 3 hours
+#    =
+# (1 * (7 * 24 * 60 * 60) + 2 * 24 * 60 * 60 + 3 * (60 * 60)) seconds
+#
+# For fields that represent percentage values (such as `bonus`), devs specify
+# the value as an integer with a trailing percent sign ('%'). For example,
+# `10%`.
+#
+# For fields that represent time of day (such as `start_time`), devs specify
+# the value as a string in form "hh::mm UTC". Where hh is hour, and mm is minute.
+# Only the UTC timezone is currently supported.
+# ------------------------------------------------------------------------------
 
 # Name of the SNS project. This may differ from the name of the associated
 # token. Must be a string of max length = 255.
@@ -61,7 +106,7 @@ NnsProposal:
 
 # If the SNS launch attempt fails, control over the dapp canister(s) is given to
 # these principals. In most use cases, this is chosen to be the original set of
-# controller(s) of the dapp.
+# controller(s) of the dapp. Must be a list of PrincipalIds.
 fallback_controller_principals:
     # For the actual SNS launch, you should replace this with one or more
     # principals of your intended fallback controllers.
@@ -107,12 +152,13 @@ Token:
 # not affect all SNS proposals submitted to the newly created SNS.
 Proposals:
     # The cost of making an SNS proposal that is rejected by the SNS neuron
-    # holders.
+    # holders. This field is specified as a token. For example: "1 token".
     rejection_fee: 1 token
 
     # The initial voting period of an SNS proposal. A proposal's voting period
     # may be increased during its lifecycle due to the wait-for-quiet algorithm
-    # (see details below).
+    # (see details below). This field is specified as a duration. For example
+    # "4 days".
     initial_voting_period: 4 days
 
     # The wait-for-quiet algorithm extends the voting period of a proposal when
@@ -133,16 +179,17 @@ Proposals:
     #
     # For more information, please refer to
     # https://wiki.internetcomputer.org/wiki/Network_Nervous_System#Proposal_decision_and_wait-for-quiet
+    #
+    # This field is specified as a duration. For example: "1 day".
     maximum_wait_for_quiet_deadline_extension: 1 day
 
-# Configuration of SNS neurons. These fields have no effect on the NNS proposal,
-# but will affect the SNS itself.
+# Configuration of SNS voting.
 Neurons:
-    # The minimum amount of SNS tokens to stake a neuron.
+    # The minimum amount of SNS tokens to stake a neuron. This field is specified
+    # as a token. For instance, "1 token".
     minimum_creation_stake: 1 tokens
 
-# Configuration of SNS voting. These fields have no effect on the NNS proposal
-# created by this file, but will affect the SNS itself.
+# Configuration of SNS voting.
 Voting:
     # The minimum dissolve delay a neuron must have to be able to cast votes on
     # proposals.
@@ -151,11 +198,14 @@ Voting:
     # an SNS, as they are rewarded for longer-term commitment to that SNS.
     #
     # Users cannot access the SNS tokens used to stake neurons (until the neuron
-    # is dissolved).
+    # is dissolved). This field is specified as a duration. For example: "6 months".
     minimum_dissolve_delay: 1 month
 
     # Configuration of voting power bonuses that are applied to neurons to
-    # incentivize alignment with the best interest of the DAO.
+    # incentivize alignment with the best interest of the DAO. Note, these
+    # bonuses multiply each other, so the increase in voting power due to
+    # the dissolve delay bonus is used in the equation to increase voting
+    # power for the age bonus.
     MaximumVotingPowerBonuses:
         # Users with a higher dissolve delay are incentivized to take the
         # long-term interests of the SNS into consideration when voting. To
@@ -163,15 +213,27 @@ Voting:
         # percentage greater than zero, which will result in neurons having
         # their voting power increased in proportion to their dissolve delay.
         #
+        # For example, if the user has a dissolve delay of 6 months, and
+        # the maximum dissolve delay duration (defined below as `duration`)
+        # for the dissolve delay bonus is 12 months, and the maximum bonus
+        # (defined as `bonus` below) is set to 10%, then that user’s voting
+        # power will be 105% of their normal voting power based on staked
+        # tokens (i.e. they will have a bonus of 5%). If the user increased
+        # their dissolve delay to 9 months, they would get 107.5% of the normal
+        # voting power of their tokens. And if they increased to 12 months, they
+        # would get 110%. If they increase further, they get no additional bonus.
+        #
         # If you do not want this bonus to be applied for neurons with higher
         # dissolve delay, set `bonus` to `0%` and those neurons will not receive
         # higher voting power.
         DissolveDelay:
             # This parameter sets the maximum dissolve delay a neuron can have.
             # When reached, the maximum dissolve delay bonus will be applied.
+            # This field is specified as a duration. For example: "8 years".
             duration: 8 years
             # If a neuron's dissolve delay is `duration`, its voting power will
-            # be multiplied by this `bonus` amount.
+            # be multiplied by this `bonus` amount. This field is specified
+            # as a percentage. For example: "100%".
             bonus: 100%
 
         # Users with neurons staked in the non-dissolving state for a long
@@ -181,16 +243,28 @@ Voting:
         # which will result in neurons having their voting power increased in
         # proportion to their age.
         #
+        # For example, if the neuron has an age of 6 months, and the maximum age
+        # duration (defined below as `duration`) for the age bonus is 12 months,
+        # and the maximum bonus (defined as `bonus` below) is set to 10%, then
+        # that neuron’s voting power will be 105% of their normal voting power
+        # based on staked tokens plus dissolve delay bonus (i.e. they will have a
+        # bonus of 5%). If neuron aged another 3 months to have an age of 9 months,
+        # the neuron would get 107.5% of the normal voting power. And if the neuron
+        # aged another 3 months to 12 months, the neuron would get 110%. If the neuron
+        # ages further, it get no additional bonus.
+        #
         # If this bonus should not be applied for older neurons, set the bonus
         # to `0%` and older neurons will not receive higher voting power.
         Age:
             # This parameter sets the duration of time the neuron must be staked
             # in the non-dissolving state, in other words its `age`, to reach
             # the maximum age bonus. Once this age is reached, the neuron will
-            # continue to age, but no more bonus will be applied.
+            # continue to age, but no more bonus will be applied. This field
+            # is specified as a duration. For example: "2 years".
             duration: 4 years
             # If a neuron's age is `duration` or older, its voting power will be
-            # multiplied by this `bonus` amount.
+            # multiplied by this `bonus` amount. This field is specified
+            # as a percentage. For example: "25%".
             bonus: 25%
 
     # Configuration of SNS voting reward parameters.
@@ -208,20 +282,26 @@ Voting:
     #
     # Setting both `initial` and `final` to `0%` will result in the system not
     # distributing voting rewards at all.
+    #
+    # More details on SNS tokenomics can be found in the developer documentation:
+    # https://internetcomputer.org/docs/current/developer-docs/integrations/sns/tokenomics/rewards/#voting-rewards
     RewardRate:
         # The initial reward rate at which the SNS voting rewards will increase
-        # per year.
+        # per year. This field is specified as a percentage. For example: "15%".
         initial: 10%
 
         # The final reward rate at which the SNS voting rewards will increase
         # per year. This rate is reached after `transition_duration` and remains
-        # at this level unless changed by an SNS proposal.
+        # at this level unless changed by an SNS proposal. This field is
+        # specified as a percentage. For example: "5%".
         final: 2.25%
 
         # The voting reward rate falls quadratically from `initial` to `final`
         # over the time period defined by `transition_duration`.
         #
         # Values of 0 result in the reward rate always being `final`.
+        #
+        # This field is specified as a duration. For example: "8 years".
         transition_duration: 12 years
 
 # Configuration of the initial token distribution of the SNS. You can configure
@@ -246,6 +326,13 @@ Distribution:
     # decentralization swap is completed. Note that `vesting_period` starts
     # right after the SNS creation and thus includes the pre-initialization mode
     # period.
+    #
+    # For example:
+    #  - principal: hpikg-6exdt-jn33w-ndty3-fc7jc-tl2lr-buih3-cs3y7-tftkp-sfp62-gqe
+    #    stake: 1_000 tokens
+    #    memo: 0
+    #    dissolve_delay: 2 years
+    #    vesting_period: 4 years
     Neurons:
         # For the actual SNS launch, you should replace this with one or more
         # principals of your intended genesis neurons.
@@ -261,14 +348,16 @@ Distribution:
         # The initial SNS token balance of the SNS Governance canister is known
         # as the treasury. This is initialized in a special sub-account, as the
         # main account of Governance is the minting account of the SNS Ledger.
+        # This field is specified as a token. For instance, "1 token".
         governance: 2_000_000 tokens
 
         # The initial SNS token balance of the Swap canister is what will be
         # available for the decentralization swap. These tokens will be swapped
-        # for ICP.
+        # for ICP. This field is specified as a token. For instance, "1 token".
         swap: 500_000 tokens
 
     # Checksum of the total number of tokens distributed in this section.
+    # This field is specified as a token. For instance, "1 token".
     #          1_000    (neuron)
     #      2 million    (governance)
     # + 500 thousand    (swap)
@@ -283,13 +372,15 @@ Swap:
     # The minimum number of participants that must participate for the
     # decentralization swap to succeed. If a decentralization swap finishes due
     # to the deadline or the maximum target being reached, and if there are less
-    # than `minimum_participants`, the swap will fail.
+    # than `minimum_participants`, the swap will fail. This field is specified
+    # as an integer. For example: "50".
     minimum_participants: 57
 
     # The minimum number of ICP that is required for a decentralization swap to
     # succeed. This number divided by the number of SNS tokens being offered
     # gives the reserve price of the swap, i.e., the minimum number of ICP per
-    # SNS token. If this amount is not achieved, the swap will fail.
+    # SNS token. If this amount is not achieved, the swap will fail. This field
+    # is specified as a token. For instance, "1 token".
     minimum_icp: 100_000 tokens
 
     # The maximum number of ICP that is targeted by this decentralization swap.
@@ -297,15 +388,18 @@ Swap:
     # succeed immediately, without waiting for the deadline. This means that
     # a participant knows the minimum number of SNS tokens received per invested
     # ICP. If this amount is achieved without reaching `minimum_participants`,
-    # the swap will immediately fail without waiting for the due date.
+    # the swap will immediately fail without waiting for the due date. This
+    # field is specified as a token. For instance, "1 token".
     maximum_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
-    # to participate.
+    # to participate. This field is specified as a token. For instance,
+    # "1 token".
     minimum_participant_icp:     10 tokens
 
     # The maximum amount of ICP that each participant must contribute
-    # to participate.
+    # to participate. This field is specified as a token. For instance,
+    # "1 token".
     maximum_participant_icp: 10_000 tokens
 
     # The text that swap participants must confirm before they may participate
@@ -345,7 +439,8 @@ Swap:
         # with dissolve delays zero, 1 month, and 2 months. Note that the notion
         # of `Distribution.neurons.vesting_period` applies only to developer
         # neurons. While neuron basket neurons do not use `vesting_period`, they
-        # have a vesting schedule.
+        # have a vesting schedule. This field is specified as a duration. For
+        # example: "1 month".
         interval: 1 month
 
     # Absolute time of day when the decentralization swap is supposed to start.
@@ -381,4 +476,5 @@ Swap:
 
     # The amount of ICP that will be contributed to the decentralization swap by
     # the Neurons' Fund if the CreateServiceNervousSystem proposal is adopted.
+    # This field is specified as a token. For instance, "1 token".
     neurons_fund_investment_icp: 0 tokens
