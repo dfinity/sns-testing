@@ -15,7 +15,13 @@ for DEV_IDENT in "$HOME"/.config/dfx/identity/dev-ident-*; do
   PEM_FILE="$(readlink -f "${DEV_IDENT}/identity.pem")"
   dfx identity use "${DEV_IDENT}"
   export DX_PRINCIPAL="$(dfx identity get-principal)"
-  export JSON="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})" | idl2json | jq -r ".neurons")"
+  export JSON="$(dfx canister \
+    --network "${NETWORK}" \
+    call "${SNS_GOVERNANCE_CANISTER_ID}" \
+    --candid candid/sns_governance.did \
+    list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})" \
+      | idl2json \
+      | jq -r ".neurons")"
   for((i=0; i<"$(echo $JSON | jq length)"; i++))
   do
     export NEURON_ID="$(echo $JSON | jq -r ".[${i}].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"

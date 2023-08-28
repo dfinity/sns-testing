@@ -4,8 +4,8 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-export NUM_PARTICIPANTS="${1:-3}"
-export ICP_PER_PARTICIPANT="${2:-200}"
+export NUM_PARTICIPANTS="${1:-100}"
+export ICP_PER_PARTICIPANT="${2:-10000}"
 ICP_PER_PARTICIPANT_E8S=$(echo "100000000 * $ICP_PER_PARTICIPANT" | bc)
 
 . ./constants.sh normal
@@ -34,15 +34,22 @@ do
   # Get the ticket
   quill sns new-sale-ticket --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
   RESPONSE="$(quill --insecure-local-dev-mode send --yes msg.json)"
+  if [[ "${RESPONSE}" == *"invalid_user_amount"* ]]
+  then
+    echo "ERROR: invalid_user_amount error; see full output from quill below this line"
+    echo "${RESPONSE}"
+    exit 1
+  fi
 
   TICKET_CREATION_TIME="$(echo "${RESPONSE}" | grep "creation_time" | sed "s/.*creation_time = \([0-9_]*\) : nat64;/\1/" | sed "s/_//g")"
   TICKET_ID="$(echo "${RESPONSE}" | grep "ticket_id" | sed "s/.*ticket_id = \([0-9_]*\) : nat64;/\1/" | sed "s/_//g")"
   if [ -z "${TICKET_CREATION_TIME}" ]
   then
-    echo "ticket could not be created: ${RESPONSE}"
+    echo "ERROR: ticket could not be created: see full output from quill below this line"
+    echo "${RESPONSE}"
     exit 1
   else
-    echo "Ticket ($TICKET_ID) created with creation time  $TICKET_CREATION_TIME"
+    echo "Ticket (${TICKET_ID}) created with creation time  ${TICKET_CREATION_TIME}"
   fi
 
   # Use the ticket

@@ -8,7 +8,7 @@
     "internet_identity": {
       "type": "custom",
       "candid": "",
-      "wasm": "internet_identity.wasm"
+      "wasm": "internet_identity_dev.wasm"
     },
     "sns_aggregator": {
       "type": "custom",

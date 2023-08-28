@@ -14,7 +14,14 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-export DEVELOPER_NEURON_ID="$(dfx canister --network "${NETWORK}" call sns_governance list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" | idl2json | jq -r ".neurons[0].id[0].id" | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
+export DEVELOPER_NEURON_ID="$(dfx canister \
+  --network "${NETWORK}" \
+  call "${SNS_GOVERNANCE_CANISTER_ID}" \
+  --candid candid/sns_governance.did \
+  list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" \
+    | idl2json \
+    | jq -r ".neurons[0].id[0].id" \
+    | python3 -c "import sys; ints=sys.stdin.readlines(); sys.stdout.write(bytearray(eval(''.join(ints))).hex())")"
 
 cd "${CURRENTDIR}"
 
@@ -43,4 +50,6 @@ quill sns  \
    --wasm-path "${WASM}"  \
    "${ARGFLAG}" "${ARG}"  \
    "${DEVELOPER_NEURON_ID}" > msg.json
-quill --insecure-local-dev-mode send --yes msg.json | grep -v "new_canister_wasm"
+quill send \
+  --insecure-local-dev-mode \
+  --yes msg.json | grep -v "new_canister_wasm"
