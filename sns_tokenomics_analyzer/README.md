@@ -12,6 +12,9 @@
 
 This tool is an initial beta version of the SNS Tokenomics Analyzer. Feedback regarding potential limitations and bugs is highly appreciated.
 
+## Version 
+Version 0.9. 
+
 ## Installation  
 
 - Copy all files from this repo directory to a local directory, in particular 
