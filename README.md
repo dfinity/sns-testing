@@ -133,7 +133,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 2. Start a local replica instance:
     ```bash
    SNS_TESTING_INSTANCE=$(
-       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:v1-legacy dfx start --clean
+       docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
    )
    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
    do
