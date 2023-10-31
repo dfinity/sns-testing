@@ -15,17 +15,17 @@ export DX_IDENT="default"
 
 # you can find available II releases here:
 # https://github.com/dfinity/internet-identity/tags
-export II_RELEASE="release-2023-07-28"
+export II_RELEASE="release-2023-10-30"
 
 # you can find NNS proposals upgrading system canisters here:
 # https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
 # NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: qoctq-giaaa-aaaaa-aaaea-cai"
-export NNS_DAPP_RELEASE="nightly-2023-08-08"
+export NNS_DAPP_RELEASE="nightly-2023-10-30"
 
 # only edit IC_COMMIT to a commit to master with disk image obtained via:
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="f99495f3772d5a85d25ef5008179b49a5f12c5c2"
+export IC_COMMIT="e3bb211720412a775572fd21dae665eeb64626b9"
 
 export TESTNET="local"
