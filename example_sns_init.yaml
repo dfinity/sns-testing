@@ -380,22 +380,10 @@ Swap:
     # as an integer. For example: "50".
     minimum_participants: 57
 
-    # The minimum number of ICP that is required for a decentralization swap to
-    # succeed. This number divided by the number of SNS tokens being offered
-    # gives the reserve price of the swap, i.e., the minimum number of ICP per
-    # SNS token. If this amount is not achieved, the swap will fail. This field
-    # is specified as a token. For instance, "1 token".
-    minimum_icp: 100_000 tokens
+    # TODO: document this field
     minimum_direct_participation_icp: 100_000 tokens
 
-    # The maximum number of ICP that is targeted by this decentralization swap.
-    # If this amount is achieved with sufficient participation, the swap will
-    # succeed immediately, without waiting for the deadline. This means that
-    # a participant knows the minimum number of SNS tokens received per invested
-    # ICP. If this amount is achieved without reaching `minimum_participants`,
-    # the swap will immediately fail without waiting for the due date. This
-    # field is specified as a token. For instance, "1 token".
-    maximum_icp: 1_000_000 tokens
+    # TODO: document this field
     maximum_direct_participation_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
