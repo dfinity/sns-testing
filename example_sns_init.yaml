@@ -386,6 +386,7 @@ Swap:
     # SNS token. If this amount is not achieved, the swap will fail. This field
     # is specified as a token. For instance, "1 token".
     minimum_icp: 100_000 tokens
+    minimum_direct_participation_icp: 100_000 tokens
 
     # The maximum number of ICP that is targeted by this decentralization swap.
     # If this amount is achieved with sufficient participation, the swap will
@@ -395,6 +396,7 @@ Swap:
     # the swap will immediately fail without waiting for the due date. This
     # field is specified as a token. For instance, "1 token".
     maximum_icp: 1_000_000 tokens
+    maximum_direct_participation_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
     # to participate. This field is specified as a token. For instance,
@@ -482,3 +484,4 @@ Swap:
     # the Neurons' Fund if the CreateServiceNervousSystem proposal is adopted.
     # This field is specified as a token. For instance, "1 token".
     neurons_fund_investment_icp: 0 tokens
+    neurons_fund_participation: true
