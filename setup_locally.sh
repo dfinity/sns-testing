@@ -16,6 +16,11 @@ then
   mv "./sns-governance-canister${CANISTER_TEST}.wasm" ./sns-governance-canister.wasm
 fi
 
+# Soon (after DFX 0.15.x is supported by the needed extensions) we would need to call these
+# two commands:
+# dfx extension install nns
+# dfx extension install sns
+
 dfx nns import
 dfx sns import
 if [ "${CANISTER_TEST}" == "_test" ]
