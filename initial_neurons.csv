@@ -10,3 +10,9 @@ neuron_id;owner_id;created_ts_ns;duration_to_dissolution_ns;staked_icpt;earnings
 9;2z6y4-6y7zq-vporp-tiumu-j3qhw-6og2g-sxvxh-e57qp-aevbm-gacrr-yae;0;15780000000000000;0;C;;false;0;100000000000000;false
 10;3uigu-x6rsf-lwlyz-fauii-ewr7t-7vcmr-cfbcs-pye3t-oyh3o-5v23u-iae;0;15780000000000000;0;C;;false;0;200000000000000;false
 449479075714955186;b2ucp-4x6ou-zvxwi-niymn-pvllt-rdxqr-wi4zj-jat5l-ijt2s-vv4f5-4ae;0;31536000000000000;100;D;;false;0;10000000000;false
+1;wbwzc-u46i3-pqajn-qyf3c-2if5a-pesnh-fjqey-ea7lt-423pi-dodwc-3qe;0;15780000000000000;900000000;C;;false;0;500000000;false
+2;2elhs-22gfw-pnuvy-xkwyf-ex4ul-2f7hl-ryto2-4wpot-krafc-dmd5n-mqe;0;15780000000000000;5000000000;C;;false;0;5000000000;false
+3;gkjt6-mrdog-6ty7c-cpzib-ufedt-naxia-hou34-ty7cv-t3knr-vqwsy-lqe;0;15780000000000000;50000000000;C;;false;0;50000000000;false
+4;outvi-luzu7-2npss-xnloj-32g5a-j46rv-ggsxl-q43vi-edgg7-vonbo-fqe;0;15780000000000000;500000000000;C;;false;0;500000000000;false
+5;hi325-n2sl3-yjeo3-giz4a-lpbxh-c5i7a-6boac-a6kmp-3uqrb-wj4ks-3ae;0;15780000000000000;5000000000000;C;;false;0;5000000000000;false
+6;ixmps-ip732-nk5vz-6gjms-v6e5u-6xwqv-crfd6-62a7s-qy2fz-yykq5-zqe;0;15780000000000000;50000000000000;C;;false;0;50000000000000;false
