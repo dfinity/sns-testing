@@ -10,9 +10,9 @@ neuron_id;owner_id;created_ts_ns;duration_to_dissolution_ns;staked_icpt;earnings
 9;2z6y4-6y7zq-vporp-tiumu-j3qhw-6og2g-sxvxh-e57qp-aevbm-gacrr-yae;0;15780000000000000;0;C;;false;0;100000000000000;false
 10;3uigu-x6rsf-lwlyz-fauii-ewr7t-7vcmr-cfbcs-pye3t-oyh3o-5v23u-iae;0;15780000000000000;0;C;;false;0;100000000000000;false
 449479075714955186;b2ucp-4x6ou-zvxwi-niymn-pvllt-rdxqr-wi4zj-jat5l-ijt2s-vv4f5-4ae;0;31536000000000000;100;D;;false;0;10000000000;false
-3001;iruoc-l33xq-glyhq-qffj3-daptt-2nrlt-5jgsq-kxn5z-u74nf-hl4vn-xae;0;15780000000000000;0;C;;false;0;1000000000;false
-3002;tpxau-mo4r6-dzfy7-cjh4a-ml537-dlgxf-a2ctr-ysqmd-mexyl-reizh-bae;0;15780000000000000;0;C;;false;0;10000000000;false
-3003;jzkta-yleaf-ip3zx-kp5bz-tzyzj-6i7da-prsu2-3zu7h-kbbnu-7wrbp-nqe;0;15780000000000000;0;C;;false;0;100000000000;false
-3004;sgpnn-rndih-xn4ot-6rgx5-hitmr-fgk3v-ts5wq-e4yvj-wgoom-lhxn3-bqe;0;15780000000000000;0;C;;false;0;1000000000000;false
-3005;k4ccr-n7lid-esoo4-yfbso-bdlhp-5mf2j-ssdij-6xkv2-ywijj-27x2n-bae;0;15780000000000000;0;C;;false;0;10000000000000;false
-3006;mnp6f-3nqyc-lyqyy-ehro5-kvmgd-3vavh-tqjqn-bwvxc-4qwyh-ymj5z-mqe;0;15780000000000000;0;C;;false;0;100000000000000;false
+3001;;0;15780000000000000;0;C;;false;0;1000000000;false
+3002;;0;15780000000000000;0;C;;false;0;10000000000;false
+3003;;0;15780000000000000;0;C;;false;0;100000000000;false
+3004;;0;15780000000000000;0;C;;false;0;1000000000000;false
+3005;;0;15780000000000000;0;C;;false;0;10000000000000;false
+3006;;0;15780000000000000;0;C;;false;0;100000000000000;false

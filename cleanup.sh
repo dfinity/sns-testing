@@ -30,3 +30,5 @@ rm -rf ~/Library/Application\ Support/org.dfinity.dfx/network/${NETWORK}/wallets
 # Remove any generated quill messages
 rm -rf msg_*.json
 
+# Remove Neurons' Fund neurons
+./remove_nf_neurons.sh 2>/dev/null || true

@@ -47,6 +47,11 @@ do
     if (( neuron_id >= 3000 && neuron_id <= 3999 ))
     then
         PRINCIPAL="$(generate_identity_for_index "${neuron_id}")"
+        # It is important to make sure the NF neuron principals are initialized correctly,
+        # as they are freshly generated (because we need access to their DFX identities to
+        # be able to read their data and manipulate them, e.g., adding them to the NF after
+        # the NNS is installed).
+        sed -i "$((i+1))s/\(^30[0-9][0-9];\)[-a-z0-9]*;/\1${PRINCIPAL};/" "${NEURON_CSV}"
         echo "Ensured the existence of Neurons' Fund neuron ID ${neuron_id} with identity principal = ${PRINCIPAL}"
     fi;
 done
