@@ -30,7 +30,7 @@ generate_identity_for_index () {
     local IDENTITY_INDEX=$1
     local IDENTITY_NAME="${IDENTITY_PREFIX}${IDENTITY_INDEX}"
     ${DFX} identity new --storage-mode=plaintext "${IDENTITY_NAME}" 2>/dev/null || true
-    ${DFX} identity use "${IDENTITY_NAME}" 2> /dev/null
+    ${DFX} identity use "${IDENTITY_NAME}"
     local PRINCIPAL="$(${DFX} identity get-principal)"
     echo "${PRINCIPAL}"
 }
