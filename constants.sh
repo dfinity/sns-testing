@@ -88,14 +88,15 @@ fi
 export NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https://${TESTNET}")
 export DX_NETWORK=$([[ "$TESTNET" == "local" ]] && echo "local" || echo "https___${TESTNET//./_}")
 export PROTOCOL=$([[ "$TESTNET" == "local" ]] && echo "http" || echo "https")
-DFX="$(which dfx)"
-export DFX
-IC_ADMIN="$(which ic-admin)"
-export IC_ADMIN
 
 if [[ "${MODE}" == "install" ]]; then
     return 0
 fi
+
+DFX="$(which dfx)"
+export DFX
+IC_ADMIN="$(which ic-admin)"
+export IC_ADMIN
 
 if [[ ! -f "${DFX}" ]]; then
     echo "Couldn't find dfx at ${DFX}. You may need to run install.sh"

@@ -6,13 +6,14 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh install
 
+DFX=./bin/dfx
+
 if [ $# -eq 0 ]
 then
     echo "No arguments supplied. Please pass a neuron csv with the following format:"
     echo ""
-    echo "staked_icpt,maturity_e8s_equivalent"
-    echo "100,100"
-    echo "40,130"
+    echo "neuron_id;owner_id;created_ts_ns;duration_to_dissolution_ns;staked_icpt;earnings;follows;not_for_profit;memo;maturity_e8s_equivalent;kyc_verified"
+    echo "1;xz7xb-e726u-vsihc-fukxg-pfzzd-3cjix-gluc6-p4shw-sz4aw-ufgi3-yqe;0;15780000000000000;0;C;;false;0;0;false"
     echo "etc."
     exit 1
 else
@@ -21,18 +22,6 @@ else
 fi
 
 ORIGINAL_DX_IDENT="$(${DFX} identity whoami)"
-
-OUTPUT_FILE="${REPO_ROOT}/initial_neurons.csv"
-
-# defaults
-CREATED_TS_NS=0
-DURATION_TO_DISSOLUTION_NS=$((15780000*1000000000))
-EARNINGS="C"
-FOLLOWS=""
-NOT_FOR_PROFIT=false
-MEMO=0
-KYC_VERIFIED=false
-
 
 readarray -t LINES < "${NEURON_CSV}"
 
@@ -48,15 +37,18 @@ generate_identity_for_index () {
 
 # Use a loop to iterate over LINES, skipping the first line, and print each line 
 # to stdout.
-for (( i=1; i < ${#LINES[@]}; i++ )); do
+for (( i=1; i < ${#LINES[@]}; i++ ))
+do
     LINE="${LINES[${i}]}"
-    # Line structure: $STAKED_ICPE8S,$MATURITY_E8S_EQUIVALENT
-    STAKED_ICPE8S=$(echo "${LINE}" | cut -d',' -f1)
-    MATURITY_E8S_EQUIVALENT=$(echo "${LINE}" | cut -d',' -f2)
-    PRINCIPAL="$(generate_identity_for_index "${i}")"
-
-    # Start with Neuron ID 3000 for the Neurons' Fund to avoid collisions with other neurons. 
-    echo "300${i};${PRINCIPAL};${CREATED_TS_NS};${DURATION_TO_DISSOLUTION_NS};${STAKED_ICPE8S};${EARNINGS};${FOLLOWS};${NOT_FOR_PROFIT};${MEMO};${MATURITY_E8S_EQUIVALENT};${KYC_VERIFIED}" >> "${OUTPUT_FILE}"
+    # Line structure: neuron_id(1);owner_id(2);created_ts_ns(3);duration_to_dissolution_ns(4);staked_icpt(5);earnings(6);follows(7);not_for_profit(8);memo(9);maturity_e8s_equivalent(10);kyc_verified(11)
+    neuron_id=$(echo "${LINE}" | cut -d';' -f1)
+    maturity_e8s_equivalent=$(echo "${LINE}" | cut -d';' -f10)
+    # Assume Neurons' Fund neurons have their IDs in the 3000s range.
+    if (( neuron_id >= 3000 && neuron_id <= 3999 ))
+    then
+        PRINCIPAL="$(generate_identity_for_index "${neuron_id}")"
+        echo "Ensured the existence of Neurons' Fund neuron ID ${neuron_id} with identity principal = ${PRINCIPAL}"
+    fi;
 done
 
 # Restore the original identity
