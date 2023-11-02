@@ -29,6 +29,8 @@ then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
 
+./generate_identities_for_neurons_fund_neurons.sh initial_neurons.csv
+
 ic-nns-init \
   --initialize-ledger-with-test-accounts-for-principals "${DX_PRINCIPAL}" \
   --initialize-ledger-with-test-accounts 5b315d2f6702cb3a27d826161797d7b2c2e131cd312aece51d4d5574d1247087 \
