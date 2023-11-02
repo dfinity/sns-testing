@@ -4,6 +4,10 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
+# Setup the Neurons' Fund
+./generate_initial_neurons.sh neurons_fund.csv
+./setup_neurons_fund.sh
+
 # Deploy test canister
 ./deploy_test_canister.sh
 

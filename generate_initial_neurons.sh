@@ -55,7 +55,8 @@ for (( i=1; i < ${#LINES[@]}; i++ )); do
     MATURITY_E8S_EQUIVALENT=$(echo "${LINE}" | cut -d',' -f2)
     PRINCIPAL="$(generate_identity_for_index "${i}")"
 
-    echo "${i};${PRINCIPAL};${CREATED_TS_NS};${DURATION_TO_DISSOLUTION_NS};${STAKED_ICPE8S};${EARNINGS};${FOLLOWS};${NOT_FOR_PROFIT};${MEMO};${MATURITY_E8S_EQUIVALENT};${KYC_VERIFIED}" >> "${OUTPUT_FILE}"
+    # Start with Neuron ID 3000 for the Neurons' Fund to avoid collisions with other neurons. 
+    echo "300${i};${PRINCIPAL};${CREATED_TS_NS};${DURATION_TO_DISSOLUTION_NS};${STAKED_ICPE8S};${EARNINGS};${FOLLOWS};${NOT_FOR_PROFIT};${MEMO};${MATURITY_E8S_EQUIVALENT};${KYC_VERIFIED}" >> "${OUTPUT_FILE}"
 done
 
 # Restore the original identity

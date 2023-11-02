@@ -468,8 +468,6 @@ Swap:
     # be added to that absolute time and set as the swap's deadline.
     duration: 7 days
 
-    # The amount of ICP that will be contributed to the decentralization swap by
-    # the Neurons' Fund if the CreateServiceNervousSystem proposal is adopted.
-    # This field is specified as a token. For instance, "1 token".
+    # TODO
     neurons_fund_investment_icp: 0 tokens
     neurons_fund_participation: true
