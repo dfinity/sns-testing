@@ -29,6 +29,7 @@ then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
 
+# Generate DFX identities for Neurons' Fund neurons
 ./generate_identities_for_neurons_fund_neurons.sh initial_neurons.csv
 
 ic-nns-init \
@@ -38,5 +39,8 @@ ic-nns-init \
   --url "${NETWORK_URL}" \
   --initial-neurons initial_neurons.csv \
   --pass-specified-id
+
+# Ensure the Neurons' Fund neurons have joined the fund.
+./setup_neurons_fund.sh
 
 ./setup.sh
