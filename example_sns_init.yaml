@@ -469,5 +469,5 @@ Swap:
     duration: 7 days
 
     # TODO
-    neurons_fund_investment_icp: 0 tokens
+    # TODO: document this field
     neurons_fund_participation: true

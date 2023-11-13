@@ -6,8 +6,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh normal
 
-set -x
-
 export CURRENT_DX_IDENT=$(dfx identity whoami)
 
 for DEV_IDENT in "${HOME}"/.config/dfx/identity/dev-ident-*; do
