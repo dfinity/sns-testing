@@ -373,17 +373,25 @@ Distribution:
 # canister(s) to the fallback controllers (defined in
 # `fallback_controller_principals`) and you will need to start over.
 Swap:
-    # The minimum number of participants that must participate for the
+    # The minimum number of direct participants that must participate for the
     # decentralization swap to succeed. If a decentralization swap finishes due
     # to the deadline or the maximum target being reached, and if there are less
-    # than `minimum_participants`, the swap will fail. This field is specified
-    # as an integer. For example: "50".
+    # than `minimum_participants` (here, only direct participants are counted),
+    # the swap will be committed.
     minimum_participants: 57
 
-    # TODO: document this field
+    # Minimum amount of ICP from direct participants. This amount is required for
+    # the swap to succeed. If this amount is not achieved, the swap will be
+    # aborted (instead of committed) when the due date/time occurs.
+    # Must be smaller than or equal than `maximum_direct_participation_icp`.
     minimum_direct_participation_icp: 100_000 tokens
 
-    # TODO: document this field
+    # Maximum amount of ICP from direct participants. If this amount is achieved,
+    # the swap will finalize immediately, without waiting for the due date/time;
+    # in this case, the swap would be committed if and only if the number of
+    # direct participants (`minimum_participants`) is reached (otherwise, it
+    # would be aborted).
+    # Must be at least `min_participants * minimum_direct_participation_icp`.
     maximum_direct_participation_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
@@ -391,7 +399,7 @@ Swap:
     # "1 token".
     minimum_participant_icp:     10 tokens
 
-    # The maximum amount of ICP that each participant must contribute
+    # The maximum amount of ICP that each participant may contribute
     # to participate. This field is specified as a token. For instance,
     # "1 token".
     maximum_participant_icp: 10_000 tokens
@@ -468,6 +476,5 @@ Swap:
     # be added to that absolute time and set as the swap's deadline.
     duration: 7 days
 
-    # TODO
-    # TODO: document this field
+    # Whether Neurons' Fund participation is requested.
     neurons_fund_participation: true
