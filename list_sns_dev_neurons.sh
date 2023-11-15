@@ -8,7 +8,7 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 export CURRENT_DX_IDENT=$(dfx identity whoami)
 
-for DEV_IDENT in "$HOME"/.config/dfx/identity/dev-ident-*; do
+for DEV_IDENT in "${HOME}"/.config/dfx/identity/dev-ident-*; do
   PEM_FILE="$(readlink -f "${DEV_IDENT}/identity.pem")"
   dfx identity use "${DEV_IDENT}"
   export DX_PRINCIPAL="$(dfx identity get-principal)"
@@ -17,19 +17,18 @@ for DEV_IDENT in "$HOME"/.config/dfx/identity/dev-ident-*; do
     call "${SNS_GOVERNANCE_CANISTER_ID}" list_neurons \
     --candid candid/sns_governance.did \
     "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 0})")"
-  echo "Listing Developer Neurons for Identity $DEV_IDENT, Principal $DX_PRINCIPAL"
-  echo "$NEURON_IDS"
-
+  echo "Listing Developer Neurons for Identity ${DEV_IDENT}, Principal ${DX_PRINCIPAL}"
+  echo "${NEURON_IDS}"
 done
 
 # List the canister controlled SNS Dev Neurons for the OC SNS deployment config
 CANISTER_DEV_NEURON=n2xex-iyaaa-aaaar-qaaeq-cai
-echo "Listing for $CANISTER_DEV_NEURON"
+echo "Listing for ${CANISTER_DEV_NEURON}"
 dfx canister \
   --network "${NETWORK}" \
   call "${SNS_GOVERNANCE_CANISTER_ID}" \
   --candid candid/sns_governance.did \
-  list_neurons "(record {of_principal = opt principal\"$CANISTER_DEV_NEURON\"; limit = 0})"
+  list_neurons "(record {of_principal = opt principal\"${CANISTER_DEV_NEURON}\"; limit = 0})"
 
 # Switch back to the previous identity
-dfx identity use "$CURRENT_DX_IDENT"
+dfx identity use "${CURRENT_DX_IDENT}"

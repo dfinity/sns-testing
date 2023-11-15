@@ -68,7 +68,7 @@ if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm.gz" -o nns-dapp/out/nns-dapp.wasm
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator_dev.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
 ${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm

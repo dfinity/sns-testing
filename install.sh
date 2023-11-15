@@ -8,23 +8,28 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 pushd "$REPO_ROOT/bin"
 
-curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-admin.gz" -o ic-admin.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-admin.gz" -o ic-admin.gz
 gzip -fd ic-admin.gz
 chmod +x ic-admin
 
-curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-nns-init.gz" -o ic-nns-init.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-nns-init.gz" -o ic-nns-init.gz
 gzip -fd ic-nns-init.gz
 chmod +x ic-nns-init
 
-curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-regedit.gz" -o ic-regedit.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-regedit.gz" -o ic-regedit.gz
 gzip -fd ic-regedit.gz
 chmod +x ic-regedit
 
-curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns.gz" -o sns.gz
+if [ "${CANISTER_TEST}" == "_test" ]
+then
+  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns-test-feature.gz" -o sns.gz
+else
+  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns.gz" -o sns.gz
+fi
 gzip -fd sns.gz
 chmod +x sns
 
-curl -L "https://github.com/dfinity/sdk/releases/download/0.14.2/dfx-0.14.2-x86_64-${OS}.tar.gz" -o dfx.tar.gz
+curl --fail -L "https://github.com/dfinity/sdk/releases/download/0.14.2/dfx-0.14.2-x86_64-${OS}.tar.gz" -o dfx.tar.gz
 tar -xzf dfx.tar.gz
 rm dfx.tar.gz
 chmod +x dfx
@@ -40,7 +45,7 @@ else
   exit 1
 fi
 
-curl -L "https://github.com/dfinity/quill/releases/download/v0.4.2/quill-${QUILL}-x86_64" -o quill
+curl --fail -L "https://github.com/dfinity/quill/releases/download/v0.4.2/quill-${QUILL}-x86_64" -o quill
 chmod +x quill
 
 if [[ "${OS}" == "linux" ]]
@@ -54,17 +59,17 @@ else
   exit 1
 fi
 
-curl -L "https://github.com/dfinity/candid/releases/download/2022-11-17/didc-${DIDC}" -o didc
+curl --fail -L "https://github.com/dfinity/candid/releases/download/2022-11-17/didc-${DIDC}" -o didc
 chmod +x didc
 
 if [[ "${OS}" == "linux" ]]
 then
-  curl -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-unknown-linux-musl.tar.gz" -o idl2json.tar.gz
+  curl --fail -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-unknown-linux-musl.tar.gz" -o idl2json.tar.gz
   tar -xzf idl2json.tar.gz
   rm idl2json.tar.gz
   chmod +x idl2json
 else
-  curl -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-apple-darwin.zip" -o idl2json.zip
+  curl --fail -L "https://github.com/dfinity/idl2json/releases/download/v0.8.8/idl2json_cli-x86_64-apple-darwin.zip" -o idl2json.zip
   unzip idl2json.zip
   rm idl2json.zip
   chmod +x idl2json
