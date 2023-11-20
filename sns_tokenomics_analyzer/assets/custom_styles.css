@@ -1,0 +1,49 @@
+/* Custom slider styling */
+.custom-slider .rc-slider-track {
+    background-color: #c0c0c0; /* Slider track color */
+}
+
+.custom-slider .rc-slider-rail {
+    background-color: #e6e6e6; /* Slider background rail color */
+}
+
+.custom-slider .rc-slider-handle {
+    border: solid 2px #a0a0a0;
+    height: 16px;
+    width: 16px;
+    margin-top: -6px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);    
+    outline: none;
+    cursor: pointer;
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+}
+
+.custom-slider .rc-slider-handle:active {
+    background-color: #a0a0a0;
+    border-color: #888;
+}
+
+.custom-slider .rc-slider-handle:hover {
+    border-color: #888;
+}
+
+/* Custom styles for graphs */
+.rc-slider * {
+    outline: none !important;
+}
+
+/* Style for graph containers */
+.graph-container {
+    background: #f8f9fa; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Box shadow for depth */
+    padding: 10px; /* Padding around the graph */
+}
+
+/* Style for plotly graphs */
+.plot-container.plotly {
+    background-color: #fff; /* White background for the plot area */
+}
+
