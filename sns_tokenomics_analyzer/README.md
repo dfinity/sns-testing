@@ -17,17 +17,16 @@ Version 0.9.
 
 ## Installation  
 
-- Copy all files from this repo directory to a local directory, in particular 
-  - `sns_tokenomics_analyzer.py`, which contains the code for the tool. 
-  - `sns_init.yaml` which is an example input file.      
+- Copy all files from this repo directory to a local directory. 
 - Python installation is required.
-- Additional Python libraries are also required and are listed at the beginning of the `sns_tokenomics_analyzer.py` file. In order to install these you have the following options
-  - **Manual Installation**: Manually install the required Python libraries listed in the `sns_tokenomics_analyzer.py` file.
+- For the required libraries
+  - **Manual Installation**: Manually install the required Python libraries listed in `flake.nix` file.
   - **Nix Installation**: Alternatively, install Nix and run `nix develop` in the directory where you plan to execute the code.
 
 
 ## Running the Tool
 
 1. Adjust or replace the input `sns_init.yaml` in current directory. 
-2. Execute `python ./sns_tokenomics_analyzer.py` in your terminal. 
-2. Open `http://127.0.0.1:8051/` in your local web browser to use the tool. 
+2. Execute `python ./app.py` in your terminal.
+3. Adjust configuration parameters in config.py if needed 
+4. Open `http://127.0.0.1:8051/` in your local web browser to use the tool. 
