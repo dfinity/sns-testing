@@ -28,9 +28,9 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
 
 0. Make sure you have Homebrew installed.
    * Instructions: https://brew.sh/
-   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`), `jq`, and `yq`:
+   * Use Homebrew to install (or upgrade to the latest available versions) `bash`, `coreutils` (needed for tools e.g., `sha256sum`), `jq`, and `yq`:
      ```bash
-     brew install coreutils jq yq
+     brew install bash coreutils jq yq
      ```
 
    You also need rosetta that you can install by running:
