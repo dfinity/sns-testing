@@ -8,23 +8,23 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 pushd "$REPO_ROOT/bin"
 
-curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-admin.gz" -o ic-admin.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/ic-admin.gz" -o ic-admin.gz
 gzip -fd ic-admin.gz
 chmod +x ic-admin
 
-curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-nns-init.gz" -o ic-nns-init.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/ic-nns-init.gz" -o ic-nns-init.gz
 gzip -fd ic-nns-init.gz
 chmod +x ic-nns-init
 
-curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/ic-regedit.gz" -o ic-regedit.gz
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/ic-regedit.gz" -o ic-regedit.gz
 gzip -fd ic-regedit.gz
 chmod +x ic-regedit
 
 if [ "${CANISTER_TEST}" == "_test" ]
 then
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns-test-feature.gz" -o sns.gz
+  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns-test-feature.gz" -o sns.gz
 else
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/openssl-static-binaries/x86_64-${OS}/sns.gz" -o sns.gz
+  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns.gz" -o sns.gz
 fi
 gzip -fd sns.gz
 chmod +x sns
