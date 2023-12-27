@@ -14,9 +14,8 @@ dfx --provisional-create-canister-effective-canister-id jrlun-jiaaa-aaaab-aaaaa-
 
 if [[ -z "${WASM}" ]]
 then
-  # dfx build --network "${NETWORK}" "${NAME}" -- TODO: Make this step optional
   export WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
-  curl --fail -L https://github.com/dfinity/sns-testing/releases/download/test-wasm-rc-1/test.wasm -o "${WASM}"
+  dfx build --network "${NETWORK}" "${NAME}"
 fi
 
 dfx canister install "${NAME}" --network "${NETWORK}" --argument "${ARG}" --argument-type idl --wasm "${WASM}"
