@@ -38,7 +38,7 @@ jq -r '.swap_canister_id' -e sns_canister_ids.json
 [ "$(./bin/dfx canister call test greet "M")" == '("Hello, M!")' ] && echo "OK" || exit 1
 
 # Participate in SNS swap
-./participate_sns_swap.sh 4 200000
+./participate_sns_swap.sh 4 20000
 
 # Wait for the SNS swap lifecycle is in the COMPLETED state.
 # This happens when the heartbeat of the SNS Swap canister is executed.

@@ -402,7 +402,7 @@ Swap:
     # The maximum amount of ICP that each participant may contribute
     # to participate. This field is specified as a token. For instance,
     # "1 token".
-    maximum_participant_icp: 200_000 tokens
+    maximum_participant_icp: 20_000 tokens
 
     # The text that swap participants must confirm before they may participate
     # in the swap.

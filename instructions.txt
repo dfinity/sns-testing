@@ -1,30 +1,37 @@
 To run through the PocketIC demo, follow the following steps:
 
-The first step should be executed from the root of the dfinity/ic repository.
+The first step should be executed from the root of the branch mraszyk/icx-proxy-raw in the dfinity/ic repository.
 
-1. Run the PocketIC server
+1. Build a patched version of icx-proxy skipping certificate validation.
+
+$ ./gitlab-ci/tools/docker-run
+$ bazel build //rs/boundary_node/icx_proxy:icx-proxy-dev
+$ cp bazel-bin/rs/boundary_node/icx_proxy/icx-proxy-dev .
+
+Then copy the binary icx-proxy from the root of the dfinity/ic repository to the root of the dfinity/sns-testing repository.
+
+The second step should be executed from the root of the branch mraszyk/pocket-ic-demo in the dfinity/ic repository.
+
+2. Run the PocketIC server
 
 $ ./gitlab-ci/tools/docker-run
 $ bazel run //rs/pocket_ic_server:pocket-ic-server -- --port 8000 --ttl 3600
 
 The remaining steps should be executed from the root of the dfinity/sns-testing repository.
 
-2. Create an IC instance with NNS, SNS, and application subnet.
+3. Create an IC instance with NNS, SNS, and application subnet.
 
 $ ./pocket_ic.sh
 
-3. Download and run icx-proxy.
+4. Run icx-proxy.
 
-$ wget https://download.dfinity.systems/ic/f2cd225b621674b19f3d601ebb42555d0c6f614d/binaries/x86_64-linux/icx-proxy-dev.gz
-$ gzip -d icx-proxy-dev.gz
-$ chmod +x icx-proxy-dev
 $ ./icx-proxy-dev --replica http://localhost:8000/instances/0/ --address [::]:8080 --fetch-root-key
 
-4. Set up the sns-testing tooling.
+5. Set up the sns-testing tooling.
 
 $ ./install.sh
 
-5. Set up NNS and run the basic SNS testing scenario.
+6. Set up NNS and run the basic SNS testing scenario.
 
 $ ./cleanup.sh
 $ ./setup_locally.sh
@@ -33,3 +40,9 @@ $ ./run_basic_scenario.sh
 You can open the NNS frontend dapp in your browser at
 
 http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/
+
+and participate with 20,000 ICP in the SNS swap.
+
+7. To finish the sale, we need to advance time by 7 days:
+
+$ ./advance_time.sh 604800 # 7 days in seconds
