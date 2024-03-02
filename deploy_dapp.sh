@@ -10,7 +10,7 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-dfx --provisional-create-canister-effective-canister-id jrlun-jiaaa-aaaab-aaaaa-cai canister create "${NAME}" --network "${NETWORK}" --no-wallet
+dfx --provisional-create-canister-effective-canister-id tqzl2-p7777-77776-aaaaa-cai canister create "${NAME}" --network "${NETWORK}" --no-wallet
 
 if [[ -z "${WASM}" ]]
 then

@@ -38,11 +38,15 @@ jq -r '.swap_canister_id' -e sns_canister_ids.json
 [ "$(./bin/dfx canister call test greet "M")" == '("Hello, M!")' ] && echo "OK" || exit 1
 
 # Participate in SNS swap
-./participate_sns_swap.sh
+./participate_sns_swap.sh 4 200000
 
 # Wait for the SNS swap lifecycle is in the COMPLETED state.
 # This happens when the heartbeat of the SNS Swap canister is executed.
-while [ "$(./get_sns_swap_state.sh | sed "s/0 : float32/0 : nat64/" | ./bin/idl2json | jq -r '.swap[0].lifecycle')" != "3" ]; do sleep 1; done
+while [ "$(./get_sns_swap_state.sh | sed "s/0 : float32/0 : nat64/" | ./bin/idl2json | jq -r '.swap[0].lifecycle')" != "3" ]
+do
+  echo "Waiting for SNS swap to complete."
+  sleep 1
+done
 
 # Upgrade test canister (II)
 ./upgrade_test_canister.sh Welcome
@@ -56,7 +60,7 @@ TOTAL="$(./get_last_sns_proposal.sh | ./bin/idl2json | jq -r '.proposals[0].late
 
 # Vote on upgrade canister SNS proposal
 ./vote_on_sns_proposal.sh \
-    51 `# Simulate this number of SNS users' votes` \
+    4  `# Simulate this number of SNS users' votes` \
     2  `# Proposal ID` \
     y  `# Vote to adopt this proposal`
 ./wait_for_last_sns_proposal.sh

@@ -109,33 +109,11 @@ fi
 
 if [[ "${TESTNET}" == "local" ]]; then
   # set IC endpoint
-  export NETWORK_URL="${PROTOCOL}://localhost:$(${DFX} info replica-port)"
-  export HOST_ENDPOINT="localhost:$(${DFX} info webserver-port)"
-  # obtain local subnet from local registry
-  export REGISTRY_PATH=""
-  REGISTRY=".dfx/network/local/state/replicated_state/ic_registry_local_store"
-  if [[ -d "${REGISTRY}" ]]
-  then
-    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
-  fi
-  REGISTRY="${HOME}/Library/Application Support/org.dfinity.dfx/network/local/state/replicated_state/ic_registry_local_store"
-  if [[ -d "${REGISTRY}" ]]
-  then
-    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
-  fi
-  REGISTRY="${HOME}/.local/share/dfx/network/local/state/replicated_state/ic_registry_local_store"
-  if [[ -d "${REGISTRY}" ]]
-  then
-    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
-  fi
-  if [[ -z "${REGISTRY_PATH}" ]]
-  then
-    echo "Local registry not found!"
-    exit 1
-  fi
-  export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
-  export SNS_SUB="${NNS_SUB}"
-  export APP_SUB="${NNS_SUB}"
+  export NETWORK_URL="${PROTOCOL}://localhost:8080"
+  export HOST_ENDPOINT="localhost:8080"
+  export NNS_SUB="wc7qi-qkb6j-o2xol-r2oqm-r764i-cqkyo-d3mpt-uu2co-mbpm6-qy2cy-nqe"
+  export SNS_SUB="qhbrx-yj2k6-afr36-h63xs-g4ope-22nke-wmddo-pwboa-xrcgv-ejpk3-iqe"
+  export APP_SUB="tjxid-r6dy6-jxjlb-qw7sg-43dcb-uvzov-lhegn-otmbv-tieow-ldteb-lae"
 else
     # set IC endpoint
     export NETWORK_URL="${NETWORK}"

@@ -71,19 +71,23 @@ then
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator_dev.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
-${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
+${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm --argument '(opt record{
+  update_interval_ms = 5000:nat64;
+  fast_interval_ms = 2000:nat64;
+})'
 ${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity_dev.wasm --argument '(null)'
 ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-dapp.wasm --argument '(opt record{
   args = vec {
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
     record{ 0="DFX_NETWORK"; 1="testing" };
-    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":true,\"ENABLE_SNS_VOTING\":true,\"ENABLE_MY_TOKENS\":true}" };
+    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_CKETH\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":false,\"ENABLE_SNS_VOTING\":true,\"ENABLE_MY_TOKENS\":true}" };
     record{ 0="FETCH_ROOT_KEY"; 1="true" };
     record{ 0="GOVERNANCE_CANISTER_ID"; 1="rrkah-fqaaa-aaaaa-aaaaq-cai" };
     record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTOCOL}://rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST_ENDPOINT}"'" };
     record{ 0="HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="IDENTITY_SERVICE_URL"; 1="'"${PROTOCOL}://$(${DFX} canister --network ${NETWORK} id internet_identity).${HOST_ENDPOINT}"'" };
+    record{ 0="INDEX_CANISTER_ID"; 1="ryjl3-tyaaa-aaaaa-aaaba-cai" };
     record{ 0="LEDGER_CANISTER_ID"; 1="ryjl3-tyaaa-aaaaa-aaaba-cai" };
     record{ 0="LEDGER_CANISTER_URL"; 1="'"${PROTOCOL}://ryjl3-tyaaa-aaaaa-aaaba-cai.${HOST_ENDPOINT}"'" };
     record{ 0="OWN_CANISTER_ID"; 1="'"$(${DFX} canister --network ${NETWORK} id nns-dapp)"'" };
