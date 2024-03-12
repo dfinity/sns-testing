@@ -5,7 +5,7 @@ set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 # Set the ICP/XDR conversion rate (needed for the NNS Governance and the Neurons' Fund).
-./set-icp-xdr-rate.sh 200000
+./set-icp-xdr-rate.sh 10000
 
 # Deploy test canister
 ./deploy_test_canister.sh
