@@ -15,3 +15,6 @@ echo ""
 
 curl -X POST http://localhost:8000/instances/0/auto_progress
 echo ""
+
+curl -X POST -H 'Content-Type: application/json' http://localhost:8000/http_gateway -d '{"forward_to": {"PocketIcInstance": 0}, "listen_at": 8080}'
+echo ""
