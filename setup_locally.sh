@@ -21,8 +21,9 @@ fi
 
 # Soon (after DFX 0.15.x is supported by the needed extensions) we would need to call these
 # two commands:
-# ${DFX} extension install nns
-# ${DFX} extension install sns
+# TODO: look into installing these extensions locally so we can ensure we get a particular version
+${DFX} extension install nns || true 
+${DFX} extension install sns || true 
 
 ${DFX} nns import
 ${DFX} sns import
