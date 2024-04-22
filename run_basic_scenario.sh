@@ -63,7 +63,7 @@ TOTAL="$(./get_last_sns_proposal.sh | ./bin/idl2json | jq -r '.proposals[0].late
 
 # Vote on upgrade canister SNS proposal
 ./vote_on_sns_proposal.sh \
-    51 `# Simulate this number of SNS users' votes` \
+    61 `# Simulate this number of SNS users' votes. TODO: determine the smallest possible value that will work here` \
     2  `# Proposal ID` \
     y  `# Vote to adopt this proposal`
 ./wait_for_last_sns_proposal.sh
