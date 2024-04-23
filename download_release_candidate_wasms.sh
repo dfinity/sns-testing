@@ -41,6 +41,6 @@ ICRC1_ARCHIVE_FILENAME="$PWD/ic-icrc1-archive.wasm.gz"
 TMP=$(execute_nns_tools_func get_sns_canister_wasm_gz_for_type archive "$RC_ICRC1_ARCHIVE_GIT_HASH")
 mv "$TMP" "$ICRC1_ARCHIVE_FILENAME"
 
-ICRC1_INDEX_FILENAME="$PWD/ic-icrc1-index.wasm.gz"
+ICRC1_INDEX_FILENAME="$PWD/ic-icrc1-index-ng.wasm.gz"
 TMP=$(execute_nns_tools_func get_sns_canister_wasm_gz_for_type index "$RC_ICRC1_INDEX_GIT_HASH")
 mv "$TMP" "$ICRC1_INDEX_FILENAME"

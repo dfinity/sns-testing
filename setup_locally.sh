@@ -6,11 +6,14 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 . ./constants.sh normal
 
-for canister in cycles-minting-canister genesis-token-canister governance-canister governance-canister_test ic-ckbtc-minter identity-canister ledger-canister_notify-method lifeline_canister nns-ui-canister registry-canister root-canister sns-wasm-canister sns-root-canister "sns-governance-canister${CANISTER_TEST}" sns-swap-canister ic-icrc1-ledger ic-icrc1-archive ic-icrc1-index
+for canister in cycles-minting-canister genesis-token-canister governance-canister governance-canister_test ic-ckbtc-minter identity-canister ledger-canister_notify-method lifeline_canister nns-ui-canister registry-canister root-canister sns-wasm-canister sns-root-canister "sns-governance-canister${CANISTER_TEST}" sns-swap-canister ic-icrc1-ledger ic-icrc1-archive ic-icrc1-index-ng
 do
   curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/canisters/${canister}.wasm.gz" -o "${canister}.wasm.gz"
   gzip -d "${canister}.wasm.gz"
 done
+
+mv "./ic-icrc1-index-ng.wasm" "ic-icrc1-index.wasm"
+
 if [ ! -z "${CANISTER_TEST}" ]
 then
   mv "./sns-governance-canister${CANISTER_TEST}.wasm" ./sns-governance-canister.wasm
@@ -18,8 +21,9 @@ fi
 
 # Soon (after DFX 0.15.x is supported by the needed extensions) we would need to call these
 # two commands:
-# ${DFX} extension install nns
-# ${DFX} extension install sns
+# TODO: look into installing these extensions locally so we can ensure we get a particular version
+${DFX} extension install nns || true 
+${DFX} extension install sns || true 
 
 ${DFX} nns import
 ${DFX} sns import
