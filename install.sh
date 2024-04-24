@@ -29,7 +29,7 @@ fi
 gzip -fd sns.gz
 chmod +x sns
 
-curl --fail -L "https://github.com/dfinity/sdk/releases/download/0.19.0/dfx-0.19.0-x86_64-${OS}.tar.gz" -o dfx.tar.gz
+curl --fail -L "https://github.com/dfinity/sdk/releases/download/${DFX_VERSION}/dfx-${DFX_VERSION}-x86_64-${OS}.tar.gz" -o dfx.tar.gz
 tar -xzf dfx.tar.gz
 rm dfx.tar.gz
 chmod +x dfx
