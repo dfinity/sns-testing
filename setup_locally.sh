@@ -19,8 +19,6 @@ then
   mv "./sns-governance-canister${CANISTER_TEST}.wasm" ./sns-governance-canister.wasm
 fi
 
-# Soon (after DFX 0.15.x is supported by the needed extensions) we would need to call these
-# two commands:
 # TODO: look into installing these extensions locally so we can ensure we get a particular version
 ${DFX} extension install nns || true 
 ${DFX} extension install sns || true 
