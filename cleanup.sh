@@ -7,7 +7,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 . ./constants.sh install
 
 cp dfx.json.orig dfx.json
-cp initial_neurons.csv.orig initial_neurons.csv
 
 rm -rf .dfx \
     sns_init.yaml \

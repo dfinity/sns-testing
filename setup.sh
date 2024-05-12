@@ -67,7 +67,7 @@ fi
 if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm.gz" -o nns-dapp/out/nns-dapp.wasm
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp_test.wasm.gz" -o nns-dapp/out/nns-dapp.wasm
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator_dev.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
@@ -81,7 +81,7 @@ ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-
     record{ 0="API_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
     record{ 0="CYCLES_MINTING_CANISTER_ID"; 1="rkp4c-7iaaa-aaaaa-aaaca-cai" };
     record{ 0="DFX_NETWORK"; 1="testing" };
-    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_CKETH\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":false,\"ENABLE_SNS_VOTING\":true,\"ENABLE_MY_TOKENS\":true}" };
+    record{ 0="FEATURE_FLAGS"; 1="{\"ENABLE_CKBTC\":false,\"ENABLE_CKTESTBTC\":false,\"ENABLE_HIDE_ZERO_BALANCE\":true,\"ENABLE_VOTING_INDICATION\":true,\"ENABLE_CKETH\":false,\"ENABLE_SNS_2\":false,\"ENABLE_SNS_AGGREGATOR\":false,\"ENABLE_SNS_VOTING\":true,\"ENABLE_MY_TOKENS\":true}" };
     record{ 0="FETCH_ROOT_KEY"; 1="true" };
     record{ 0="GOVERNANCE_CANISTER_ID"; 1="rrkah-fqaaa-aaaaa-aaaaq-cai" };
     record{ 0="GOVERNANCE_CANISTER_URL"; 1="'"${PROTOCOL}://rrkah-fqaaa-aaaaa-aaaaq-cai.${HOST_ENDPOINT}"'" };
@@ -95,6 +95,7 @@ ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-
     record{ 0="ROBOTS"; 1="<meta name=\"robots\" content=\"noindex, nofollow\" />" };
     record{ 0="SNS_AGGREGATOR_URL"; 1="'"${PROTOCOL}://$(${DFX} canister --network ${NETWORK} id sns_aggregator).${HOST_ENDPOINT}"'" };
     record{ 0="STATIC_HOST"; 1="'"${PROTOCOL}://${HOST_ENDPOINT}"'" };
+    record{ 0="TVL_CANISTER_ID"; 1="" };
     record{ 0="WASM_CANISTER_ID"; 1="qaa6y-5yaaa-aaaaa-aaafa-cai" };
   };
 })'

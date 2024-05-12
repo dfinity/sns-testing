@@ -4,9 +4,12 @@ Make sure to set up the sns-testing tooling:
 
 $ ./install.sh
 
+and download [SRC wasm module](https://github.com/dfinity/subnet-rental-canister/releases/download/0.1.0/subnet_rental_canister.wasm).
+
 1. Run the PocketIC server
 
-$ wget https://download.dfinity.systems/ic/6c8876bd548ac8fa398c15c754f39d8db8236650/binaries/x86_64-linux/pocket-ic.gz
+$ curl https://download.dfinity.systems/ic/05cbe03829ab40e00c4baee577a354e4e9bafaad/binaries/x86_64-linux/pocket-ic.gz -o pocket-ic.gz
+$ # curl https://download.dfinity.systems/ic/05cbe03829ab40e00c4baee577a354e4e9bafaad/binaries/x86_64-darwin/pocket-ic.gz -o pocket-ic.gz
 $ gzip -d pocket-ic.gz
 $ chmod +x pocket-ic
 $ ./pocket-ic --port 8000 --ttl 3600
@@ -15,19 +18,10 @@ $ ./pocket-ic --port 8000 --ttl 3600
 
 $ ./pocket_ic.sh
 
-3. Download and run icx-proxy.
+3. In a separate tab, set up NNS, and run the basic SNS testing scenario.
 
-$ wget https://download.dfinity.systems/ic/f2cd225b621674b19f3d601ebb42555d0c6f614d/binaries/x86_64-linux/icx-proxy-dev.gz
-$ gzip -d icx-proxy-dev.gz
-$ chmod +x icx-proxy-dev
-$ ./icx-proxy-dev --replica http://localhost:8000/instances/0/ --address [::]:8080 --fetch-root-key
-
-4. In a separate tab, set up NNS, and run the basic SNS testing scenario.
-
-$ ./cleanup.sh && ./setup_locally.sh && ./run_basic_scenario.sh
+$ ./cleanup.sh && ./setup_locally.sh
 
 You can open the NNS frontend dapp in your browser at
 
 http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/
-
-and participate in the SNS swap.

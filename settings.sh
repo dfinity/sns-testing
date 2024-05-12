@@ -11,21 +11,22 @@ export DX_IDENT="default"
 # then the test flag is set for NNS and SNS governance canisters;
 # if you export CANISTER_TEST to be the empty string "",
 # then the test flag is not set.
-# export CANISTER_TEST=""
+export CANISTER_TEST=""
 
 # you can find available II releases here:
 # https://github.com/dfinity/internet-identity/tags
-export II_RELEASE="release-2024-03-22"
+export II_RELEASE="release-2024-04-26"
 
 # you can find NNS proposals upgrading system canisters here:
 # https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
 # NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: qoctq-giaaa-aaaaa-aaaea-cai"
-export NNS_DAPP_RELEASE="proposal-128768"
+export NNS_DAPP_RELEASE="proposal-129618"
 
 # only edit IC_COMMIT to a commit to master with disk image obtained via:
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
 export IC_COMMIT="05cbe03829ab40e00c4baee577a354e4e9bafaad"
+export DFX_IC_COMMIT="263055cecba3508cca950596b67902e73344cc2b"
 
 export TESTNET="local"
