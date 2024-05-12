@@ -121,14 +121,18 @@ then
    . ./download_release_candidate_wasms.sh "${CANDIDATE}"
 else
    echo "Downloading WASMs at specified IC_COMMIT."
-   for canister in sns-root-canister "sns-governance-canister${CANISTER_TEST}" sns-swap-canister ic-icrc1-ledger ic-icrc1-archive ic-icrc1-index
+   for canister in sns-root-canister "sns-governance-canister${CANISTER_TEST}" sns-swap-canister ic-icrc1-ledger ic-icrc1-archive ic-icrc1-index-ng
    do
      curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/canisters/${canister}.wasm.gz" -o "${canister}.wasm.gz"
    done
+
+   mv "./ic-icrc1-index-ng.wasm.gz" "ic-icrc1-index.wasm.gz"
+
    if [ ! -z "${CANISTER_TEST}" ]
    then
      mv "./sns-governance-canister${CANISTER_TEST}.wasm.gz" ./sns-governance-canister.wasm.gz
    fi
+
    SNS_ROOT_CANISTER_FILENAME="./sns-root-canister.wasm.gz"
    SNS_GOVERNANCE_CANISTER_FILENAME="./sns-governance-canister.wasm.gz"
    SNS_SWAP_CANISTER_FILENAME="./sns-swap-canister.wasm.gz"

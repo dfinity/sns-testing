@@ -26,6 +26,6 @@ export NNS_DAPP_RELEASE="proposal-128768"
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="58d47e86a0a30953f4eb1eb615b32a17e04400ff"
+export IC_COMMIT="05cbe03829ab40e00c4baee577a354e4e9bafaad"
 
 export TESTNET="local"
