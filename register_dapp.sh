@@ -4,7 +4,7 @@ set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
-export CID=${1:-tqzl2-p7777-77776-aaaaa-cai}
+export CID=${1:-jrlun-jiaaa-aaaab-aaaaa-cai}
 
 . ./constants.sh normal
 

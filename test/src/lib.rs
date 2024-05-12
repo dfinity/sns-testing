@@ -30,17 +30,17 @@ fn init_impl(x: Option<InitArgs>) {
     }
 }
 
-#[ic_cdk_macros::init]
+#[ic_cdk::init]
 fn init(x: Option<InitArgs>) {
     init_impl(x);
 }
 
-#[ic_cdk_macros::post_upgrade]
+#[ic_cdk::post_upgrade]
 fn post_upgrade(x: Option<InitArgs>) {
     init_impl(x);
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn validate(x: String) -> Result<String, String> {
     if x.is_empty() {
         Err("empty".to_string())
@@ -49,7 +49,7 @@ fn validate(x: String) -> Result<String, String> {
     }
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn execute(x: String) {
     let gov = GOVERNANCE.with(|g| *g.borrow());
     match gov {
@@ -65,12 +65,14 @@ fn execute(x: String) {
     }
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn get() -> u64 {
     CTR.with(|c| *c.borrow_mut())
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn greet(name: String) -> String {
     format!("{}, {}!", STR.with(|s| (*s.borrow_mut()).clone()), name)
 }
+
+ic_cdk::export_candid!();

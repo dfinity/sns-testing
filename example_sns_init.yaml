@@ -82,6 +82,8 @@ Principals: []
 # Path to the SNS Project logo on the local filesystem. The path is relative
 # to the configuration file's location, unless an absolute path is given.
 # Must have less than 341,334 bytes. The only supported format is PNG.
+# Consider that NNS dapp will render the image with a 1:1 aspect ratio and
+# cropped to a circle.
 logo: logo.png
 
 # URL to the dapp controlled by the SNS project.
@@ -378,7 +380,7 @@ Swap:
     # to the deadline or the maximum target being reached, and if there are less
     # than `minimum_participants` (here, only direct participants are counted),
     # the swap will be committed.
-    minimum_participants: 5
+    minimum_participants: 57
 
     # Minimum amount of ICP from direct participants. This amount is required for
     # the swap to succeed. If this amount is not achieved, the swap will be
@@ -402,7 +404,7 @@ Swap:
     # The maximum amount of ICP that each participant may contribute
     # to participate. This field is specified as a token. For instance,
     # "1 token".
-    maximum_participant_icp: 200_000 tokens
+    maximum_participant_icp: 10_000 tokens
 
     # The text that swap participants must confirm before they may participate
     # in the swap.
