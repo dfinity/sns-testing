@@ -48,7 +48,7 @@ then
     curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
     curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/sns/governance/canister/governance_test.did" -o ./candid/sns_governance.did
 fi
-curl -L "https://github.com/dfinity/nns-dapp/blob/${IC_COMMIT}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
+curl -L "https://raw.githubusercontent.com/dfinity/nns-dapp/${NNS_DAPP_RELEASE}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
 cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
