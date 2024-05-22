@@ -20,8 +20,8 @@ then
 fi
 
 # TODO: look into installing these extensions locally so we can ensure we get a particular version
-${DFX} extension install nns || true 
-${DFX} extension install sns || true 
+${DFX} extension install nns --version ${DFX_NNS_VERSION} || true 
+${DFX} extension install sns --version ${DFX_SNS_VERSION} || true 
 
 ${DFX} nns import
 ${DFX} sns import
