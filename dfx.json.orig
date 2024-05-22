@@ -2,12 +2,12 @@
   "canisters": {
     "nns-dapp": {
       "type": "custom",
-      "candid": "",
+      "candid": "candid/nns-dapp.did",
       "wasm": "nns-dapp.wasm"
     },
     "internet_identity": {
       "type": "custom",
-      "candid": "",
+      "candid": "candid/internet_identity.did",
       "wasm": "internet_identity_dev.wasm"
     },
     "sns_aggregator": {
