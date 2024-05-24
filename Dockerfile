@@ -13,7 +13,7 @@ WORKDIR ${WDIR}
 RUN locale-gen en_US.UTF-8 &&\
     echo "export LANG=en_US.UTF-8 LANGUAGE=en_US.en LC_ALL=en_US.UTF-8" >> /home/sns/.bashrc
 
-ARG RUST_VERSION=1.67.0
+ARG RUST_VERSION=1.77.2
 ENV RUSTUP_HOME=/opt/rustup \
     CARGO_HOME=/opt/cargo \
     PATH=/opt/cargo/bin:$PATH
