@@ -22,6 +22,11 @@ export II_RELEASE="release-2023-10-30"
 # NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: qoctq-giaaa-aaaaa-aaaea-cai"
 export NNS_DAPP_RELEASE="nightly-2023-10-30"
 
+# you can find NNS proposals upgrading system canisters here:
+# https://dashboard.internetcomputer.org/governance?topic=TOPIC_NETWORK_CANISTER_MANAGEMENT
+# NNS proposals to upgrade NNS frontend dapp are called "Upgrade Nns Canister: 3r4gx-wqaaa-aaaaq-aaaia-cai"
+export SNS_AGGREGATOR_RELEASE="proposal-129614-agg"
+
 # only edit IC_COMMIT to a commit to master with disk image obtained via:
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic

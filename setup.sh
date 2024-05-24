@@ -46,7 +46,7 @@ then
 fi
 curl -L "https://raw.githubusercontent.com/dfinity/internet-identity/${II_RELEASE}/src/internet_identity/internet_identity.did" -o candid/internet_identity.did
 curl -L "https://raw.githubusercontent.com/dfinity/nns-dapp/${NNS_DAPP_RELEASE}/rs/backend/nns-dapp.did" -o candid/nns-dapp.did
-curl -L "https://raw.githubusercontent.com/dfinity/nns-dapp/${NNS_DAPP_RELEASE}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
+curl -L "https://raw.githubusercontent.com/dfinity/nns-dapp/${SNS_AGGREGATOR_RELEASE}/sns_aggregator/sns_aggregator.did" -o ./candid/sns_aggregator.did
 cat <<< $(jq -r 'del(.canisters."internet_identity".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."nns-dapp".remote)' dfx.json) > dfx.json
 cat <<< $(jq -r 'del(.canisters."sns_aggregator".remote)' dfx.json) > dfx.json
@@ -70,10 +70,18 @@ if [ ! -z "${NNS_DAPP_RELEASE:-}" ]
 then
   mkdir -p nns-dapp/out
   curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/nns-dapp.wasm.gz" -o nns-dapp/out/nns-dapp.wasm
-  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${NNS_DAPP_RELEASE}/sns_aggregator_dev.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
 fi
 
-${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm
+if [ ! -z "${SNS_AGGREGATOR_RELEASE:-}" ]
+then
+  mkdir -p nns-dapp/out
+  curl -L "https://github.com/dfinity/nns-dapp/releases/download/${SNS_AGGREGATOR_RELEASE}/sns_aggregator_dev.wasm.gz" -o nns-dapp/out/sns_aggregator.wasm
+fi
+
+# Install the SNS aggregator and configure it to refresh every second so that the NNS dapp is as up-to-date as possible.
+# This is possible in local testing as we can afford the additional load in local testing.
+${DFX} canister install sns_aggregator --network "${NETWORK}" --wasm nns-dapp/out/sns_aggregator.wasm --argument '(opt record { update_interval_ms = 1000:nat64; fast_interval_ms = 100:nat64; })'
+
 ${DFX} canister install internet_identity --network "${NETWORK}" --wasm internet-identity/internet_identity_dev.wasm --argument '(null)'
 ${DFX} canister install nns-dapp --network "${NETWORK}" --wasm nns-dapp/out/nns-dapp.wasm --argument '(opt record{
   args = vec {
