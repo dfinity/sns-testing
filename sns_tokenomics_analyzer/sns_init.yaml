@@ -76,9 +76,6 @@ description: >
     Built on chainkey cryptography, secure and true,
     An app that transcends, all we once knew...
 
-# This is currently a placeholder field and must be left empty for now.
-Principals: []
-
 # Path to the SNS Project logo on the local filesystem. The path is relative
 # to the configuration file's location, unless an absolute path is given.
 # Must have less than 341,334 bytes. The only supported format is PNG.
