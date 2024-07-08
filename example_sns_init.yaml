@@ -390,7 +390,15 @@ Swap:
     # in this case, the swap would be committed if and only if the number of
     # direct participants (`minimum_participants`) is reached (otherwise, it
     # would be aborted).
+    #
     # Must be at least `min_participants * minimum_direct_participation_icp`.
+    #
+    # The following additional constraint must be satisfied:
+    # ```
+    # (maximum_direct_participation_icp / minimum_participant_icp)
+    #     * neuron_basket_construction_parameters_count
+    #         <= 100_000
+    # ```
     maximum_direct_participation_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
@@ -427,8 +435,12 @@ Swap:
     VestingSchedule:
         # The number of events in the vesting schedule. This translates to how
         # many neurons will be in each participant's neuron basket. Note that
-        # the first neuron in each neuron basket will have zero dissolve delay.
-        # This value should thus be greater than or equal to `2`.
+        # the first neuron in each neuron basket will have zero dissolve delay;
+        # the 2nd will have dissolve delay `interval`; if present, the 3rd will
+        # have dissolve delay `interval` × 2, etc.
+        #
+        # This value must be greater than or equal to `2`
+        # and must not exceed `10`.
         events: 3
 
         # The interval at which the schedule will be increased per event. The
