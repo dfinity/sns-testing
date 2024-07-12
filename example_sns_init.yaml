@@ -180,7 +180,7 @@ Proposals:
     # this value.
     #
     # For more information, please refer to
-    # https://wiki.internetcomputer.org/wiki/Network_Nervous_System#Proposal_decision_and_wait-for-quiet
+    # https://wiki.internetcomputer.org/wiki/NNS_Canisters#Proposal_decision_and_wait-for-quiet
     #
     # This field is specified as a duration. For example: "1 day".
     maximum_wait_for_quiet_deadline_extension: 1 day
