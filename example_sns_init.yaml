@@ -399,7 +399,7 @@ Swap:
     # The minimum amount of ICP that each participant must contribute
     # to participate. This field is specified as a token. For instance,
     # "1 token".
-    minimum_participant_icp:     10 tokens
+    minimum_participant_icp:    100 tokens
 
     # The maximum amount of ICP that each participant may contribute
     # to participate. This field is specified as a token. For instance,
@@ -432,7 +432,7 @@ Swap:
         # many neurons will be in each participant's neuron basket. Note that
         # the first neuron in each neuron basket will have zero dissolve delay.
         # This value should thus be greater than or equal to `2`.
-        events: 3
+        events: 2
 
         # The interval at which the schedule will be increased per event. The
         # first neuron in the basket will be unlocked with zero dissolve delay.
