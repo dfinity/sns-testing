@@ -27,7 +27,26 @@ jq -r '.root_canister_id' -e sns_canister_ids.json
 jq -r '.swap_canister_id' -e sns_canister_ids.json
 
 # Assert the SNS swap lifecycle is in the OPEN state.
-[ "$(./get_sns_swap_state.sh | ./bin/idl2json | jq -r '.swap[0].lifecycle')" == "2" ] && echo "OK" || exit 1
+(
+    # Run the command and capture the output
+    swap_state=$(./get_sns_swap_state.sh | ./bin/idl2json)
+
+    # Extract the lifecycle value
+    lifecycle=$(echo "$swap_state" | jq -r '.swap[0].lifecycle')
+
+    # Log the output and extracted lifecycle value
+    echo "swap_state: ${swap_state}"
+
+    # Check if the lifecycle is in the OPEN state (2)
+    if [ "${lifecycle}" == "2" ]; then
+        echo "SNS swap lifecycle is in the OPEN state (2)!"
+    else
+        echo "ERROR - SNS swap lifecycle is not in the OPEN state"
+        echo "Expected: 2 (OPEN state)"
+        echo "Actual: ${lifecycle}"
+        exit 1
+    fi
+)
 
 # Assert that the test canister is indeed registered.
 [ "$(./get_sns_canisters.sh | ./bin/idl2json | jq -r '.dapps[0]')" == "$(./bin/dfx canister id test)" ] && echo "OK" || exit 1
