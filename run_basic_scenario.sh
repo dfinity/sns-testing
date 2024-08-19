@@ -36,12 +36,11 @@ jq -r '.swap_canister_id' -e sns_canister_ids.json
     lifecycle=$(echo "$swap_state" | jq -r '.swap[0].lifecycle')
 
     # Log the output and extracted lifecycle value
-    echo "Full output: ${swap_state}"
-    echo "Extracted lifecycle value: ${lifecycle}"
+    echo "swap_state: ${swap_state}"
 
     # Check if the lifecycle is in the OPEN state (2)
     if [ "${lifecycle}" == "2" ]; then
-        echo "OK - SNS swap lifecycle is in the OPEN state (2)"
+        echo "SNS swap lifecycle is in the OPEN state (2)!"
     else
         echo "ERROR - SNS swap lifecycle is not in the OPEN state"
         echo "Expected: 2 (OPEN state)"
