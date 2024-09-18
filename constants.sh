@@ -128,6 +128,25 @@ if [[ "${TESTNET}" == "local" ]]; then
   then
     export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
   fi
+  # Determine the operating system
+  OS_TYPE="$(uname)"
+  if [[ "$OS_TYPE" == "Darwin" ]]; then
+    BASE_PATH="$HOME/Library/Application Support/org.dfinity.dfx/network/local"
+  elif [[ "$OS_TYPE" == "Linux" ]]; then
+    BASE_PATH="$HOME/.local/share/dfx/network/local"
+  else
+    echo "Unsupported OS type: $OS_TYPE"
+    exit 1
+  fi
+
+  # Find the ic_registry_local_store directory within the base path
+  REGISTRY_FOUND=$(find "$BASE_PATH" -type d -name ic_registry_local_store 2>/dev/null | head -n 1)
+
+  # If the directory is found, set REGISTRY_PATH to its absolute path
+  if [[ -d "$REGISTRY_FOUND" ]]; then
+    export REGISTRY_PATH="$(readlink -f "$REGISTRY_FOUND")"
+  fi
+
   if [[ -z "${REGISTRY_PATH}" ]]
   then
     echo "Local registry not found!"
