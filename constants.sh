@@ -133,7 +133,9 @@ if [[ "${TESTNET}" == "local" ]]; then
   REGISTRY_FOUND=$(find "$BASE_PATH" -type d -name ic_registry_local_store 2>/dev/null)
 
   if [ $(echo "$REGISTRY_FOUND" | wc -l) -gt 1 ]; then
-      echo "Error: Multiple ic_registry_local_store directories found"
+      # If you get to this case, it's likely that it can be resolved by starting
+      # your local replica using `dfx start --clean`
+      echo "Error: Multiple ic_registry_local_store directories found: ${REGISTRY_FOUND}"
       exit 1
   fi
   
