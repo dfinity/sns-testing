@@ -392,13 +392,6 @@ Swap:
     # would be aborted).
     #
     # Must be at least `min_participants * minimum_direct_participation_icp`.
-    #
-    # The following additional constraint must be satisfied:
-    # ```
-    # (maximum_direct_participation_icp / minimum_participant_icp)
-    #     * neuron_basket_construction_parameters_count
-    #         <= 100_000
-    # ```
     maximum_direct_participation_icp: 1_000_000 tokens
 
     # The minimum amount of ICP that each participant must contribute
