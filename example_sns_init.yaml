@@ -390,7 +390,6 @@ Swap:
     # in this case, the swap would be committed if and only if the number of
     # direct participants (`minimum_participants`) is reached (otherwise, it
     # would be aborted).
-    #
     # Must be at least `min_participants * minimum_direct_participation_icp`.
     maximum_direct_participation_icp: 1_000_000 tokens
 
