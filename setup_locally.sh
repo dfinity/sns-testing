@@ -24,7 +24,6 @@ ${DFX} extension install nns --version ${DFX_NNS_VERSION} || true
 ${DFX} extension install sns --version ${DFX_SNS_VERSION} || true 
 
 ${DFX} nns import
-${DFX} sns import
 if [ "${CANISTER_TEST}" == "_test" ]
 then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did

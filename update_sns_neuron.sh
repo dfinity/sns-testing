@@ -11,5 +11,4 @@ ARG="${1}"
 dfx canister \
     --network "${NETWORK}" \
     call "${SNS_GOVERNANCE_CANISTER_ID}" \
-    --candid candid/sns_governance.did \
     update_neuron "(${ARG})"

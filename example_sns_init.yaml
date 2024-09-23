@@ -58,11 +58,11 @@
 # ------------------------------------------------------------------------------
 
 # Name of the SNS project. This may differ from the name of the associated
-# token. Must be a string of max length = 255.
+# token. Must be a string of at most 255 bytes.
 name: Rock Out
 
 # Description of the SNS project.
-# Must be a string of max length = 2,000.
+# Must be a string of at most 2,000 bytes.
 description: >
     A poem co-written with ChatGPT
 
@@ -83,9 +83,9 @@ description: >
 # cropped to a circle.
 logo: logo.png
 
-# URL to the dapp controlled by the SNS project.
-# Must be a string from 10 to 512 bytes.
-url: https://forum.dfinity.org/thread-where-this-sns-is-discussed
+# URL that represents the SNS, usually a dapp controlled by the SNS project.
+# Must be a string from 10 to 512 bytes, and the domain must be HTTPS.
+url: https://mydapp.com
 
 # Metadata for the NNS proposal required to create the SNS. This data will be
 # shown only in the NNS proposal.
@@ -93,9 +93,12 @@ NnsProposal:
     # The title of the NNS proposal. Must be a string of 4 to 256 bytes.
     title: "NNS Proposal to create an SNS named 'Rock Out'"
 
-    # The HTTPS address of additional content required to evaluate the NNS
+    # The HTTPS address of a forum post with additional context required to evaluate the NNS
     # proposal.
-    url: "https://forum.dfinity.org"
+    # This will go in the `url` field of the proposal.
+    # Must be a string of 10 to 2,048 bytes.
+    # The protocol must be HTTPS, and the domain must be forum.dfinity.org.
+    url: "https://forum.dfinity.org/thread-where-this-sns-is-discussed"
 
     # The description of the proposal. Must be a string of 10 to 2,000 bytes.
     summary: >
@@ -396,7 +399,7 @@ Swap:
     # The minimum amount of ICP that each participant must contribute
     # to participate. This field is specified as a token. For instance,
     # "1 token".
-    minimum_participant_icp:     10 tokens
+    minimum_participant_icp:    100 tokens
 
     # The maximum amount of ICP that each participant may contribute
     # to participate. This field is specified as a token. For instance,
@@ -433,7 +436,7 @@ Swap:
         #
         # This value must be greater than or equal to `2`
         # and must not exceed `10`.
-        events: 3
+        events: 2
 
         # The interval at which the schedule will be increased per event. The
         # first neuron in the basket will be unlocked with zero dissolve delay.

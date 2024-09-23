@@ -118,19 +118,33 @@ if [[ "${TESTNET}" == "local" ]]; then
   then
     export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
   fi
-  REGISTRY="${HOME}/Library/Application Support/org.dfinity.dfx/network/local/state/replicated_state/ic_registry_local_store"
-  if [[ -d "${REGISTRY}" ]]
-  then
-    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+  # Determine the operating system
+  OS_TYPE="$(uname)"
+  if [[ "$OS_TYPE" == "Darwin" ]]; then
+    BASE_PATH="$HOME/Library/Application Support/org.dfinity.dfx/network/local"
+  elif [[ "$OS_TYPE" == "Linux" ]]; then
+    BASE_PATH="$HOME/.local/share/dfx/network/local"
+  else
+    echo "Unsupported OS type: $OS_TYPE"
+    exit 1
   fi
-  REGISTRY="${HOME}/.local/share/dfx/network/local/state/replicated_state/ic_registry_local_store"
-  if [[ -d "${REGISTRY}" ]]
-  then
-    export REGISTRY_PATH="$(readlink -f "${REGISTRY}")"
+
+  # Find the ic_registry_local_store directory within the base path
+  REGISTRY_FOUND=$(find "$BASE_PATH" -type d -name ic_registry_local_store 2>/dev/null)
+
+  if [ $(echo "$REGISTRY_FOUND" | wc -l) -gt 1 ]; then
+      echo "Error: Multiple ic_registry_local_store directories found"
+      exit 1
   fi
+  
+  # If the directory is found, set REGISTRY_PATH to its absolute path
+  if [[ -d "$REGISTRY_FOUND" ]]; then
+    export REGISTRY_PATH="$(readlink -f "$REGISTRY_FOUND")"
+  fi
+
   if [[ -z "${REGISTRY_PATH}" ]]
   then
-    echo "Local registry not found!"
+    echo "Error: Local registry not found!"
     exit 1
   fi
   export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"

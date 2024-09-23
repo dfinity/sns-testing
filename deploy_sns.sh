@@ -24,7 +24,6 @@ ic-admin  \
    --summary "This proposal whitelists developer's principal to deploy SNS"
 
 ${DFX} nns import --network-mapping "${DX_NETWORK}=mainnet"
-${DFX} sns import
 if [ "${CANISTER_TEST}" == "_test" ]
 then
   curl -L "https://raw.githubusercontent.com/dfinity/ic/${IC_COMMIT}/rs/nns/governance/canister/governance_test.did" -o ./candid/nns-governance.did
