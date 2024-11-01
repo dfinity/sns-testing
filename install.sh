@@ -20,12 +20,7 @@ curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64
 gzip -fd ic-regedit.gz
 chmod +x ic-regedit
 
-if [ "${CANISTER_TEST}" == "_test" ]
-then
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns-test-feature.gz" -o sns.gz
-else
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns.gz" -o sns.gz
-fi
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns.gz" -o sns.gz
 gzip -fd sns.gz
 chmod +x sns
 
