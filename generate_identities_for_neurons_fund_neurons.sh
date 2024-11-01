@@ -12,8 +12,8 @@ if [ $# -eq 0 ]
 then
     echo "No arguments supplied. Please pass a neuron csv with the following format:"
     echo ""
-    echo "neuron_id;owner_id;created_ts_ns;duration_to_dissolution_ns;staked_icpt;earnings;follows;not_for_profit;memo;maturity_e8s_equivalent;kyc_verified"
-    echo "1;xz7xb-e726u-vsihc-fukxg-pfzzd-3cjix-gluc6-p4shw-sz4aw-ufgi3-yqe;0;15780000000000000;0;C;;false;0;0;false"
+    echo "neuron_id;owner_id;created_ts_ns;dissolve_delay_s;staked_icpt;follows;not_for_profit;maturity_e8s_equivalent"
+    echo "1;xz7xb-e726u-vsihc-fukxg-pfzzd-3cjix-gluc6-p4shw-sz4aw-ufgi3-yqe;0;15780000000000000;0;;false;0"
     echo "etc."
     exit 1
 else
