@@ -9,7 +9,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 for canister in cycles-minting-canister genesis-token-canister governance-canister governance-canister_test ic-ckbtc-minter identity-canister ledger-canister_notify-method lifeline_canister nns-ui-canister registry-canister root-canister sns-wasm-canister sns-root-canister "sns-governance-canister${CANISTER_TEST}" sns-swap-canister ic-icrc1-ledger ic-icrc1-archive ic-icrc1-index-ng
 do
   curl -L "https://download.dfinity.systems/ic/${IC_COMMIT}/canisters/${canister}.wasm.gz" -o "${canister}.wasm"
-  # gzip -d "${canister}.wasm.gz"
 done
 
 mv "./ic-icrc1-index-ng.wasm" "ic-icrc1-index.wasm"
