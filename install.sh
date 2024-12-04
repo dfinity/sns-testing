@@ -31,16 +31,16 @@ chmod +x dfx
 
 if [[ "${OS}" == "linux" ]]
 then
-  export QUILL="linux"
+  export QUILL_PLATFORM="linux"
 elif [[ "${OS}" == "darwin" ]]
 then
-  export QUILL="macos"
+  export QUILL_PLATFORM="macos"
 else
   echo "Unknown OS!"
   exit 1
 fi
 
-curl --fail -L "https://github.com/dfinity/quill/releases/download/v0.4.2/quill-${QUILL}-x86_64" -o quill
+curl --fail -L "https://github.com/dfinity/quill/releases/download/v${QUILL_VERSION}/quill-${QUILL_PLATFORM}-x86_64" -o quill
 chmod +x quill
 
 if [[ "${OS}" == "linux" ]]

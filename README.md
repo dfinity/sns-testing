@@ -83,7 +83,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    This should print the dashboard URL:
 
     ```
-    Dashboard: http://localhost:8000/_/dashboard
+    Replica API running on 0.0.0.0:8000
     ```
 
 5. Open another Bash console:

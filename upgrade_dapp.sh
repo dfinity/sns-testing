@@ -14,7 +14,7 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-export DEVELOPER_NEURON_ID="$(dfx canister \
+export DEVELOPER_NEURON_ID="$(./bin/dfx canister \
   --network "${NETWORK}" \
   call "${SNS_GOVERNANCE_CANISTER_ID}" \
   list_neurons "(record {of_principal = opt principal\"${DX_PRINCIPAL}\"; limit = 1})" \
@@ -33,22 +33,24 @@ fi
 
 if [[ -z "${WASM}" ]]
 then
-  dfx build --network "${NETWORK}" "${NAME}"
-  export WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}.wasm"
+  ./bin/dfx build --network "${NETWORK}" "${NAME}"
+  WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}"
+  ic-wasm "${WASM}.wasm" -o "${WASM}-s.wasm" shrink
+  gzip "${WASM}-s.wasm"
+  export WASM="${WASM}-s.wasm.gz"
 fi
 
-export CID="$(dfx canister --network "${NETWORK}" id "${NAME}")"
-quill sns  \
-   --canister-ids-file "${REPODIR}/sns_canister_ids.json"  \
-   --pem-file "${PEM_FILE}"  \
-   make-upgrade-canister-proposal  \
-   --summary "This proposal upgrades test canister"  \
-   --title "Upgrade test canister"  \
-   --url "https://example.com/"  \
-   --target-canister-id "${CID}"  \
-   --wasm-path "${WASM}"  \
-   "${ARGFLAG}" "${ARG}"  \
+export CID="$(./bin/dfx canister --network "${NETWORK}" id "${NAME}")"
+./bin/quill sns \
+   --canister-ids-file "${REPODIR}/sns_canister_ids.json" \
+   --pem-file "${PEM_FILE}" \
+   make-upgrade-canister-proposal \
+   --target-canister-id "${CID}" \
+   --mode upgrade \
+   --wasm-path "${WASM}" \
+   "${ARGFLAG}" "${ARG}" \
    "${DEVELOPER_NEURON_ID}" > msg.json
-quill send \
+
+./bin/quill send \
   --insecure-local-dev-mode \
   --yes msg.json | grep -v "new_canister_wasm"
