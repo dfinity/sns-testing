@@ -32,9 +32,11 @@ chmod +x dfx
 if [[ "${OS}" == "linux" ]]
 then
   export QUILL_PLATFORM="linux"
+  export IC_WASM_PLATFORM="linux64"
 elif [[ "${OS}" == "darwin" ]]
 then
   export QUILL_PLATFORM="macos"
+  export IC_WASM_PLATFORM="macos"
 else
   echo "Unknown OS!"
   exit 1
@@ -42,6 +44,9 @@ fi
 
 curl --fail -L "https://github.com/dfinity/quill/releases/download/v${QUILL_VERSION}/quill-${QUILL_PLATFORM}-x86_64" -o quill
 chmod +x quill
+
+curl --fail -L "https://github.com/dfinity/ic-wasm/releases/download/${IC_WASM_VERSION}/ic-wasm-${IC_WASM_PLATFORM}" -o ic-wasm
+chmod +x ic-wasm
 
 if [[ "${OS}" == "linux" ]]
 then

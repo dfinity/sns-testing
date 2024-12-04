@@ -40,3 +40,4 @@ export DFX_SNS_VERSION="0.4.1"
 export DFX_NNS_VERSION="0.4.1"
 
 export QUILL_VERSION="0.5.1"
+export IC_WASM_VERSION="0.9.1"
