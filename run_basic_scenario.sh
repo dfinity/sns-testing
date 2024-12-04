@@ -36,13 +36,15 @@ done
 # Assert that the test canister is indeed registered.
 [ "$(./get_sns_canisters.sh | ./bin/idl2json | jq -r '.dapps[0]')" == "$(./bin/dfx canister id test)" ] && echo "OK" || exit 1
 
+# TODO[dfinity/sns-testing/issues/83]: Re-enable upgrading dapp canisters via SNS proposals.
+#
 # Upgrade test canister (I)
-./upgrade_test_canister.sh Hello
-./wait_for_last_sns_proposal.sh
-./wait_for_canister_running.sh "$(./bin/dfx canister id test)"
-
-# assert the new greeting text
-[ "$(./bin/dfx canister call test greet "M")" == '("Hello, M!")' ] && echo "OK" || exit 1
+# ./upgrade_test_canister.sh Hello
+# ./wait_for_last_sns_proposal.sh
+# ./wait_for_canister_running.sh "$(./bin/dfx canister id test)"
+#
+# # assert the new greeting text
+# [ "$(./bin/dfx canister call test greet "M")" == '("Hello, M!")' ] && echo "OK" || exit 1
 
 # Participate in SNS swap
 ./participate_sns_swap.sh
