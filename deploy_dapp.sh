@@ -10,10 +10,15 @@ export ARG="${3:-()}"
 
 . ./constants.sh normal
 
-./bin/dfx --provisional-create-canister-effective-canister-id jrlun-jiaaa-aaaab-aaaaa-cai canister create "${NAME}" --network "${NETWORK}" --no-wallet
+./bin/dfx \
+  --provisional-create-canister-effective-canister-id jrlun-jiaaa-aaaab-aaaaa-cai \
+  canister create "${NAME}" \
+  --network "${NETWORK}" \
+  --no-wallet
 
 if [[ -z "${WASM}" ]]
 then
+  rm -f "${WASM}-s.wasm.gz"
   ./bin/dfx build --network "${NETWORK}" "${NAME}"
   WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}"
   ic-wasm "${WASM}.wasm" -o "${WASM}-s.wasm" shrink

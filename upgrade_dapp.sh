@@ -33,6 +33,7 @@ fi
 
 if [[ -z "${WASM}" ]]
 then
+  rm -f "${WASM}-s.wasm.gz"
   ./bin/dfx build --network "${NETWORK}" "${NAME}"
   WASM=".dfx/${DX_NETWORK}/canisters/${NAME}/${NAME}"
   ic-wasm "${WASM}.wasm" -o "${WASM}-s.wasm" shrink
