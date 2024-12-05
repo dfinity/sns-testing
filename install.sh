@@ -20,12 +20,7 @@ curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64
 gzip -fd ic-regedit.gz
 chmod +x ic-regedit
 
-if [ "${CANISTER_TEST}" == "_test" ]
-then
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns-test-feature.gz" -o sns.gz
-else
-  curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns.gz" -o sns.gz
-fi
+curl --fail -L "https://download.dfinity.systems/ic/${IC_COMMIT}/binaries/x86_64-${OS}/sns.gz" -o sns.gz
 gzip -fd sns.gz
 chmod +x sns
 
@@ -36,17 +31,22 @@ chmod +x dfx
 
 if [[ "${OS}" == "linux" ]]
 then
-  export QUILL="linux"
+  export QUILL_PLATFORM="linux"
+  export IC_WASM_PLATFORM="linux64"
 elif [[ "${OS}" == "darwin" ]]
 then
-  export QUILL="macos"
+  export QUILL_PLATFORM="macos"
+  export IC_WASM_PLATFORM="macos"
 else
   echo "Unknown OS!"
   exit 1
 fi
 
-curl --fail -L "https://github.com/dfinity/quill/releases/download/v0.4.2/quill-${QUILL}-x86_64" -o quill
+curl --fail -L "https://github.com/dfinity/quill/releases/download/v${QUILL_VERSION}/quill-${QUILL_PLATFORM}-x86_64" -o quill
 chmod +x quill
+
+curl --fail -L "https://github.com/dfinity/ic-wasm/releases/download/${IC_WASM_VERSION}/ic-wasm-${IC_WASM_PLATFORM}" -o ic-wasm
+chmod +x ic-wasm
 
 if [[ "${OS}" == "linux" ]]
 then

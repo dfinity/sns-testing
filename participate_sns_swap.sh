@@ -32,8 +32,8 @@ do
   export PEM_FILE="$(readlink -f ~/.config/dfx/identity/${NEW_DX_IDENT}/identity.pem)"
 
   # Get the ticket
-  quill sns new-sale-ticket --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
-  RESPONSE="$(quill --insecure-local-dev-mode send --yes msg.json)"
+  ./bin/quill sns new-sale-ticket --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
+  RESPONSE="$(./bin/quill --insecure-local-dev-mode send --yes msg.json)"
   if [[ "${RESPONSE}" == *"invalid_user_amount"* ]]
   then
     echo "ERROR: invalid_user_amount error; see full output from quill below this line"
@@ -53,8 +53,8 @@ do
   fi
 
   # Use the ticket
-  quill sns pay --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --ticket-creation-time "${TICKET_CREATION_TIME}" --ticket-id "${TICKET_ID}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
-  quill --insecure-local-dev-mode send --yes msg.json
+  ./bin/quill sns pay --amount-icp-e8s "${ICP_PER_PARTICIPANT_E8S}" --ticket-creation-time "${TICKET_CREATION_TIME}" --ticket-id "${TICKET_ID}" --canister-ids-file ./sns_canister_ids.json --pem-file "${PEM_FILE}" > msg.json
+  ./bin/quill --insecure-local-dev-mode send --yes msg.json
 
 done
 
