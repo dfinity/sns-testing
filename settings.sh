@@ -31,7 +31,7 @@ export SNS_AGGREGATOR_RELEASE="proposal-129614-agg"
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="6a4eeb97fd93a5fc93d50b0e01ab24c6a7e72fae"
+export IC_COMMIT="1f88ae12ac756a91901ec49b3506400ae55d6829"
 
 export TESTNET="local"
 
@@ -39,5 +39,5 @@ export DFX_VERSION="0.24.2"
 export DFX_SNS_VERSION="0.4.1"
 export DFX_NNS_VERSION="0.4.1"
 
-export QUILL_VERSION="0.5.1"
+export QUILL_VERSION="0.5.2"
 export IC_WASM_VERSION="0.9.1"
