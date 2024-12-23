@@ -45,10 +45,10 @@ NnsProposal:
 fallback_controller_principals:
   - lekqg-fvb6g-4kubt-oqgzu-rd5r7-muoce-kppfz-aaem3-abfaj-cxq7a-dqe
 dapp_canisters:
-  - ys3lq-iiaaa-aaaap-qb7ba-cai
-  - p7bu5-uyaaa-aaaap-qca3q-cai
-  - setw5-xaaaa-aaaap-qcc7a-cai
-  - xzpva-miaaa-aaaap-qhi7q-cai
+  #- ys3lq-iiaaa-aaaap-qb7ba-cai
+  #- p7bu5-uyaaa-aaaap-qca3q-cai
+  #- setw5-xaaaa-aaaap-qcc7a-cai
+  #- xzpva-miaaa-aaaap-qhi7q-cai
 Token:
   name: ICTO
   symbol: ICTO
