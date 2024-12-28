@@ -14,7 +14,7 @@
 #
 #     2. This does not take a CONFIG argument.
 
-set -euo pipefail
+set -xeuo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 

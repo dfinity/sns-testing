@@ -18,7 +18,7 @@
 # `sns let-nns-control-dapp` or something like that. Then, we no longer need yq
 # in Dockerfile.
 
-set -euo pipefail
+set -xeuo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
