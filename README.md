@@ -128,9 +128,15 @@ _This section explains the simplest way to set up a local environment for testin
 
 After getting familiar with the basic scenario, you may replace the test canister with your own one, and use this repo as a skeleton for creating a custom testing environment.
 
+
 1. If your dapp is ready for testing, clone it into the current directory and cd into it.
 
-2. Start a local replica instance:
+2. Make sure you have the latest verion of the sns-testing Docker container by running the command:
+   ```bash
+   docker pull ghcr.io/dfinity/sns-testing:main
+   ```
+
+3. Start a local replica instance inside a Docker container:
     ```bash
    SNS_TESTING_INSTANCE=$(
        docker run -p 8000:8000 -p 8080:8080 -v "`pwd`":/dapp -d ghcr.io/dfinity/sns-testing:main dfx start --clean
@@ -145,17 +151,17 @@ After getting familiar with the basic scenario, you may replace the test caniste
 
     ```
     Awaiting local replica ...
-    Dashboard: http://localhost:8000/_/dashboard
+    Replica API running on 0.0.0.0:8080
     ```
 
-3. Run setup:
+4. Run setup:
     ```bash
     docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
     ```
     After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
     from the browser on your host machine.
 
-4. Run the basic scenario:
+5. Run the basic scenario:
     ```bash
     docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
     ```
@@ -164,7 +170,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 
     Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
 
-5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
+6. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
    ```bash
    docker exec -it $SNS_TESTING_INSTANCE bash
    ```
@@ -172,7 +178,7 @@ After getting familiar with the basic scenario, you may replace the test caniste
 
    > You are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
-6. Clean-up (after you are done testing):
+7. Clean-up (after you are done testing):
     ```bash
     docker kill $SNS_TESTING_INSTANCE
     ```
