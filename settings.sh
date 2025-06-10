@@ -35,7 +35,7 @@ export IC_COMMIT="02571e8215fa3e77da791e693cc238b2de3beae9"
 
 export TESTNET="local"
 
-export DFX_VERSION="0.24.3"
+export DFX_VERSION="0.27.0"
 export DFX_SNS_VERSION="0.4.1"
 export DFX_NNS_VERSION="0.4.1"
 
