@@ -31,7 +31,7 @@ export SNS_AGGREGATOR_RELEASE="proposal-129614-agg"
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="25c1bb0227d9970f5673b908817d7c4962b29911"
+export IC_COMMIT="02571e8215fa3e77da791e693cc238b2de3beae9"
 
 export TESTNET="local"
 
