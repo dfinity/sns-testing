@@ -143,8 +143,10 @@ if [[ "${TESTNET}" == "local" ]]; then
   echo C33
   # set IC endpoint
   export NETWORK_URL="${PROTOCOL}://localhost:$(${DFX} info replica-port)"
+  echo C33.1
   export HOST_ENDPOINT="localhost:$(${DFX} info webserver-port)"
   # obtain local subnet from local registry
+  echo C33.2
   export REGISTRY_PATH=""
   REGISTRY=".dfx/network/local/state/replicated_state/ic_registry_local_store"
   echo C34
