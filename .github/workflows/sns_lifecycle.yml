@@ -31,8 +31,11 @@ jobs:
         done
     - name: Set up docker image
       run: |
+        echo A1
         SNS_TESTING_INSTANCE=$(docker ps -q)
+        echo A2
         docker exec $SNS_TESTING_INSTANCE bash setup_locally.sh
+        echo A3
     - name: Run basic scenario
       run: |
         SNS_TESTING_INSTANCE=$(docker ps -q)
