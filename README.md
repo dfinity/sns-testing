@@ -1,5 +1,7 @@
 # Testing SNS in local testing environment
 
+> **⚠️ DEPRECATED**: This repository is no longer maintained. Please refer to the new [location](https://github.com/dfinity/ic/tree/master/rs/sns/testing)
+
 > This repository currently does not accept external contributions in the form of pull requests. Please submit your suggestions and bug reports by [opening a ticket](https://github.com/dfinity/sns-testing/issues).
 
 
